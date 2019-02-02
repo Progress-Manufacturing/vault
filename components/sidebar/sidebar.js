@@ -6,17 +6,17 @@ import CustomHeaderAccordion from './menuaccordion'
 import styled from 'styled-components'
 
 const SideBarBox = styled(Box)`
-  background: red;
   box-shadow: 0 5px 5px -2px rgba(0,0,0,0.3);
   background: #343434;
   color: #FFFFFF;
-  height: 100%;
-  overflow: scroll;
+  min-height: 100vh;
+  width: 250px;
+  overflow-y: scroll;
 `
 const LogoBox = styled(Box)`
-  min-height: 65px;
-  max-height: 65px;
-  height: 65px;
+  min-height: 50px;
+  max-height: 50px;
+  height: 50px;
   align-items: center;
   background: #000000;
   padding: 15px;
@@ -32,8 +32,8 @@ class SideBar extends Component {
     render() {
         return(
             <SideBarBox  
+                fill='false'
                 gridArea='sidebar' 
-                width='250px'        
             >
                 <LogoBox>
                     <Logo src='../../static/progress-logo.svg' fit='contain' alignSelf='start' />

@@ -1,25 +1,28 @@
-import React from 'react'
-import { Box, Text, Image } from 'grommet'
-import styled from 'styled-components'
+import React, { Component } from 'react'
+import { Box, Text } from 'grommet'
+import { Search, Notification, User } from 'grommet-icons'
 
-const TopBarLogoBox = styled(Box)`
-    max-height: 60px;
-`
+const iconStyle = {
+    marginRight: '15px'
+}
 
-const TopBar = () => (
-    <Box
-        gridArea='header'
-        direction='row'
-        align='center'
-        justify='between'
-        pad={{ horizontal: 'medium', vertical: 'small'}}
-    >
-        <TopBarLogo src='../../static/progress-logo.svg' fit='contain' alignSelf='start'/>
-        {/* <TopBarLogoBox height='small' width='small' alignContent='center'>
-            
-        </TopBarLogoBox> */}
-        <Text>Testing</Text>
-    </Box>
-)
+
+class TopBar extends Component {
+    render() {
+        return(
+            <Box
+                direction='row'
+                align='center'
+                justify='end'
+                pad={{ horizontal: 'medium', vertical: 'small'}}
+                style={{ minHeight: '50px'}}
+            >                
+                <Search size='20px' style={iconStyle} />
+                <Notification size='20px' style={iconStyle} />
+                <User size='20px' sylte={iconStyle} />
+            </Box>
+        )
+    }
+}
 
 export default TopBar

@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Grommet, Box, Button, Grid, Text } from 'grommet'
-// import TopBar from '../topbar/topbar'
-import SideBar from '../sidebar/sidebar';
-import { red } from 'ansi-colors';
+import { Grommet, Box, Grid, Text } from 'grommet'
+import TopBar from '../topbar/topbar'
+import SideBar from '../sidebar/sidebar'
 
 const progressTheme = {
   global: {
@@ -22,20 +21,19 @@ class Layout extends Component {
         return (
           <Grommet full theme={progressTheme}>
             <Grid
-              fill
               rows={['auto', 'flex']}
               columns={['auto', 'flex']}
               areas={[
-                { name: 'header', start: [0, 0], end: [1, 0] },
-                { name: 'sidebar', start: [0, 1], end: [0,1 ] },
-                { name: 'main', start: [1, 1], end: [1, 1] }
+                { name: 'sidebar', start: [0, 0], end: [0, 1] },
+                { name: 'header', start: [1, 0], end: [1, 0] },
+                { name: 'main', start: [1, 1], end: [1, 1] },
               ]}
             >
-                {/* <TopBar/> */}
-                <SideBar/>
-                <Box gridArea='main' justify='center' align='center'>
-                    <Text>{this.props.children}</Text>
-                </Box>
+              <SideBar gridArea='sidebar' />              
+              <TopBar gridArea='header' />
+              <Box fill='false' gridArea='main' justify='center' align='center' style={{ background: 'red'}}>
+                <Text>{this.props.children}</Text>
+              </Box> 
             </Grid>
           </Grommet>
         )

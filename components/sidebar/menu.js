@@ -1,14 +1,20 @@
-import { Dashboard, Language, User, Money, StatusInfo, Ticket, Tools, Cart, FormDown } from 'grommet-icons'
+import { Dashboard, Language, Link, Money, StatusInfo, Ticket, Tools, Cart } from 'grommet-icons'
+
+const iconStyle = {
+    position: 'relative',
+    top: '4px',
+    marginRight: '10px'
+}
 
 export const Menu = [
     {
         id: 1,
-        icon: <Dashboard color='white' size='20px' style={{ position: 'relative', top: '5px', marginRight: '10px' }} />,
+        icon: <Dashboard color='white' size='20px' style={iconStyle} />,
         main: {link: '/', name: 'Dashboard'}
     },
     {
         id: 2,
-        icon: <Language color='white' size='20px' style={{ position: 'relative', top: '5px', marginRight: '10px' }} />,
+        icon: <Language color='white' size='20px' style={iconStyle} />,
         main: {link: null, name: 'Company Websites'},
         sub: [
             {id: 1, link: 'https://www.progressmfg.com', name: 'Progress Manufacturing'},
@@ -19,7 +25,7 @@ export const Menu = [
     },
     {
         id: 3,
-        icon: <User color='white' size='20px' style={{ position: 'relative', top: '5px', marginRight: '10px' }} />,
+        icon: <Link color='white' size='20px' style={iconStyle} />,
         main: {link: null, name: 'Personal Links'},
         sub: [
             {id: 1, link: 'http://progressmfg.bamboohr.com', name: 'Bamboo HR'},
@@ -33,7 +39,7 @@ export const Menu = [
     },
     {
         id: 4,
-        icon: <Money color='white' size='20px' style={{ position: 'relative', top: '5px', marginRight: '10px' }} />,
+        icon: <Money color='white' size='20px' style={iconStyle} />,
         main: {link: null, name: 'Progress Points'},
         sub: [
             {id: 1, link: '/continual-improvement', name: 'Continual Improvement'},
@@ -43,7 +49,7 @@ export const Menu = [
     },
     {
         id: 5,
-        icon: <StatusInfo color='white' size='20px' style={{ position: 'relative', top: '5px', marginRight: '10px' }} />,
+        icon: <StatusInfo color='white' size='20px' style={iconStyle} />,
         main: {link: null, name: 'Company Information'},
         sub: [
             {id: 1, link: '#', name: 'Company Directory'},
@@ -54,7 +60,7 @@ export const Menu = [
     },
     {
         id: 6,
-        icon: <Ticket color='white' size='20px' style={{ position: 'relative', top: '5px', marginRight: '10px' }} />,
+        icon: <Ticket color='white' size='20px' style={iconStyle} />,
         main: {link: null, name: 'Company Requests'},
         sub: [
             {id: 1, link: '#', name: 'Maintenance Requests'},
@@ -65,7 +71,7 @@ export const Menu = [
     },
     {
         id: 7,
-        icon: <Tools color='white' size='20px' style={{ position: 'relative', top: '5px', marginRight: '10px' }} />,
+        icon: <Tools color='white' size='20px' style={iconStyle} />,
         main: {link: null, name: 'Company Tools'},
         sub: [
             {id: 1, link: '#', name: 'Salesforce'},
@@ -80,7 +86,7 @@ export const Menu = [
     },
     {
         id: 8,
-        icon: <Cart color='white' size='20px' style={{ position: 'relative', top: '5px', marginRight: '10px' }} />,
+        icon: <Cart color='white' size='20px' style={iconStyle} />,
         main:  {link: 'http://store/', name: 'Company Store'}
     }
 ]
