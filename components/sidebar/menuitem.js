@@ -11,7 +11,7 @@ class MenuItem extends Component {
     render() {
         return (
             <Button key={this.props.id} hoverIndicator href={this.props.link}>
-                <Box pad={{ horizontal: 'medium', vertical: 'small'}} responsive='false'>
+                <Box pad={{ horizontal: 'medium', vertical: 'small'}} responsive={false}>
                     <MenuLinks>{this.props.icon} {this.props.name}</MenuLinks>
                 </Box>
             </Button>

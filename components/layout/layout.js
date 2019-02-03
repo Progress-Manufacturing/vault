@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { Grommet, Box, Grid, Text } from 'grommet'
+import { Grommet, Box, Grid } from 'grommet'
+import styled from 'styled-components'
 import TopBar from '../topbar/topbar'
 import SideBar from '../sidebar/sidebar'
+import QuickLinks from '../quicklinks/quicklinks'
 
 const progressTheme = {
   global: {
@@ -21,6 +23,7 @@ class Layout extends Component {
         return (
           <Grommet full theme={progressTheme}>
             <Grid
+              fill
               rows={['auto', 'flex']}
               columns={['auto', 'flex']}
               areas={[
@@ -31,8 +34,8 @@ class Layout extends Component {
             >
               <SideBar gridArea='sidebar' />              
               <TopBar gridArea='header' />
-              <Box fill='false' gridArea='main' justify='center' align='center' style={{ background: 'red'}}>
-                <Text>{this.props.children}</Text>
+              <Box gridArea='main' style={{ background: 'purple', display: 'block'}}>
+                <QuickLinks />  
               </Box> 
             </Grid>
           </Grommet>

@@ -45,14 +45,14 @@ class MenuCollapsible extends Component {
         return (
             <Box key={this.props.id} align='start' gap='small'>
                 <TopLevelMenuButton hoverIndicator onClick={() => this.setState({ open: !open })}>
-                    <Box pad={{ horizontal: 'medium', vertical: 'small'}} responsive='false'>
+                    <Box pad={{ horizontal: 'medium', vertical: 'small'}} responsive={false}>
                         <MenuLinks>{this.props.icon} {this.props.name} {rotateDropDown()}</MenuLinks>
                     </Box>
                 </TopLevelMenuButton>
                 <Collapsible open={open} {...this.props}>
                         {(this.props.submenu).map(subitem => (
                             <SubMenuButton key={subitem.id} hoverIndicator href={subitem.link}>
-                                <Box pad={{ horizontal: 'medium', vertical: 'xsmall' }} responsive='false'>
+                                <Box pad={{ horizontal: 'medium', vertical: 'xsmall' }} responsive={false}>
                                     <MenuLinks style={{ paddingLeft: '32px'}}>{subitem.name}</MenuLinks>
                                 </Box>
                             </SubMenuButton>
