@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Layout from '../components/layout/layout'
+import AppLayout from '../components/applayout/applayout'
 // import { grommet } from "grommet/themes";
 // import Link from 'next/link'
 // import Head from '../components/head'
@@ -9,10 +9,9 @@ class Home extends Component {
   
   render() {
     return (
-      <Layout>
-        Testing
-        Another Test
-      </Layout>
+      <AppLayout>
+        Children!
+      </AppLayout>
     )
   }
 }

@@ -6,7 +6,6 @@ const iconStyle = {
     marginRight: '15px'
 }
 
-
 class TopBar extends Component {
     render() {
         return(

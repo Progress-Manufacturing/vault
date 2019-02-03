@@ -1,20 +1,14 @@
 import { Dashboard, Language, Link, Money, StatusInfo, Ticket, Tools, Cart } from 'grommet-icons'
 
-const iconStyle = {
-    position: 'relative',
-    top: '4px',
-    marginRight: '10px'
-}
-
-export const Menu = [
+export const AppBarMenu = [
     {
         id: 1,
-        icon: <Dashboard color='white' size='20px' style={iconStyle} />,
+        icon: <Dashboard size='20px' />,
         main: {link: '/', name: 'Dashboard'}
     },
     {
         id: 2,
-        icon: <Language color='white' size='20px' style={iconStyle} />,
+        icon: <Language size='20px' />,
         main: {link: null, name: 'Company Websites'},
         sub: [
             {id: 1, link: 'https://www.progressmfg.com', name: 'Progress Manufacturing'},
@@ -25,7 +19,7 @@ export const Menu = [
     },
     {
         id: 3,
-        icon: <Link color='white' size='20px' style={iconStyle} />,
+        icon: <Link size='20px' />,
         main: {link: null, name: 'Personal Links'},
         sub: [
             {id: 1, link: 'http://progressmfg.bamboohr.com', name: 'Bamboo HR'},
@@ -39,7 +33,7 @@ export const Menu = [
     },
     {
         id: 4,
-        icon: <Money color='white' size='20px' style={iconStyle} />,
+        icon: <Money size='20px' />,
         main: {link: null, name: 'Progress Points'},
         sub: [
             {id: 1, link: '/continual-improvement', name: 'Continual Improvement'},
@@ -49,7 +43,7 @@ export const Menu = [
     },
     {
         id: 5,
-        icon: <StatusInfo color='white' size='20px' style={iconStyle} />,
+        icon: <StatusInfo size='20px' />,
         main: {link: null, name: 'Company Information'},
         sub: [
             {id: 1, link: '#', name: 'Company Directory'},
@@ -60,7 +54,7 @@ export const Menu = [
     },
     {
         id: 6,
-        icon: <Ticket color='white' size='20px' style={iconStyle} />,
+        icon: <Ticket size='20px' />,
         main: {link: null, name: 'Company Requests'},
         sub: [
             {id: 1, link: '#', name: 'Maintenance Requests'},
@@ -71,7 +65,7 @@ export const Menu = [
     },
     {
         id: 7,
-        icon: <Tools color='white' size='20px' style={iconStyle} />,
+        icon: <Tools size='20px' />,
         main: {link: null, name: 'Company Tools'},
         sub: [
             {id: 1, link: '#', name: 'Salesforce'},
@@ -86,7 +80,7 @@ export const Menu = [
     },
     {
         id: 8,
-        icon: <Cart color='white' size='20px' style={iconStyle} />,
+        icon: <Cart size='20px' />,
         main:  {link: 'http://store/', name: 'Company Store'}
     }
 ]
