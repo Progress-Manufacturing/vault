@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { Button, Box } from 'grommet'
-import styled from 'styled-components'
+import React, { Component } from "react"
+import { Button, Box } from "grommet"
+import styled from "styled-components"
 
 const MenuButton = styled(Button)`
     display: flex;
@@ -14,16 +14,17 @@ class AppBarItem extends Component {
     render() {
         return (
             <Box 
-                height='50px'
-                direction='row'
-                fill='horizontal'
+                height="50px"
+                direction="row"
+                fill="horizontal"
+                flex={{ grow: 0, shrink: 0 }}
             >
                 <MenuButton
                     href={this.props.link} 
                     icon={this.props.icon} 
                     label={this.props.name} 
                     focusIndicator={false}
-                    alignSelf='start'
+                    alignSelf="start"
                     hoverIndicator
                     plain
                     fill

@@ -58,6 +58,7 @@ class AppBarAccordion extends Component {
                     height='50px'
                     direction='row'
                     fill='horizontal'
+                    flex={{ grow: 0, shrink: 0 }}
                 >
                     <MenuButton
                         icon={this.props.icon} 
@@ -77,6 +78,7 @@ class AppBarAccordion extends Component {
                             height='40px'
                             direction='row'
                             fill='horizontal'
+                            flex={{ grow: 0, shrink: 0 }}
                         >
                             <SubMenuButton
                                 href={subitem.link}
