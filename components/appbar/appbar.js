@@ -3,7 +3,6 @@ import { Box, Image } from "grommet"
 import * as AppBarMenu from "./appbarmenu"
 import AppBarItem from "./appbaritem"
 import AppBarAccordion from "./appbaraccordion"
-import styled from 'styled-components'
 
 const menu = AppBarMenu.AppBarMenu
 

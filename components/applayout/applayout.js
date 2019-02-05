@@ -3,7 +3,6 @@ import { Grommet, Grid, Box, Accordion, AccordionPanel, Text } from "grommet"
 import TopBar from "../topbar/topbar"
 import AppBar from "../appbar/appbar"
 import QuickLinks from "../quicklinks/quicklinks"
-import { border } from "polished";
 
 const progressTheme = {
   global: {
@@ -16,6 +15,7 @@ const progressTheme = {
       focus: "#D0011B",
       active: "#F3DE8A",
       lightBlack: "#343434",
+      lightGray: "#F0F2F5",
       border: "transparent"
     },
     hover: {
@@ -45,210 +45,19 @@ class AppLayout extends Component {
               <TopBar area="header"/>              
               <Box 
                 gridArea="main"
-                background="purple"
-                fill="vertical"
-                responsive={true} 
-                fill={false}
+                background="lightGray"
                 flex={true}
-              >
+                fill={false}
+                overflow="scroll"
+              > 
+                <QuickLinks />   
                 <Box
                   flex={true}
-                  overflow="scroll"
-                  color="white"
-                  pad="25px"
+                  fill={true}
+                  pad="10px"
                 >
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  <Text color="white">Testing</Text>
-                  
-
-                  
+                  {this.props.children}
                 </Box>
-         
               </Box> 
             </Grid>
           </Grommet>
