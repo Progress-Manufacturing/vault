@@ -1,22 +1,19 @@
-import { Query } from "react-apollo"
-import gql from "graphql-tag"
+import { Query } from "react-apollo";
+import gql from 'graphql-tag'
 import { Box, Text, Heading } from "grommet"
 import { Checkmark } from "grommet-icons"
-import Card from "../card";
-// TODO: Pull user information from Azure AD and attach to submission
+import Card from "../../card";
+
 const GET_SUBMISSION_BY_ID = gql`
     query submission($id: Int!) {
         submission: fetchSubmission(id: $id) {
             id
             user {
                 id
-                name
+                firstName
+                lastName
                 email
             }    
-            reward {
-                id
-                name
-            }
         }
     }
 `
@@ -25,7 +22,7 @@ const SubmissionComplete = ({ id }) => (
     <Query query={GET_SUBMISSION_BY_ID} variables={{ id }}>
     {({ loading, error, data }) => {
         if (loading) return "Loading..."
-        if (error) return `${error.message}`
+        if (error) return "--"
         
         return (
             <Card>
@@ -53,29 +50,20 @@ const SubmissionComplete = ({ id }) => (
                         margin="20px"
                     >
                         <ul className="ProjectCompleteList">
-                            <li><span>Submitted By: </span><a href={`mailto: ${data.submission.user.email}`}>{data.submission.user.name}</a></li>
+                            <li><span>Submitted By: </span>Colin Tracy</li>
                             <li><span>Project Lead: </span>Mister Ok</li>
                             <li><span>Supervisor: </span>Mister Awesome</li>
-                            <li><span>Reward: </span>{data.submission.reward.name}</li>
+                            <li><span>Reward: </span>$20</li>
                         </ul>
                     </Box>
                 </Box>
                 <style jsx>{`
-                    a {
-                        color: #D0011B;
-                        text-decoration: none;
-                        transition: color 0.3s ease-in-out;
-                        will-change: color;
-                    }
-                    a:hover {
-                        color: black;
-                    }
-                    ul.ProjectCompleteList {
+                    ul.ProjectCompleteList{
                         margin: 0;
                         padding: 0;
                         text-align: left;
                     }
-                    ul.ProjectCompleteList li {
+                    ul.ProjectCompleteList li{
                         list-style-type: none;
                         margin-top: 15px;
                         color: rgba(52,52,52,0.5);

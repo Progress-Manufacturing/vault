@@ -1,4 +1,3 @@
-import React, { Component } from "react"
 import Main from "../../lib/layout"
 import Link from "next/link"
 import { Button } from "grommet"

@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Box, Heading, Button, Form, Text, TextArea } from "grommet"
 import Link from "next/link"
-import { Mutation, Query } from "react-apollo";
+import { Mutation } from "react-apollo";
 import gql from "graphql-tag"
 import Main from "../../lib/layout"
 import Card from "../../components/card"
@@ -38,14 +38,6 @@ const SUBMIT_IMPROVEMENT = gql`
     }
   }
 `
-
-const GET_SUBMISSIONS = gql`
-  query allSubmissions {
-      allSubmissions {
-          id
-      }
-  }
-`;
 
 class SubmitImprovement extends Component {
     constructor(props) {
@@ -324,63 +316,3 @@ class SubmitImprovement extends Component {
 }
     
 export default SubmitImprovement
-// <Main>
-//     <Card title="Thank You" highlight={true}>
-//         <p style={{ fontSize: "14px" }}>
-//             Thank you! Thank you for making Progress Manufacturing a better place to work! Our team of improvement experts will review your suggestion and let you know the conclusion.<br/><br/>
-//             If it's approved we'll move forward with it and you'll be handsomely rewarded!<br/><br/>
-//             If it's not approved you will be immediately for suggesting such a foolish idea. I really hope you didn't suggest getting another candy in the breakroom. You really should have read the welcome message about how Hitler liked candy. I have pity on your soul.<br/><br/>
-//             Thanks again for participating in this wonderful program! You can see the progress of your other submissions in the side menu or you can even submit another improvement suggestion, maybe this time don't make it about candy.
-//         </p>
-//         <ul className="ButtonList">
-//             <li>
-//                 <Link href="/submit-improvement" passHref>
-//                     <Button
-//                         className="SimpleButton"
-//                         label="Submit Another Continual Improvement"
-//                         pad="20px"
-//                     />
-//                 </Link>
-//             </li>
-//             <li>
-//                 <Link href="/submit-improvement" passHref>
-//                     <Button
-//                         className="SimpleButtonSecondary"
-//                         label="Check Status Of A Continual Improvement"
-//                         pad="20px"
-//                     />
-//                 </Link>
-//             </li>
-//         </ul>
-//     </Card>
-//     <Card title="Continual Improvement Submission" highlight={true}>
-//         <Form className="SubmissionForm">
-
-
-//             
-//           
-//             
-
-//             
-//             
-//         </Form>
-//     </Card>
-//     <style jsx>{`
-//         .SubmissionForm {
-//             width: 100%;
-//         }
-//         sup {
-//             color: red;
-//             font-size: 12px;
-//         }
-//         ul.ButtonList {
-//             margin: 15px 0;
-//             padding: 0;
-//         }
-//         ul.ButtonList li {
-//             list-style-type: none;
-//             display: inline-block;
-//             margin-right: 25px
-//         }
-//     `}</style>
-// </Main>

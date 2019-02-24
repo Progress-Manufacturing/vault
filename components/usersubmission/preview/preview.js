@@ -80,7 +80,7 @@ const SubmissionPreview = (props) => {
                     align="center"
                     margin={{ top: "14px" }}
                 >   
-                    <Link href={`/previous-submissions/submission?id=${props.id}`}>
+                    <Link href={`/ci/previous-submissions/submission?id=${props.id}`}>
                     {/* as={`/previous-submissions/submission/${submission.id}`} */}
                         <a className="PreviewButton">View</a>
                     </Link>

@@ -30,26 +30,51 @@ const GET_USER_SUBMISSIONS = gql`
     }
 `
 
-const SubmissionPreviewList = () => (
+const SubmissionPreviewList = (props) => (
     <Query query={GET_USER_SUBMISSIONS}>
         {({ loading, error, data }) => {
             if (loading) return `Loading Submissions...`
             if (error) return `Error! ${error.message}. Please contact IT.`
+            
             return (
-                <React.Fragment>                    
-                    {data.user.submissions.map((submission, index) => 
-                        <SubmissionPreview
-                            id={submission.id}
-                            index={index}
-                            description={submission.description}
-                            createdAt={submission.createdAt}
-                            submissionprogress={submission.progress.step}
-                            approval={submission.approval !== null ? submission.approval.id : ''}
-                            allprogress={data.progress}
-                            border={true}
-                            padding={true}
-                        />
-                    )}
+                <React.Fragment>    
+                    {data.user.submissions.map((submission, index) => {
+                        if (props.progress === submission.progress.id) {
+                            return (
+                                <SubmissionPreview
+                                    key={submission.id}
+                                    id={submission.id}
+                                    index={index}
+                                    description={submission.description}
+                                    createdAt={submission.createdAt}
+                                    submissionprogress={submission.progress.step}
+                                    approval={submission.approval !== null ? submission.approval.id : ''}
+                                    allprogress={data.progress}
+                                    border={true}
+                                    padding={true}
+                                />
+                            )
+                        }
+                        
+                        if (props.progress === 0) {
+                            if (submission.progress.id > 1 && submission.progress.id < 7) {
+                                return (
+                                    <SubmissionPreview
+                                        key={submission.id}
+                                        id={submission.id}
+                                        index={index}
+                                        description={submission.description}
+                                        createdAt={submission.createdAt}
+                                        submissionprogress={submission.progress.step}
+                                        approval={submission.approval !== null ? submission.approval.id : ''}
+                                        allprogress={data.progress}
+                                        border={true}
+                                        padding={true}
+                                    />
+                                )
+                            }
+                        }
+                    })}
                 </React.Fragment>
             )
         }}
