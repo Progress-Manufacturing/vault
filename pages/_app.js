@@ -9,7 +9,7 @@ class Vault extends App {
     return (
       <Container>
         <ApolloProvider client={apolloClient}>
-          <Component {...pageProps} />
+          <Component {...pageProps}/>
         </ApolloProvider>
       </Container>
     )
