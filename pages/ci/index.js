@@ -1,4 +1,4 @@
-import Main from "../../lib/layout"
+import Main from "../../lib/layout/main"
 import Link from "next/link"
 import { Button } from "grommet"
 import Card from "../../components/card"

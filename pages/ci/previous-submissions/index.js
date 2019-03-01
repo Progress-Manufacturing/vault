@@ -1,4 +1,4 @@
-import Main from "../../../lib/layout"
+import Main from "../../../lib/layout/main"
 import { Box, Text } from "grommet"
 import Card from "../../../components/card"
 import UserLastReward from "../../../components/usersubmission/lastreward"

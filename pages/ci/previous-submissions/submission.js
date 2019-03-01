@@ -1,5 +1,5 @@
 import { withRouter } from "next/router"
-import Main from "../../../lib/layout"
+import Main from "../../../lib/layout/main"
 import SubmissionProgress from "../../../components/progress"
 import UserSubmission from "../../../components/usersubmission"
 

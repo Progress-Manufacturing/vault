@@ -1,4 +1,4 @@
-import Main from "../../../lib/layout"
+import Main from "../../../lib/layout/main"
 import { Box, Tabs, Tab, Text } from "grommet"
 import { Clear } from "grommet-icons";
 import Card from "../../../components/card"

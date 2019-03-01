@@ -1,7 +1,7 @@
 import { Box, Paragraph, Button, Text } from "grommet"
 import { Mutation, Query } from "react-apollo";
 import gql from "graphql-tag"
-import Main from "../../../lib/layout"
+import Main from "../../../lib/layout/main"
 import Card from "../../../components/card"
 
 const GET_MESSAGES = gql`

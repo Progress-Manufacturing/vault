@@ -3,7 +3,7 @@ import { Box, Heading, Button, Form, Text, TextArea } from "grommet"
 import Link from "next/link"
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag"
-import Main from "../../lib/layout"
+import Main from "../../lib/layout/main"
 import Card from "../../components/card"
 import Areas from "../../components/options/areas"
 import Improments from "../../components/options/improvements"

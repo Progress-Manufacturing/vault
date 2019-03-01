@@ -14,15 +14,22 @@
     "grommet": "^2.3.1",
     "grommet-icons": "^4.1.0",
     "isomorphic-unfetch": "^3.0.0",
+    "js-cookie": "^2.2.0",
+    "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.23",
+    "msal": "^0.2.4",
     "next": "^7.0.2",
     "next-apollo": "^2.0.7",
+    "next-cookies": "^1.1.2",
     "postcss-css-variables": "^0.11.0",
     "react": "^16.7.0",
+    "react-adal": "^0.4.22",
     "react-apollo": "^2.4.1",
     "react-dom": "^16.7.0",
     "react-moment": "^0.8.4",
+    "react-redux": "^6.0.1",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^4.1.3"
   }
 }
