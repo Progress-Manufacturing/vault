@@ -14,41 +14,32 @@ import Authentication from "../lib/auth/msal-auth"
 class Login extends Component {
   static getInitialProps(context ) {
     const userAgent = context.req ? context.req.headers['user-agent'] : navigator.userAgent
-    const isServer= !!context.req
+    const isServer = !!context.req
     
-    const { access_token }= Cookies(context)
+    const { access_token } = Cookies(context)
     const login_user = access_token ? jwtDecode(access_token) : null
 
     if(login_user && isServer) {
-      console.log(access_token)
+      console.log('the token (login): ', access_token)
     }
 
-    return {userAgent: userAgent}
+    return { userAgent: userAgent }
   }
   
   constructor(props) {
     super(props)
-    this.state = {
-      isAuth: this.props.user ? true : this.props.isAuth
-    }
     this.auth = new Authentication()
   }
 
   initLogin = () => {
-    if(!this.state.isAuth) {
-    
-      this.auth.login().then(token => {
-        if(token !== null) {
-          this.setState({ isAuth: true })
-          let inSixtyMinutes = new Date(new Date().getTime() + 60 * 60 * 1000)
-          jsCookie.set("access_token", token, { expires: inSixtyMinutes })
-        }
-      })
-    } else {
-      jsCookie.remove("access_token");
-      this.setState({ isAuth: false });
-      this.auth.logout();
-    }
+    this.auth.login().then(token => {
+      if(token !== null) {
+        let inSixtyMinutes = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000)
+        jsCookie.set("access_token", token, { expires: inSixtyMinutes })
+      }
+    })
+    // jsCookie.remove("access_token");  
+    // this.auth.logout();
   }
 
   handleLogClick=()=>{
