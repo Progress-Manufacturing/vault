@@ -9,6 +9,7 @@
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "apollo-boost": "^0.1.28",
+    "apollo-link-context": "^1.0.14",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
     "grommet": "^2.3.1",

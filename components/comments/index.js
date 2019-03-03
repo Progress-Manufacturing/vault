@@ -1,5 +1,5 @@
 import { Query } from "react-apollo";
-import gql from 'graphql-tag'
+import gql from "graphql-tag"
 import { Box, Text } from "grommet"
 import Card from "../card"
 import InnerCard from "../card/innercard"
