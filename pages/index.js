@@ -1,6 +1,6 @@
 import { Component } from "react"
+import { ApolloConsumer } from "react-apollo"
 import Link from "next/link"
-import { ApolloConsumer } from 'react-apollo'
 
 import Main from "../lib/layout/main"
 import Card from "../components/card"
@@ -11,7 +11,7 @@ import redirect from "../lib/auth/redirect"
 class Home extends Component {
   static async getInitialProps (context, apolloClient) {
     const { loggedInUser } = await checkLoggedIn(context.apolloClient)
-    console.info(loggedInUser)
+    
     if (!loggedInUser.me) {
       // If not signed in, send them somewhere more useful
       redirect(context, '/login')

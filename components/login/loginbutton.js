@@ -1,4 +1,4 @@
-import { Mutation, withApollo } from "react-apollo"
+import { withApollo } from "react-apollo"
 import { Button, Box } from "grommet"
 import { Windows } from "grommet-icons"
 import redirect from "../../lib/auth/redirect"
