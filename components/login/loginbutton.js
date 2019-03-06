@@ -29,7 +29,9 @@ const LoginButton = ({ client }) => {
                         }
                     }
                 `
-            });
+            })
+
+            console.info(loggedIn)
             return loggedIn
         }).then((res) => {
             let inThirtyDays = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000)

@@ -25,7 +25,7 @@ class Home extends Component {
       <ApolloConsumer>
         {client => (
           <Main>
-            <Card title="Welcome" highlight={true}>
+            <Card title={`Welcome - ${this.props.loggedInUser.me.name}`} highlight={true}>
               <p style={{ fontSize: "14px" }}>
                 Hello! Welcome to the world famous Continual Improvement App. It's world famous in that the world knows about it, pretty sure that makes you famous. Anyway, this is where you submit your absolutely brilliant idea to improve Progress Manufacturing. From there we'll decid if it's actually brilliant, because we can judge such things. Most likely it's just asking for a candy in the break room, so really not that brilliant. But hey, who doesn't like candy!? I mean, Hitler probably liked candy. Oh no, that means you and Hitler have something in common. Aw, that's actually a really depressing realization that Hitler was in fact just a human with small things he enjoyed like candy, which means he wasn't evil incarnate but just a man like you or I. Which means we have the same potential for such desctructive evil. Aw dear, that's really quite depressing.<br/>
                 Moving on!<br/><br/>
