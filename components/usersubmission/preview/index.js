@@ -3,8 +3,8 @@ import { Query } from "react-apollo";
 import SubmissionPreview from "./preview"
 
 const GET_USER_SUBMISSIONS = gql`
-    query userSubmissions {
-        user: fetchUser (id: 28) {
+    query userSubmissions($id: Int!) {
+        user: fetchUser (id: $id) {
             id
             submissions {
                 id
@@ -30,50 +30,29 @@ const GET_USER_SUBMISSIONS = gql`
     }
 `
 
-const SubmissionPreviewList = (props) => (
-    <Query query={GET_USER_SUBMISSIONS}>
+const SubmissionPreviewList = ({ id }) => (
+    <Query query={GET_USER_SUBMISSIONS} variables={{ id }}>
         {({ loading, error, data }) => {
             if (loading) return `Loading Submissions...`
-            if (error) return `Error! ${error.message}. Please contact IT.`
+            if (error) return `Error! ${error.message}. Please contact IT. ${data}`
             
             return (
                 <React.Fragment>    
                     {data.user.submissions.map((submission, index) => {
-                        if (props.progress === submission.progress.id) {
-                            return (
-                                <SubmissionPreview
-                                    key={submission.id}
-                                    id={submission.id}
-                                    index={index}
-                                    description={submission.description}
-                                    createdAt={submission.createdAt}
-                                    submissionprogress={submission.progress.step}
-                                    approval={submission.approval !== null ? submission.approval.id : ''}
-                                    allprogress={data.progress}
-                                    border={true}
-                                    padding={true}
-                                />
-                            )
-                        }
-                        
-                        if (props.progress === 0) {
-                            if (submission.progress.id > 1 && submission.progress.id < 7) {
-                                return (
-                                    <SubmissionPreview
-                                        key={submission.id}
-                                        id={submission.id}
-                                        index={index}
-                                        description={submission.description}
-                                        createdAt={submission.createdAt}
-                                        submissionprogress={submission.progress.step}
-                                        approval={submission.approval !== null ? submission.approval.id : ''}
-                                        allprogress={data.progress}
-                                        border={true}
-                                        padding={true}
-                                    />
-                                )
-                            }
-                        }
+                        return (
+                            <SubmissionPreview
+                                key={submission.id}
+                                id={submission.id}
+                                index={index}
+                                description={submission.description}
+                                createdAt={submission.createdAt}
+                                submissionprogress={submission.progress.step}
+                                approval={submission.approval !== null ? submission.approval.id : ''}
+                                allprogress={data.progress}
+                                border={true}
+                                padding={true}
+                            />
+                        )
                     })}
                 </React.Fragment>
             )

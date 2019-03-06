@@ -3,8 +3,8 @@ import gql from 'graphql-tag'
 import { Text } from "grommet"
 
 const GET_LAST_SUBMISSION_COUNT = gql`
-    query submissionImplemented{
-        usercount: fetchUser (id: 28) {
+    query submissionImplemented($id: Int!){
+        usercount: fetchUser (id: $id) {
             submissions {
                 id
                 approval {
@@ -27,8 +27,8 @@ const countCompletedSubmissions = (data) => {
     return count
 }
 
-const SubmissionsImplemented = () => (
-    <Query query={GET_LAST_SUBMISSION_COUNT}>
+const SubmissionsImplemented = ({id}) => (
+    <Query query={GET_LAST_SUBMISSION_COUNT} variables={{ id }}>
     {({ loading, error, data }) => {
         if (loading) return "Loading..."
         if (error) return `Error! ${error.message}`

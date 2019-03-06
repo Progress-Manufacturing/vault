@@ -36,13 +36,14 @@ class PreviousSubmissions extends Component {
                                 flex={true}
                                 fill={true}
                             >
+                            
                                 <Box
                                     width="33.33%"
                                     align="center"
                                     border={{ width: "1px", side: "right", color: "lightGray" }}
                                 >
                                     <Text size="12px" color="lighterBlack">Number of Submissions</Text>
-                                    <UserSubmissionsCount />
+                                    <UserSubmissionsCount id={this.props.loggedInUser.me.id} />
                                 </Box>
                                 <Box
                                     width="33.33%"
@@ -50,7 +51,7 @@ class PreviousSubmissions extends Component {
                                     border={{ width: "1px", side: "right", color: "lightGray" }}
                                 >
                                     <Text size="12px" color="lighterBlack">Last Reward</Text>
-                                    <UserLastReward />
+                                    <UserLastReward id={this.props.loggedInUser.me.id} />
                                 </Box>
                                 <Box 
                                     width="33.33%"
@@ -58,12 +59,12 @@ class PreviousSubmissions extends Component {
                                 >
                                     <Text size="12px" color="lighterBlack">Submissions Implemented</Text>
                                     {/* TODO: Figure out how we'll figure out if submission was implemented */}
-                                    <SubmissionsImplemented />
+                                    <SubmissionsImplemented id={this.props.loggedInUser.me.id} />
                                 </Box>
                             </Box>
                         </Card>
                         <Card title="Your Previous Submissions">
-                            <SubmissionPreview />
+                            <SubmissionPreview id={this.props.loggedInUser.me.id} />
                         </Card>
                     </Main>
                 )}

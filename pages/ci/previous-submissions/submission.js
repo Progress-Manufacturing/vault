@@ -22,8 +22,8 @@ class Submission extends Component {
         return { loggedInUser }
     }
 
-    render() {
-        const { router } = props
+    render(props) {
+        const { router } = this.props
         const submissionId = parseInt(router.query.id)
 
         return (

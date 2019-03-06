@@ -16,8 +16,9 @@ const LoginButton = ({ client }) => {
                 jsCookie.set("access_token", token, { expires: inThirtyDays })
             }
         }).then(() => {
+            
             let cookieToken = jsCookie.get("access_token")
-
+            
             const loggedIn = client.mutate({ 
                 variables: { 
                     msalToken: cookieToken
@@ -30,8 +31,7 @@ const LoginButton = ({ client }) => {
                     }
                 `
             })
-
-            console.info(loggedIn)
+            console.log(loggedIn)
             return loggedIn
         }).then((res) => {
             let inThirtyDays = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000)

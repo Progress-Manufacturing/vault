@@ -3,8 +3,8 @@ import gql from 'graphql-tag'
 import { Text } from "grommet"
 
 const GET_LAST_SUBMISSION_REWARD = gql`
-    query lastSubmissionReward{
-        usercount: fetchUser (id: 28) {
+    query lastSubmissionReward($id: Int!){
+        usercount: fetchUser (id: $id) {
             submissions {
                 id
                 reward {
@@ -17,14 +17,19 @@ const GET_LAST_SUBMISSION_REWARD = gql`
 `
 
 const lastReward = (data) => {
-    const rewardNull = data.usercount.submissions.findIndex(x => x.reward === null)
-    const lastReward = data.usercount.submissions[rewardNull - 1].reward.name
     
+    const rewardNull = data.usercount.submissions.findIndex(x => x.reward === null)
+    let lastReward
+    if(rewardNull !== 0) {
+        lastReward = data.usercount.submissions[rewardNull - 1].reward.name
+    } else {
+        lastReward = '--'
+    }
     return lastReward
 }
 
-const LastSubmissionReward = () => (
-    <Query query={GET_LAST_SUBMISSION_REWARD}>
+const LastSubmissionReward = ({ id }) => (
+    <Query query={GET_LAST_SUBMISSION_REWARD} variables={{ id }}>
     {({ loading, error, data }) => {
         if (loading) return "Loading..."
         if (error) return `Error! ${error.message}`
