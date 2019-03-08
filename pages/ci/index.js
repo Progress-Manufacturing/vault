@@ -14,7 +14,7 @@ import Card from "../../components/card"
 class CiHome extends Component {
   static async getInitialProps (context, apolloClient) {
     const { loggedInUser } = await checkLoggedIn(context.apolloClient)
-    
+
     if (!loggedInUser.me) {
       // If not signed in, send them somewhere more useful
       redirect(context, '/login')

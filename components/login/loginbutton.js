@@ -13,32 +13,35 @@ const LoginButton = ({ client }) => {
         auth.login().then(token => {
             if(token !== null) {
                 let inThirtyDays = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000)
-                jsCookie.set("access_token", token, { expires: inThirtyDays })
+                jsCookie.set("id_token", token, { expires: inThirtyDays })
             }
-        }).then(() => {
+        }).then(async () => {
+            let cookieToken = jsCookie.get("id_token")
+            const accessToken = await auth.getToken()
             
-            let cookieToken = jsCookie.get("access_token")
-            
-            const loggedIn = client.mutate({ 
-                variables: { 
-                    msalToken: cookieToken
+            const loggedIn = await client.mutate({ 
+                variables: {
+                    msalToken: cookieToken,
+                    accessToken: accessToken
                 },
                 mutation: gql`
-                    mutation loginUser($msalToken: String!) {
-                        login(msalToken: $msalToken) {
+                    mutation loginUser($msalToken: String!, $accessToken: String!) {
+                        login(msalToken: $msalToken, accessToken: $accessToken) {
                             token
                         }
                     }
                 `
             })
-            console.log(loggedIn)
-            return loggedIn
-        }).then((res) => {
+            return { loggedIn, accessToken }
+        }).then(async (res) => {
             let inThirtyDays = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000)
-            jsCookie.set("token", res.data.login.token, { expires: inThirtyDays })
+            jsCookie.set("token", res.loggedIn.data.login.token, { expires: inThirtyDays })
+            jsCookie.set("access_token", res.accessToken, { expires: inThirtyDays })
             client.cache.reset().then(() => {
                 redirect({}, '/')
             })
+        }).catch((err) => {
+            console.info("error: ", err)
         })
         // jsCookie.remove("access_token");  
         // this.auth.logout();

@@ -36,7 +36,6 @@ class PreviousSubmissions extends Component {
                                 flex={true}
                                 fill={true}
                             >
-                            
                                 <Box
                                     width="33.33%"
                                     align="center"
