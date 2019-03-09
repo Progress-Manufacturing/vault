@@ -12,6 +12,7 @@ class Vault extends App {
     me: null,
     manager: null,    
     avatar: null,
+    admin: false
   }
   
   componentWillMount() {
@@ -20,14 +21,25 @@ class Vault extends App {
 
   getUserData = async () => {
     const auth = new Authorization()
+    let groupAdmin = false
+
     try {
       const token = await auth.getToken()
       const userData = await getUserDetails(token)
+
+
+      userData.groups.value.map((group) => {
+        if(group.id === 'f8bfb141-874b-491e-9114-b030640446e9') {
+          groupAdmin = true
+        }
+      })
+
       this.setState({ 
         user: true,
         me: userData.me,
         manager: userData.manager,
-        avatar: userData.avatar
+        avatar: userData.avatar,
+        admin: groupAdmin
       })
     } catch(err) {
       console.log(err)

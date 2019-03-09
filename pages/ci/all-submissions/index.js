@@ -27,7 +27,7 @@ class Team extends Component {
         return (
             <ApolloConsumer>
                 {client => (
-                    <Main avatar={this.props.avatar}>
+                    <Main avatar={this.props.avatar} admin={this.props.admin}>
                     {/* <Card>
                         <Box
                             direction="row"

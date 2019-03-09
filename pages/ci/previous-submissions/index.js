@@ -29,8 +29,7 @@ class PreviousSubmissions extends Component {
         return (
             <ApolloConsumer>
                 {client => (
-                    <Main avatar={this.props.avatar}>
-                        {console.log(this.props)}
+                    <Main avatar={this.props.avatar} admin={this.props.admin}>
                         <Card>
                             <Box
                                 direction="row"
