@@ -27,7 +27,7 @@ class CiHome extends Component {
     return (
       <ApolloConsumer>
         {client => (
-          <Main>
+          <Main avatar={this.props.avatar}>
             {/* <SubmissionNotifications /> */}
             <Card title="Welcome" highlight={true}>
                 <p style={{ fontSize: "14px" }}>

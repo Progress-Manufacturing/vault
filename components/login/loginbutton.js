@@ -16,27 +16,27 @@ const LoginButton = ({ client }) => {
                 jsCookie.set("id_token", token, { expires: inThirtyDays })
             }
         }).then(async () => {
+            // TODO: Update state rather than innerHTML with loading icon
+            document.getElementById('LoginButton').innerHTML = "Loading..."
             let cookieToken = jsCookie.get("id_token")
-            const accessToken = await auth.getToken()
             
             const loggedIn = await client.mutate({ 
                 variables: {
                     msalToken: cookieToken,
-                    accessToken: accessToken
                 },
                 mutation: gql`
-                    mutation loginUser($msalToken: String!, $accessToken: String!) {
-                        login(msalToken: $msalToken, accessToken: $accessToken) {
+                    mutation loginUser($msalToken: String!) {
+                        login(msalToken: $msalToken) {
                             token
                         }
                     }
                 `
             })
-            return { loggedIn, accessToken }
+
+            return { loggedIn }
         }).then(async (res) => {
             let inThirtyDays = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000)
             jsCookie.set("token", res.loggedIn.data.login.token, { expires: inThirtyDays })
-            jsCookie.set("access_token", res.accessToken, { expires: inThirtyDays })
             client.cache.reset().then(() => {
                 redirect({}, '/')
             })
@@ -52,15 +52,15 @@ const LoginButton = ({ client }) => {
     }
 
     return (
+        
         <Box>
             <Button 
-                className="LoginButton"
+                id="LoginButton"
                 color="#5558AF"
                 plain={true}
                 label="Signin with Microsoft"
                 icon={<Windows size="20px" color="white" />}
                 round="5px"
-                className="LoginButton" 
                 style={{ 
                     backgroundColor: "#5558AF",
                     display: "flex",

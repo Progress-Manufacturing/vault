@@ -29,7 +29,8 @@ class PreviousSubmissions extends Component {
         return (
             <ApolloConsumer>
                 {client => (
-                    <Main>
+                    <Main avatar={this.props.avatar}>
+                        {console.log(this.props)}
                         <Card>
                             <Box
                                 direction="row"
@@ -42,7 +43,7 @@ class PreviousSubmissions extends Component {
                                     border={{ width: "1px", side: "right", color: "lightGray" }}
                                 >
                                     <Text size="12px" color="lighterBlack">Number of Submissions</Text>
-                                    <UserSubmissionsCount id={this.props.loggedInUser.me.id} />
+                                    <UserSubmissionsCount id={this.props.loggedInUser.me.user.id} />
                                 </Box>
                                 <Box
                                     width="33.33%"
@@ -50,7 +51,7 @@ class PreviousSubmissions extends Component {
                                     border={{ width: "1px", side: "right", color: "lightGray" }}
                                 >
                                     <Text size="12px" color="lighterBlack">Last Reward</Text>
-                                    <UserLastReward id={this.props.loggedInUser.me.id} />
+                                    <UserLastReward id={this.props.loggedInUser.me.user.id} />
                                 </Box>
                                 <Box 
                                     width="33.33%"
@@ -58,12 +59,12 @@ class PreviousSubmissions extends Component {
                                 >
                                     <Text size="12px" color="lighterBlack">Submissions Implemented</Text>
                                     {/* TODO: Figure out how we'll figure out if submission was implemented */}
-                                    <SubmissionsImplemented id={this.props.loggedInUser.me.id} />
+                                    <SubmissionsImplemented id={this.props.loggedInUser.me.user.id} />
                                 </Box>
                             </Box>
                         </Card>
                         <Card title="Your Previous Submissions">
-                            <SubmissionPreview id={this.props.loggedInUser.me.id} />
+                            <SubmissionPreview id={this.props.loggedInUser.me.user.id} />
                         </Card>
                     </Main>
                 )}

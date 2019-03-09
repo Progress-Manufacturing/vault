@@ -3,17 +3,51 @@ import React from "react"
 import withApollo from "../lib/apollo/with-apollo-client"
 import { ApolloProvider } from "react-apollo"
 
+import Authorization from "../lib/auth/msal-auth"
+import { getUserDetails } from "../lib/auth/msal-graph"
+
 class Vault extends App {
-  render () {
+  state = { 
+    user: false, 
+    me: null,
+    manager: null,    
+    avatar: null,
+  }
+  
+  componentWillMount() {
+    this.getUserData()
+  }
+
+  getUserData = async () => {
+    const auth = new Authorization()
+    try {
+      const token = await auth.getToken()
+      const userData = await getUserDetails(token)
+      this.setState({ 
+        user: true,
+        me: userData.me,
+        manager: userData.manager,
+        avatar: userData.avatar
+      })
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
+  render () { 
     const { Component, pageProps, apolloClient } = this.props
-    
-    return (
-      <Container>
-        <ApolloProvider client={apolloClient}>
-          <Component {...pageProps}/>
-        </ApolloProvider>
-      </Container>
-    )
+    const { user } = this.state
+    if(user) {
+      return (
+        <Container>
+          <ApolloProvider client={apolloClient}>
+            <Component {...pageProps} {...this.state}/>
+          </ApolloProvider>
+        </Container>
+      )
+    } else {
+      return null
+    }
   }
 }
 

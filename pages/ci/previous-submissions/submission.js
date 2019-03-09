@@ -29,7 +29,7 @@ class Submission extends Component {
         return (
             <ApolloConsumer>
                 {client => (
-                    <Main>
+                    <Main avatar={this.props.avatar}>
                         <SubmissionProgress id={submissionId} />
                         <UserSubmission id={submissionId} />
                     </Main>  

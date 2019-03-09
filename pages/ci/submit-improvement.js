@@ -129,7 +129,7 @@ class SubmitImprovement extends Component {
                 {client => (
                     <Mutation mutation={SUBMIT_IMPROVEMENT}>
                         {(addSubmission, { data }) => (
-                        <Main>
+                        <Main avatar={this.props.avatar}>
                             {!data && 
                             <Card title="Continual Improvement Submission" highlight={true}>
                                 <Form 
