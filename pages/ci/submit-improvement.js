@@ -8,6 +8,10 @@ import gql from "graphql-tag"
 import checkLoggedIn from "../../lib/auth/checkLoggedIn"
 import redirect from "../../lib/auth/redirect"
 
+import Authorization from "../../lib/auth/msal-auth"
+import { getUserSupervisor } from "../../lib/auth/msal-graph"
+
+
 import Main from "../../lib/layout/main"
 import Card from "../../components/card"
 import Areas from "../../components/options/areas"
@@ -25,7 +29,8 @@ const SUBMIT_IMPROVEMENT = gql`
         $proposedSolution: String,
         $resources: [Int!]!,
         $resourceExplanation: String!,
-        $solutionMeasurement: String!
+        $solutionMeasurement: String!,
+        $supervisor: String!
     ) {
     addSubmission(
         description: $description, 
@@ -36,7 +41,8 @@ const SUBMIT_IMPROVEMENT = gql`
         proposedSolution: $proposedSolution,
         resources: $resources,
         resourceExplanation: $resourceExplanation,
-        solutionMeasurement: $solutionMeasurement
+        solutionMeasurement: $solutionMeasurement,
+        supervisor: $supervisor
     ) {
       id
       description
@@ -66,8 +72,33 @@ class SubmitImprovement extends Component {
             solution: "",
             resourcesChecked: [],
             resource: "",
-            measure: ""
+            measure: "",
+            supervisor: "No Supervisor"
         }    
+    }
+
+    async componentWillMount() {
+        try {
+            const supervisor = await this.getSupervisor()
+            this.setState({
+                supervisor: supervisor.supervisor.id
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    async getSupervisor() {
+        const auth = new Authorization()
+
+        try {
+            const token = await auth.getToken()
+            const supervisor = await getUserSupervisor(token)
+
+            return supervisor
+        } catch(err) {
+            console.log(err)
+        }
     }
 
     onChangeTextArea = event => 
@@ -121,15 +152,15 @@ class SubmitImprovement extends Component {
             solution,
             resourcesChecked,
             resource,
-            measure
+            measure,
+            supervisor
         } = this.state
-
         return (
             <ApolloConsumer>
                 {client => (
                     <Mutation mutation={SUBMIT_IMPROVEMENT}>
                         {(addSubmission, { data }) => (
-                        <Main avatar={this.props.avatar} admin={this.props.admin}>
+                        <Main>
                             {!data && 
                             <Card title="Continual Improvement Submission" highlight={true}>
                                 <Form 
@@ -146,7 +177,8 @@ class SubmitImprovement extends Component {
                                                 proposedSolution: solution,
                                                 resources: resourcesChecked,
                                                 resourceExplanation: resource,
-                                                solutionMeasurement: measure
+                                                solutionMeasurement: measure,
+                                                supervisor: supervisor
                                             } 
                                         });
                                     }}

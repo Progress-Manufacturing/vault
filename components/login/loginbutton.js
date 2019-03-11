@@ -17,7 +17,7 @@ const LoginButton = ({ client }) => {
             }
         }).then(async () => {
             // TODO: Update state rather than innerHTML with loading icon
-            document.getElementById('LoginButton').innerHTML = "Loading..."
+            document.getElementById('LoginButton').innerHTML = "Redirecting..."
             let cookieToken = jsCookie.get("id_token")
             
             const loggedIn = await client.mutate({ 

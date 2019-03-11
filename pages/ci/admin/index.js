@@ -51,7 +51,7 @@ class Admin extends Component {
         return (
             <ApolloConsumer>
                 {client => (
-                    <Main avatar={this.props.avatar} admin={this.props.admin}>
+                    <Main>
                         <Query query={GET_MESSAGES}>
                         {({ loading, error, data }) => {
                             if (loading) return "Loading..."
