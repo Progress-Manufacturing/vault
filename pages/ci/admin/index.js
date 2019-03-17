@@ -2,6 +2,7 @@ import { Component } from "react"
 import { ApolloConsumer, Query } from "react-apollo"
 
 import checkLoggedIn from "../../../lib/auth/checkLoggedIn"
+import checkSupervisor from "../../../lib/auth/checkSupervisor"
 import redirect from "../../../lib/auth/redirect"
 
 import { Box, Paragraph, Button, Text } from "grommet"
@@ -36,22 +37,28 @@ const GET_MESSAGES = gql`
 // `
 
 class Admin extends Component {
-    static async getInitialProps (context, apolloClient) {
+    static async getInitialProps (context, apolloClient) { 
         const { loggedInUser } = await checkLoggedIn(context.apolloClient)
+        const { supervisorUser } = await checkSupervisor(context.apolloClient)
+        let supervisorAuth = false
         
+        if(supervisorUser) {
+          supervisorAuth = true
+        }
+    
         if (!loggedInUser.me) {
           // If not signed in, send them somewhere more useful
           redirect(context, '/login')
         }
     
-        return { loggedInUser }
+        return { loggedInUser, supervisorUser, supervisorAuth }
     }
 
     render() {
         return (
             <ApolloConsumer>
                 {client => (
-                    <Main>
+                    <Main supervisor={this.props.supervisorAuth}>
                         <Query query={GET_MESSAGES}>
                         {({ loading, error, data }) => {
                             if (loading) return "Loading..."

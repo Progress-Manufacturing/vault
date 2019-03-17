@@ -6,6 +6,7 @@ import { Mutation } from "react-apollo";
 import gql from "graphql-tag"
 
 import checkLoggedIn from "../../lib/auth/checkLoggedIn"
+import checkSupervisor from "../../lib/auth/checkSupervisor"
 import redirect from "../../lib/auth/redirect"
 
 import Authorization from "../../lib/auth/msal-auth"
@@ -51,16 +52,23 @@ const SUBMIT_IMPROVEMENT = gql`
 `
 
 class SubmitImprovement extends Component {
-    static async getInitialProps (context, apolloClient) {
+    static async getInitialProps (context, apolloClient) { 
         const { loggedInUser } = await checkLoggedIn(context.apolloClient)
+        const { supervisorUser } = await checkSupervisor(context.apolloClient)
+        let supervisorAuth = false
         
+        if(supervisorUser) {
+          supervisorAuth = true
+        }
+    
         if (!loggedInUser.me) {
           // If not signed in, send them somewhere more useful
           redirect(context, '/login')
         }
     
-        return { loggedInUser }
+        return { loggedInUser, supervisorUser, supervisorAuth }
     }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -160,7 +168,8 @@ class SubmitImprovement extends Component {
                 {client => (
                     <Mutation mutation={SUBMIT_IMPROVEMENT}>
                         {(addSubmission, { data }) => (
-                        <Main>
+                        <Main supervisor={this.props.supervisorAuth}>
+                            {console.log(supervisor)}
                             {!data && 
                             <Card title="Continual Improvement Submission" highlight={true}>
                                 <Form 

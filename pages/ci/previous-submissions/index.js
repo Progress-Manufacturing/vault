@@ -2,6 +2,7 @@ import { Component } from "react"
 import { ApolloConsumer } from "react-apollo"
 
 import checkLoggedIn from "../../../lib/auth/checkLoggedIn"
+import checkSupervisor from "../../../lib/auth/checkSupervisor"
 import redirect from "../../../lib/auth/redirect"
 
 import Main from "../../../lib/layout/main"
@@ -14,22 +15,28 @@ import SubmissionsImplemented from "../../../components/usersubmission/submissio
 
 
 class PreviousSubmissions extends Component {
-    static async getInitialProps (context, apolloClient) {
+    static async getInitialProps (context, apolloClient) { 
         const { loggedInUser } = await checkLoggedIn(context.apolloClient)
+        const { supervisorUser } = await checkSupervisor(context.apolloClient)
+        let supervisorAuth = false
         
+        if(supervisorUser) {
+          supervisorAuth = true
+        }
+    
         if (!loggedInUser.me) {
           // If not signed in, send them somewhere more useful
           redirect(context, '/login')
         }
     
-        return { loggedInUser }
+        return { loggedInUser, supervisorUser, supervisorAuth }
     }
 
     render() {
         return (
             <ApolloConsumer>
                 {client => (
-                    <Main>
+                    <Main supervisor={this.props.supervisorAuth}>
                         <Card>
                             <Box
                                 direction="row"

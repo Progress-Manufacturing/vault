@@ -1,3 +1,4 @@
+import { Component } from "react"
 import { Query } from "react-apollo";
 import gql from 'graphql-tag'
 import { Box, Text, Accordion, AccordionPanel } from "grommet"
@@ -5,6 +6,9 @@ import Card from "../card"
 import InnerCard from "../card/innercard"
 import Comments from "../comments"
 import SubmissionComplete from "./complete"
+
+import Authorization from "../../lib/auth/msal-auth"
+import { getUserById } from "../../lib/auth/msal-graph"
 
 const GET_SUBMISSION_BY_ID = gql`
     query submission($id: Int!) {
@@ -71,7 +75,7 @@ const UserSubmission = ({ id }) => {
                                                 <Text size="14px"><strong>Employee ID:</strong> {data.submission.user.id}</Text>
                                             </Box>
                                             <Box width="33.33%">
-                                                <Text size="14px"><strong>Supervisor:</strong> Kid Awesome</Text>
+                                                <Text size="14px"><strong>Supervisor:</strong> {SubmissionSupervisor()}</Text>
                                             </Box>
                                         </Box>
                                         <Box

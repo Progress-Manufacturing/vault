@@ -2,32 +2,40 @@ import { Component } from "react"
 import { ApolloConsumer } from "react-apollo"
 
 import checkLoggedIn from "../../../lib/auth/checkLoggedIn"
+import checkSupervisor from "../../../lib/auth/checkSupervisor"
 import redirect from "../../../lib/auth/redirect"
 
 import Main from "../../../lib/layout/main"
 import { Box, Tabs, Tab, Text } from "grommet"
 import { Clear } from "grommet-icons";
 import Card from "../../../components/card"
-import SubmissionPreview from "../../../components/usersubmission/preview"
+import SupervisorSubmissionPreview from "../../../components/supervisor/supervisorsubmissions"
+
 
 
 class Team extends Component {
-    static async getInitialProps (context, apolloClient) {
+    static async getInitialProps (context, apolloClient) { 
         const { loggedInUser } = await checkLoggedIn(context.apolloClient)
+        const { supervisorUser } = await checkSupervisor(context.apolloClient)
+        let supervisorAuth = false
         
+        if(supervisorUser) {
+          supervisorAuth = true
+        }
+    
         if (!loggedInUser.me) {
           // If not signed in, send them somewhere more useful
           redirect(context, '/login')
         }
     
-        return { loggedInUser }
+        return { loggedInUser, supervisorUser, supervisorAuth }
     }
 
     render() {
         return(
             <ApolloConsumer>
                 {client => (
-                    <Main>
+                    <Main supervisor={this.props.supervisorAuth}>
                     {/* <Card>
                         <Box
                             direction="row"
@@ -72,7 +80,8 @@ class Team extends Component {
                                     alignContent="center"
                                     align="center"
                                 >   
-                                    <SubmissionPreview progress={1} />            
+
+                                    <SupervisorSubmissionPreview />            
                                     {/* TODO: Make into simple component */}
                                     {/* <Box flex={true} pad={{ vertical: "50px" }} justify="center" align="center">
                                         <Clear color="lighterBlack" size="40px"/>
@@ -82,7 +91,7 @@ class Team extends Component {
                             </Tab>
                             <Tab title="Active">
                                 <Box pad={{ vertical: "25px", horizontal: "25px" }}>
-                                    <SubmissionPreview progress={0} />
+                                    <SupervisorSubmissionPreview />            
                                 </Box>
                             </Tab>
                             <Tab title="Completed">
@@ -92,7 +101,7 @@ class Team extends Component {
                                     alignContent="center"
                                     align="center"
                                 >
-                                    <SubmissionPreview progress={7} />
+                                    {/* <SubmissionPreview progress={7} /> */}
                                 </Box>
                             </Tab>
                         </Tabs>
