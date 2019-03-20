@@ -7,7 +7,7 @@ import redirect from "../../../lib/auth/redirect"
 
 import Main from "../../../lib/layout/main"
 import { Box, Tabs, Tab, Text } from "grommet"
-import { Clear } from "grommet-icons";
+import { Clear } from "grommet-icons"
 import Card from "../../../components/card"
 import SubmissionPreview from "../../../components/usersubmission/preview"
 
@@ -30,7 +30,7 @@ class Team extends Component {
         return { loggedInUser, supervisorUser, supervisorAuth }
     }
 
-    render() {
+    render() {        
         return (
             <ApolloConsumer>
                 {client => (

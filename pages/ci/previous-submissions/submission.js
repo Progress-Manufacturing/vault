@@ -10,6 +10,9 @@ import Main from "../../../lib/layout/main"
 import SubmissionProgress from "../../../components/progress"
 import UserSubmission from "../../../components/usersubmission"
 
+import Authorization from "../../../lib/auth/msal-auth"
+import { getUserSupervisor } from "../../../lib/auth/msal-graph"
+
 
 class Submission extends Component {
     static async getInitialProps (context, apolloClient) { 
@@ -29,31 +32,42 @@ class Submission extends Component {
         return { loggedInUser, supervisorUser, supervisorAuth }
     }
 
-    // componentDidMount() {
-    //     this.getUserData()
-    // }
+    constructor() {
+        super()
+        this.state = { 
+          supervisor: null
+        }
+      }
 
-    // getSupervisorName = async () => {
-    //     const auth = new Authorization()
+    componentDidMount() {
+        this.getSupervisor()
+    }
+
+    getSupervisor = async () => {
+        const auth = new Authorization()
       
-    //     try {
-    //       const token = await auth.getToken()
-    //       const userData = await getUserById(token, this.props.)
-    //     } catch(err) {
-    //       console.log(err)
-    //     }
-    // }
+        try {
+          const token = await auth.getToken()
+          const userSupervisor = await getUserSupervisor(token)
+    
+          this.setState({
+            supervisor: userSupervisor.supervisor,
+          })
+        } catch(err) {
+          console.log(err)
+        }
+      }
 
     render(props) {
         const { router } = this.props
         const submissionId = parseInt(router.query.id)
-        console.log(this.props.loggedInUser)
+        
         return (
             <ApolloConsumer>
                 {client => (
                     <Main supervisor={this.props.supervisorAuth}>
                         <SubmissionProgress id={submissionId} />
-                        <UserSubmission id={submissionId} />
+                        <UserSubmission id={submissionId} supervisor={this.state.supervisor}/>
                     </Main>  
                 )}
             </ApolloConsumer>

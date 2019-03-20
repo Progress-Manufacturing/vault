@@ -1,0 +1,2 @@
+URI_API=/graphql
+URL_REDIRECT=/auth/return

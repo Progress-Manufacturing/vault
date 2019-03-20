@@ -1,4 +1,3 @@
-import { Component } from "react"
 import { Query } from "react-apollo";
 import gql from 'graphql-tag'
 import { Box, Text, Accordion, AccordionPanel } from "grommet"
@@ -6,9 +5,6 @@ import Card from "../card"
 import InnerCard from "../card/innercard"
 import Comments from "../comments"
 import SubmissionComplete from "./complete"
-
-import Authorization from "../../lib/auth/msal-auth"
-import { getUserById } from "../../lib/auth/msal-graph"
 
 const GET_SUBMISSION_BY_ID = gql`
     query submission($id: Int!) {
@@ -44,16 +40,41 @@ const GET_SUBMISSION_BY_ID = gql`
                 id
                 name
             }
+            lead
+        }
+        committee_approvals: allApprovals {
+            id
+            name
+        }
+        supervisor_approvals: allSupApprovals {
+            id
+            name
         }
     }
 `
 
-const UserSubmission = ({ id }) => {
+const UserSubmission = (props) => {
+    const id = props.id
+    let commApprovals = []
+    let supApprovals = []
+    let supervisorName = props.supervisor ? props.supervisor.displayName : ""
+    let supervisorEmail = props.supervisor ? props.supervisor.userPrincipalName : ""
+    
     return (
         <Query query={GET_SUBMISSION_BY_ID} variables={{ id }}>
             {({ loading, error, data }) => {
                 if (loading)  return "Loading..."
                 if (error) return `Error! ${error.message}`
+                
+                // Set committee approvals for dropdown
+                for(let value of data.committee_approvals) {
+                    commApprovals.push(value)
+                }
+            
+                // Set supervisor approvals for dropdown
+                for (let value of data.supervisor_approvals) {
+                    supApprovals.push(value)
+                }
                 
                 return (     
                     <React.Fragment>
@@ -62,9 +83,25 @@ const UserSubmission = ({ id }) => {
                         }
                         {data.submission.progress.id !== 7 && 
                             <React.Fragment>
-                                <Comments title="Project Lead Comments"/>
-                                <Comments title="Supervisor Comments"  announcement={{ title: "Approved", status: 1 }} />
-                                <Comments title="Committee Comments" announcement={{ title: "Thank You", status: 0 }}/>
+                                {data.lead &&
+                                    <Comments title="Project Lead Comments" lead={true}/>
+                                }
+                                
+                                <Comments 
+                                    title="Supervisor Comments"
+                                    announcement={{ title: "Approved", status: 1 }}
+                                    supervisorApproval={supApprovals} 
+                                    submissionId={data.submission.id}
+                                />
+                                
+                                {props.admin &&
+                                    <Comments 
+                                        title="Committee Comments"
+                                        announcement={{ title: "Thank You", status: 0 }}
+                                        committieApproval={commApprovals}
+                                    />
+                                }
+
                                 <Card title={`Submission #${data.submission.id}`}>
                                     <Box flex={true} fill={true}>
                                         <Box direction="row" wrap={true}>
@@ -75,7 +112,7 @@ const UserSubmission = ({ id }) => {
                                                 <Text size="14px"><strong>Employee ID:</strong> {data.submission.user.id}</Text>
                                             </Box>
                                             <Box width="33.33%">
-                                                <Text size="14px"><strong>Supervisor:</strong> {SubmissionSupervisor()}</Text>
+                                                <Text size="14px"><strong>Supervisor:</strong> <a href={`mailto: ${supervisorEmail}`} target="_blank">{supervisorName}</a></Text>
                                             </Box>
                                         </Box>
                                         <Box
@@ -145,8 +182,6 @@ const UserSubmission = ({ id }) => {
                                 </Card>
                             </React.Fragment>
                         }
-                        
-                        
                         <style jsx>{`
                             a {
                                 color: #D0011B;

@@ -32,6 +32,7 @@ class CiHome extends Component {
 
   render() {
     const userFirstName = (this.props.loggedInUser.me.user.name).split(" ")[0]
+    
     return (
       <ApolloConsumer>
         {client => (

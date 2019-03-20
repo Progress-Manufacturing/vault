@@ -169,8 +169,6 @@ class SubmitImprovement extends Component {
                     <Mutation mutation={SUBMIT_IMPROVEMENT}>
                         {(addSubmission, { data }) => (
                         <Main supervisor={this.props.supervisorAuth}>
-                            {console.log(supervisor)}
-                            {!data && 
                             <Card title="Continual Improvement Submission" highlight={true}>
                                 <Form 
                                     className="SubmissionForm"
@@ -316,8 +314,8 @@ class SubmitImprovement extends Component {
                                     </Box>
                                 </Form>
                             </Card>
-                            }
-                            {data && 
+                            
+                            {/* {data && 
                                 <Card title="Thank You" highlight={true}>
                                     <p><strong>Submission #{data.addSubmission.id}</strong></p>
                                     <p style={{ fontSize: "14px" }}>
@@ -347,7 +345,7 @@ class SubmitImprovement extends Component {
                                         </li>
                                     </ul>
                                 </Card>
-                            }
+                            } */}
                             <style jsx>{`
                                 .SubmissionForm {
                                     width: 100%;
