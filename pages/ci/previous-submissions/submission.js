@@ -17,19 +17,19 @@ import { getUserSupervisor } from "../../../lib/auth/msal-graph"
 class Submission extends Component {
     static async getInitialProps (context, apolloClient) { 
         const { loggedInUser } = await checkLoggedIn(context.apolloClient)
-        const { supervisorUser } = await checkSupervisor(context.apolloClient)
-        let supervisorAuth = false
-        
-        if(supervisorUser) {
-          supervisorAuth = true
+        const { supervisorSubmissions } = await checkSupervisor(context.apolloClient)
+        let isSupervisor = false
+
+        if(supervisorSubmissions) {
+          isSupervisor = true
         }
-    
+        
         if (!loggedInUser.me) {
           // If not signed in, send them somewhere more useful
           redirect(context, '/login')
         }
-    
-        return { loggedInUser, supervisorUser, supervisorAuth }
+
+        return { loggedInUser, supervisorSubmissions, isSupervisor }
     }
 
     constructor() {
@@ -65,9 +65,9 @@ class Submission extends Component {
         return (
             <ApolloConsumer>
                 {client => (
-                    <Main supervisor={this.props.supervisorAuth}>
+                    <Main supervisor={this.props.isSupervisor}>
                         <SubmissionProgress id={submissionId} />
-                        <UserSubmission id={submissionId} supervisor={this.state.supervisor}/>
+                        <UserSubmission id={submissionId} userSupervisor={this.state.supervisor} isSupervisor={this.props.isSupervisor}/>
                     </Main>  
                 )}
             </ApolloConsumer>

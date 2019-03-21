@@ -1,6 +1,7 @@
 import React from "react"
 import { Box, Text } from "grommet"
-import SupervisorApproval from "../comments/supervisorapproval";
+import SupervisorApproval from "../comments/supervisorapproval"
+import CommitteeApproval from "../comments/committeeapproval"
 
 const Card = (props) => {
     return (
@@ -39,17 +40,18 @@ const Card = (props) => {
                             
                         </Box>
                         {props.supervisorApproval &&
-                            <SupervisorApproval status={props.supervisorApproval} submissionId={props.submissionId}/>
+                            <SupervisorApproval status={props.supervisorApproval} submissionId={props.submissionId} />
                         }
                         {props.committeeApproval && 
-                            <Text>Testing</Text>
+                            <CommitteeApproval status={props.committeeApproval} submissionId={props.submissionId} />
                         }
                     </Box>
                 }            
                 {props.announcement &&
                     <Box
                         background={props.announcement.status === 1 ? "neutral-1" : "neutral-4"}
-                        pad="15px"
+                        pad={props.announcement.status === -1 ? "0" : "15px"}
+                        height={props.announcement.status === -1 ? "0" : "auto"}
                     >
                         <Text color="white" size="14px">{props.announcement.title}</Text>
                     </Box>

@@ -40,13 +40,17 @@ const GET_SUBMISSION_BY_ID = gql`
                 id
                 name
             }
+            supervisorapproval {
+                id
+                name
+            }
             lead
         }
         committee_approvals: allApprovals {
             id
             name
         }
-        supervisor_approvals: allSupApprovals {
+        supervisor_approvals: allSupervisorApprovals {
             id
             name
         }
@@ -55,10 +59,8 @@ const GET_SUBMISSION_BY_ID = gql`
 
 const UserSubmission = (props) => {
     const id = props.id
-    let commApprovals = []
-    let supApprovals = []
-    let supervisorName = props.supervisor ? props.supervisor.displayName : ""
-    let supervisorEmail = props.supervisor ? props.supervisor.userPrincipalName : ""
+    let supervisorName = props.userSupervisor ? props.userSupervisor.displayName : ""
+    let supervisorEmail = props.userSupervisor ? props.userSupervisor.userPrincipalName : ""
     
     return (
         <Query query={GET_SUBMISSION_BY_ID} variables={{ id }}>
@@ -66,15 +68,8 @@ const UserSubmission = (props) => {
                 if (loading)  return "Loading..."
                 if (error) return `Error! ${error.message}`
                 
-                // Set committee approvals for dropdown
-                for(let value of data.committee_approvals) {
-                    commApprovals.push(value)
-                }
-            
-                // Set supervisor approvals for dropdown
-                for (let value of data.supervisor_approvals) {
-                    supApprovals.push(value)
-                }
+                let supervisorApprovalNotification = data.submission.supervisorapproval ? data.submission.supervisorapproval.name : ''
+                let supervisorNotificationBackground = data.submission.supervisorapproval ? data.submission.supervisorapproval.id : -1
                 
                 return (     
                     <React.Fragment>
@@ -83,24 +78,25 @@ const UserSubmission = (props) => {
                         }
                         {data.submission.progress.id !== 7 && 
                             <React.Fragment>
-                                {data.lead &&
-                                    <Comments title="Project Lead Comments" lead={true}/>
-                                }
-                                
+                                {/* {data.lead &&
+                                    <Comments title="Project Lead Comments" lead={true} />
+                                } */}
+
                                 <Comments 
                                     title="Supervisor Comments"
-                                    announcement={{ title: "Approved", status: 1 }}
-                                    supervisorApproval={supApprovals} 
+                                    announcement={{ title: supervisorApprovalNotification, status: supervisorNotificationBackground }}
+                                    supervisorApproval={data.supervisor_approvals}
+                                    isSupervisor={props.isSupervisor}
                                     submissionId={data.submission.id}
                                 />
                                 
-                                {props.admin &&
+                                {/* {props.admin &&
                                     <Comments 
                                         title="Committee Comments"
                                         announcement={{ title: "Thank You", status: 0 }}
-                                        committieApproval={commApprovals}
+                                        committeeApproval={data.committee_approvals}
                                     />
-                                }
+                                } */}
 
                                 <Card title={`Submission #${data.submission.id}`}>
                                     <Box flex={true} fill={true}>

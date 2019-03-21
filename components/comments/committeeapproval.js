@@ -23,8 +23,8 @@ const SupervisorApproval = (props) => {
     const [value, setValue] = React.useState("")
     
     return (
-        <Mutation mutation={UPDATE_SUPERVISOR_APPROVAL}>
-            {(updateSupervisorApproval, {data}) => (
+        <Mutation mutation={UPDATE_COMMITTEE_APPROVAL}>
+            {(updateCommitteeApproval, {data}) => (
                 <Box    
                     width="auto"
                     flex={true}
@@ -35,10 +35,10 @@ const SupervisorApproval = (props) => {
                     <Form
                         onSubmit={e => {
                             e.preventDefault();
-                            updateSupervisorApproval({ variables: { 
+                            updateCommitteeApproval({ variables: { 
                                 id: props.submissionId,
-                                progress: 3,
-                                supapproval: value.id
+                                progress: 5,
+                                approval: value.id
                             } });
                         }}
                     >
@@ -48,7 +48,7 @@ const SupervisorApproval = (props) => {
                             options={props.status}
                             className="suggestionDropDown"
                             value={value}
-                            placeholder="Endorse of Reject"
+                            placeholder="Approve or Deny"
                             alignSelf="end"
                             size="small"
                             plain={true}

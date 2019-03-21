@@ -3,14 +3,22 @@ import { Box, Form, Select, Button } from "grommet"
 import { Mutation } from "react-apollo"
 
 const UPDATE_SUPERVISOR_APPROVAL = gql`
-    mutation updateSupervisorApproval($id: Int!, $progress: Int!, $supapproval: Int) {
-        updateSupervisorApproval(id: $id, progress: $progress, supapproval: $supapproval) {
+    mutation updateSubmissionSupervisorApproval(
+        $id: Int!
+        $progress: Int!
+        $supervisorapproval: Int
+    ) {
+        updateSubmissionSupervisorApproval(
+            id: $id
+            progress: $progress
+            supervisorapproval: $supervisorapproval
+        ) {
             id
             progress {
                 id
                 name
             }
-            supapproval {
+            supervisorapproval {
                 id
                 name
             }
@@ -20,7 +28,6 @@ const UPDATE_SUPERVISOR_APPROVAL = gql`
 
 const SupervisorApproval = (props) => {
     const [value, setValue] = React.useState("")
-    
     return (
         <Mutation mutation={UPDATE_SUPERVISOR_APPROVAL}>
             {(updateSupervisorApproval, {data}) => (
@@ -37,7 +44,7 @@ const SupervisorApproval = (props) => {
                             updateSupervisorApproval({ variables: { 
                                 id: props.submissionId,
                                 progress: 3,
-                                supapproval: value.id
+                                supervisorapproval: value.id
                             } });
                         }}
                     >
@@ -47,7 +54,7 @@ const SupervisorApproval = (props) => {
                             options={props.status}
                             className="suggestionDropDown"
                             value={value}
-                            placeholder="Endorse of Reject"
+                            placeholder="Endorse or Reject"
                             alignSelf="end"
                             size="small"
                             plain={true}

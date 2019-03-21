@@ -25,14 +25,16 @@ const Comments = (props) => {
             {({ loading, error, data }) => {
                 if (loading)  return "Loading..."
                 if (error) return `Error! ${error.message}`
+                
                 return (                    
                     <Card 
                         title={props.title}
                         announcement={props.announcement}
-                        supervisorApproval={props.supervisorApproval}
-                        committeeApproval={props.committieApproval}
+                        supervisorApproval={ props.isSupervisor ? props.supervisorApproval : null}
+                        committeeApproval={props.committeeApproval}
                         submissionId={props.submissionId}
                     >
+                        
                         <Box flex={true} fill={true}>
                             {props.lead &&
                                 <LeadInfo />           
