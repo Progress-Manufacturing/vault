@@ -7,11 +7,13 @@ const UPDATE_SUPERVISOR_APPROVAL = gql`
         $id: Int!
         $progress: Int!
         $supervisorapproval: Int
+        $reward: Int
     ) {
         updateSubmissionSupervisorApproval(
             id: $id
             progress: $progress
             supervisorapproval: $supervisorapproval
+            reward: $reward
         ) {
             id
             progress {
@@ -22,12 +24,19 @@ const UPDATE_SUPERVISOR_APPROVAL = gql`
                 id
                 name
             }
+            reward {
+                id
+                name
+            }
         }
     }
 `
 
 const SupervisorApproval = (props) => {
     const [value, setValue] = React.useState("")
+    const currentProgress = value.id === 2 ? 9 : 3
+    const currentReward = value.id === 2 ? 2 : null
+    
     return (
         <Mutation mutation={UPDATE_SUPERVISOR_APPROVAL}>
             {(updateSupervisorApproval, {data}) => (
@@ -36,15 +45,16 @@ const SupervisorApproval = (props) => {
                     flex={true}
                     fill={false}
                     align="end"
-                    pad={{ horizontal: "18px" }}
+                    pad={{ top: "3px", horizontal: "18px" }}
                 >
                     <Form
                         onSubmit={e => {
                             e.preventDefault();
                             updateSupervisorApproval({ variables: { 
                                 id: props.submissionId,
-                                progress: 3,
-                                supervisorapproval: value.id
+                                progress: currentProgress,
+                                supervisorapproval: value.id,
+                                reward: currentReward
                             } });
                         }}
                     >
@@ -63,7 +73,7 @@ const SupervisorApproval = (props) => {
                         <Button type="submit" className="updateSubmissionButton" label="Submit" />
                     </Form>
                     <style jsx global>{`
-                        .updateSubmissionButton {
+                        button.updateSubmissionButton {
                             border: none;
                             font-size: 15px;
                             color: white;
@@ -73,7 +83,7 @@ const SupervisorApproval = (props) => {
                             transition: background 0.3s ease-in-out;
                             will-change: background;
                         }
-                        .updateSubmissionButton:hover {
+                        button.updateSubmissionButton:hover {
                             border: none;
                             box-shadow: none;
                             background: black;

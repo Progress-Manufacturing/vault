@@ -11,7 +11,7 @@ import SubmissionProgress from "../../../components/progress"
 import UserSubmission from "../../../components/usersubmission"
 
 import Authorization from "../../../lib/auth/msal-auth"
-import { getUserSupervisor } from "../../../lib/auth/msal-graph"
+import { getUserSupervisor, getAllUsers } from "../../../lib/auth/msal-graph"
 
 
 class Submission extends Component {
@@ -35,12 +35,29 @@ class Submission extends Component {
     constructor() {
         super()
         this.state = { 
-          supervisor: null
+          supervisor: null,
+          users: null
         }
       }
 
     componentDidMount() {
         this.getSupervisor()
+        this.getAllUsers()
+    }
+
+    getAllUsers = async () => {
+      const auth = new Authorization()
+
+      try {
+        const token = await auth.getToken()
+        const allUsers = await getAllUsers(token)
+        
+        this.setState({
+          users: allUsers
+        })
+      } catch (err) {
+        console.log(err)
+      }
     }
 
     getSupervisor = async () => {
@@ -67,7 +84,7 @@ class Submission extends Component {
                 {client => (
                     <Main supervisor={this.props.isSupervisor}>
                         <SubmissionProgress id={submissionId} />
-                        <UserSubmission id={submissionId} userSupervisor={this.state.supervisor} isSupervisor={this.props.isSupervisor}/>
+                        <UserSubmission id={submissionId} users={this.state.users} userSupervisor={this.state.supervisor} isSupervisor={this.props.isSupervisor}/>
                     </Main>  
                 )}
             </ApolloConsumer>

@@ -22,6 +22,7 @@ const GET_SUBMISSION_BY_ID = gql`
 `
 
 const SubmissionComplete = ({ id }) => (
+    
     <Query query={GET_SUBMISSION_BY_ID} variables={{ id }}>
     {({ loading, error, data }) => {
         if (loading) return "Loading..."

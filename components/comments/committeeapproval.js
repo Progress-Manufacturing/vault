@@ -3,8 +3,20 @@ import { Box, Form, Select, Button } from "grommet"
 import { Mutation } from "react-apollo"
 
 const UPDATE_COMMITTEE_APPROVAL = gql`
-    mutation updateCommitteeApproval($id: Int!, $progress: Int!, $approval: Int, $lead: String) {
-        updateCommitteeApproval(id: $id, progress: $progress, approval: $approval, lead: $lead) {
+    mutation updateSubmissionCommitteeApproval(
+        $id: Int!
+        $progress: Int!
+        $approval: Int
+        $lead: String
+        $reward: Int
+    ) {
+        updateSubmissionCommitteeApproval(
+            id: $id
+            progress: $progress
+            approval: $approval
+            lead: $lead
+            reward: $reward
+        ) {
             id
             progress {
                 id
@@ -15,12 +27,30 @@ const UPDATE_COMMITTEE_APPROVAL = gql`
                 name
             }
             lead
+            reward {
+                id
+                name
+            }
         }
     }
 `
 
 const SupervisorApproval = (props) => {
-    const [value, setValue] = React.useState("")
+    const [approvalValue, setApprovalValue] = React.useState("")
+    const [leadValue, setLeadValue] = React.useState("")
+    const currentReward = approvalValue.id === 2 ? 2 : 4
+    let currentProgress    
+    if (approvalValue.id === 2) {
+        currentProgress = 9
+    } else if (leadValue != null) {
+        if (currentReward === 4) {
+            currentProgress = 7
+        } else {
+            currentProgress = 6
+        }
+    } else {
+        currentProgress = 5
+    }
     
     return (
         <Mutation mutation={UPDATE_COMMITTEE_APPROVAL}>
@@ -30,29 +60,44 @@ const SupervisorApproval = (props) => {
                     flex={true}
                     fill={false}
                     align="end"
-                    pad={{ horizontal: "18px" }}
+                    pad={{ top: "3px", horizontal: "18px" }}
                 >
                     <Form
                         onSubmit={e => {
                             e.preventDefault();
                             updateCommitteeApproval({ variables: { 
                                 id: props.submissionId,
-                                progress: 5,
-                                approval: value.id
+                                progress: currentProgress,
+                                approval: approvalValue.id,
+                                lead: leadValue ? leadValue.id : null,
+                                reward: currentReward
                             } });
                         }}
                     >
+                        <Select 
+                            labelKey="displayName"
+                            valueKey="id"
+                            options={props.users}
+                            className="suggestionDropDown"
+                            value={leadValue}
+                            placeholder="Choose Lead"
+                            alignSelf="end"
+                            size="small"
+                            plain={true}
+                            onChange={({ option }) => setLeadValue(option)}
+                        />
+                        
                         <Select 
                             labelKey="name"
                             valueKey="id"
                             options={props.status}
                             className="suggestionDropDown"
-                            value={value}
+                            value={approvalValue}
                             placeholder="Approve or Deny"
                             alignSelf="end"
                             size="small"
                             plain={true}
-                            onChange={({ option }) => setValue(option)}
+                            onChange={({ option }) => setApprovalValue(option)}
                         />
                         <Button type="submit" className="updateSubmissionButton" label="Submit" />
                     </Form>

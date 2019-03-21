@@ -43,13 +43,13 @@ const Card = (props) => {
                             <SupervisorApproval status={props.supervisorApproval} submissionId={props.submissionId} />
                         }
                         {props.committeeApproval && 
-                            <CommitteeApproval status={props.committeeApproval} submissionId={props.submissionId} />
+                            <CommitteeApproval status={props.committeeApproval} submissionId={props.submissionId} users={props.users} />
                         }
                     </Box>
                 }            
                 {props.announcement &&
                     <Box
-                        background={props.announcement.status === 1 ? "neutral-1" : "neutral-4"}
+                        background={props.announcement.status === 1 || 3 || 4 ? "neutral-1" : "neutral-4"}
                         pad={props.announcement.status === -1 ? "0" : "15px"}
                         height={props.announcement.status === -1 ? "0" : "auto"}
                     >

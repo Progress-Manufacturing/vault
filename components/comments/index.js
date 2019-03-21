@@ -33,6 +33,7 @@ const Comments = (props) => {
                         supervisorApproval={ props.isSupervisor ? props.supervisorApproval : null}
                         committeeApproval={props.committeeApproval}
                         submissionId={props.submissionId}
+                        users={props.users}
                     >
                         
                         <Box flex={true} fill={true}>

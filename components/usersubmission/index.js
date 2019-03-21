@@ -40,6 +40,10 @@ const GET_SUBMISSION_BY_ID = gql`
                 id
                 name
             }
+            approval {
+                id
+                name
+            }
             supervisorapproval {
                 id
                 name
@@ -70,13 +74,16 @@ const UserSubmission = (props) => {
                 
                 let supervisorApprovalNotification = data.submission.supervisorapproval ? data.submission.supervisorapproval.name : ''
                 let supervisorNotificationBackground = data.submission.supervisorapproval ? data.submission.supervisorapproval.id : -1
-                
+                let committeeApprovalNotification = data.submission.approval ? data.submission.approval.name : ''
+                let committeeNotificationBackground = data.submission.approval ? data.submission.approval.id : -1
+
+
                 return (     
                     <React.Fragment>
-                        {data.submission.progress.id === 7 &&
+                        {data.submission.progress.id === 9 &&
                             <SubmissionComplete id={data.submission.id} />
                         }
-                        {data.submission.progress.id !== 7 && 
+                        {data.submission.progress.id !== 9 && 
                             <React.Fragment>
                                 {/* {data.lead &&
                                     <Comments title="Project Lead Comments" lead={true} />
@@ -90,13 +97,15 @@ const UserSubmission = (props) => {
                                     submissionId={data.submission.id}
                                 />
                                 
-                                {/* {props.admin &&
+                                {props.admin &&
                                     <Comments 
                                         title="Committee Comments"
-                                        announcement={{ title: "Thank You", status: 0 }}
+                                        announcement={{ title: committeeApprovalNotification, status: committeeNotificationBackground}}
                                         committeeApproval={data.committee_approvals}
+                                        users={props.users}
+                                        submissionId={data.submission.id}
                                     />
-                                } */}
+                                }
 
                                 <Card title={`Submission #${data.submission.id}`}>
                                     <Box flex={true} fill={true}>
