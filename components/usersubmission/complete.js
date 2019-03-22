@@ -17,6 +17,7 @@ const GET_SUBMISSION_BY_ID = gql`
                 id
                 name
             }
+            lead
         }
     }
 `

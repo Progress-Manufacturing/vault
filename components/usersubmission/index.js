@@ -83,7 +83,6 @@ const UserSubmission = (props) => {
                         {data.submission.progress.id === 9 &&
                             <SubmissionComplete id={data.submission.id} />
                         }
-                        {data.submission.progress.id !== 9 && 
                             <React.Fragment>
                                 {/* {data.lead &&
                                     <Comments title="Project Lead Comments" lead={true} />
@@ -182,11 +181,9 @@ const UserSubmission = (props) => {
                                         {data.submission.improvementExplanation &&
                                             <InnerCard title="Other Explanation">{data.submission.improvementExplanation}</InnerCard>
                                         }
-                                        
                                     </Box>
                                 </Card>
                             </React.Fragment>
-                        }
                         <style jsx>{`
                             a {
                                 color: #D0011B;

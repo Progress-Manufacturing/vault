@@ -23,12 +23,12 @@ const Card = (props) => {
                     >
                         <Box
                             border={props.highlight && { side: "bottom", color: "brand", size: "2px" }}
-                            width="auto"
                             flex={true}
                             fill={true}
                             alignContent="center"
                             justify="start"
                             pad={{ vertical: "12px", horizontal: "18px" }}
+                            style={{ maxWidth: "250px"}}
                         >               
                             <Box
                                 flex={true}
@@ -49,7 +49,7 @@ const Card = (props) => {
                 }            
                 {props.announcement &&
                     <Box
-                        background={props.announcement.status === 1 || 3 || 4 ? "neutral-1" : "neutral-4"}
+                        background={props.announcement.status === 1 || props.announcement.status === 3 || props.announcement.status === 4 ? "neutral-1" : "neutral-4"}
                         pad={props.announcement.status === -1 ? "0" : "15px"}
                         height={props.announcement.status === -1 ? "0" : "auto"}
                     >

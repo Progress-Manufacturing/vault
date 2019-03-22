@@ -14,6 +14,7 @@ const SubmissionPreview = (props) => {
             fill={true}
             border={props.border && { side: "bottom", size: "1px", color: "lighterBlack" }}
             pad={props.padding && { vertical: "25px" }}
+            className="submissionBoxPreview"
         >   
             <Grid
                 key={props.id}
@@ -101,6 +102,11 @@ const SubmissionPreview = (props) => {
                 .PreviewButton:hover {
                     box-shadow: none;
                     background: #D0011B;
+                }
+
+                .submissionBoxPreview:last-child {
+                    border: none;
+                    padding-bottom: 0;
                 }
             `}</style>
         </Box>
