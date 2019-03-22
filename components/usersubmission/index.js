@@ -85,7 +85,11 @@ const UserSubmission = (props) => {
                         }
                             <React.Fragment>
                                 {/* {data.lead &&
-                                    <Comments title="Project Lead Comments" lead={true} />
+                                    <Comments 
+                                        title="Project Lead Comments" 
+                                        commentType={3}
+                                        lead={true} 
+                                    />
                                 } */}
 
                                 <Comments 
@@ -94,6 +98,7 @@ const UserSubmission = (props) => {
                                     supervisorApproval={data.supervisor_approvals}
                                     isSupervisor={props.isSupervisor}
                                     submissionId={data.submission.id}
+                                    commentType={2}
                                 />
                                 
                                 {props.admin &&
@@ -103,6 +108,7 @@ const UserSubmission = (props) => {
                                         committeeApproval={data.committee_approvals}
                                         users={props.users}
                                         submissionId={data.submission.id}
+                                        commentType={1}
                                     />
                                 }
 

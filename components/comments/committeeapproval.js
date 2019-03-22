@@ -51,7 +51,7 @@ const SupervisorApproval = (props) => {
     } else {
         currentProgress = 5
     }
-    console.log(props.users)
+    
     return (
         <Mutation mutation={UPDATE_COMMITTEE_APPROVAL}>
             {(updateCommitteeApproval, {data}) => (

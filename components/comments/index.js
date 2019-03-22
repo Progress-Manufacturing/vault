@@ -6,22 +6,33 @@ import { Chat, Close } from "grommet-icons"
 
 import Card from "../card"
 import LeadInfo from "./leadinfo"
-import CommentForm from "./commentform";
+import CommentForm from "./commentform"
+import InnerCard from "../card/innercard"
 
 const GET_COMMENTS = gql`
-    query resources {
-        allResources {
+    query fetchCommentsBySubmission($submission: Int!, $commentType: Int!) {
+        comment: fetchCommentsBySubmission(
+            submission: $submission
+            commentType: $commentType
+        ) {
             id
-            name
+            content
+            user {
+                id
+                name
+            }
+            commentType
         }
-    }    
+    }
 `
 
 const Comments = (props) => {
-    const children = props.children
-    const [show, setShow] = React.useState();
+    const [show, setShow] = React.useState("")
+    const commentType = props.commentType
+    const submission = props.submissionId
+    
     return (
-        <Query query={GET_COMMENTS}>
+        <Query query={GET_COMMENTS} variables={{ submission, commentType }}>
             {({ loading, error, data }) => {
                 if (loading)  return "Loading..."
                 if (error) return `Error! ${error.message}`
@@ -32,22 +43,39 @@ const Comments = (props) => {
                         announcement={props.announcement}
                         supervisorApproval={ props.isSupervisor ? props.supervisorApproval : null}
                         committeeApproval={props.committeeApproval}
-                        submissionId={props.submissionId}
+                        submissionId={submission}
                         users={props.users}
                     >
                         <Box flex={true} fill={true}>
                             {props.lead &&
                                 <LeadInfo />           
                             }
-                            <Box fill={true} flex={true} align="center" alignContent="center" justify="center" pad="30px">
-                                <Chat color="lighterBlack" />
-                                <Text color="lighterBlack" size="14px" margin={{ top: "15px", bottom: "15px" }}>No Comments</Text>
-                                {/* TODO: Only show if admin */}
+                            <Box fill={true} flex={true}>
+                                
+                                {data.comment.length === 0 &&
+                                    <Box align="center">
+                                        <Chat color="lighterBlack" />
+                                        <Text color="lighterBlack" size="14px" margin={{ top: "15px", bottom: "15px" }}>No Comments</Text>
+                                    </Box>    
+                                }
+                                
+                                {data.comment.map(({ id, content, user }) => (
+                                    <InnerCard key={id} title={user.name}>
+                                            {content}
+                                    </InnerCard>
+                                ))}
+
+                                {/* TODO: Only show if admin or supervisor */}
                                 <Button
                                     label="Add Comment"
                                     color="brand"  
+                                    primary
+                                    
+                                    style={{ maxWidth: "200px" }}
+                                    alignSelf="end"
                                     onClick={() => setShow(true)}
                                 />
+                                
                                 {show && (
                                     <Layer
                                         onEsc={() => setShow(false)}
@@ -58,7 +86,8 @@ const Comments = (props) => {
                                         plain={true}
                                         className="commentModal"
                                     >   
-                                        <CommentForm/>
+                                        
+                                        <CommentForm submissionId={submission} commentType={props.commentType} show={true} />
                                         <Button 
                                             label={<Close color="brand" />}
                                             className="commentLayerClose"

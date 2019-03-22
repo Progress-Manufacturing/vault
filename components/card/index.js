@@ -28,7 +28,6 @@ const Card = (props) => {
                             alignContent="center"
                             justify="start"
                             pad={{ vertical: "12px", horizontal: "18px" }}
-                            style={{ maxWidth: "250px"}}
                         >               
                             <Box
                                 flex={true}
