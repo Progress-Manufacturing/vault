@@ -77,7 +77,6 @@ const UserSubmission = (props) => {
                 let committeeApprovalNotification = data.submission.approval ? data.submission.approval.name : ''
                 let committeeNotificationBackground = data.submission.approval ? data.submission.approval.id : -1
 
-                console.log(data.submission.lead)
                 return (     
                     <React.Fragment>
                         {data.submission.progress.id === 9 &&

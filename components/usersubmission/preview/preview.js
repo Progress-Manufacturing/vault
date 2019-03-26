@@ -87,7 +87,7 @@ const SubmissionPreview = (props) => {
                     </Link>
                 </Box>
             </Grid>
-            <style jsx>{`
+            <style jsx global>{`
                 .PreviewButton {
                     background: black;
                     color: white;
@@ -104,9 +104,10 @@ const SubmissionPreview = (props) => {
                     background: #D0011B;
                 }
 
-                .submissionBoxPreview:last-child {
-                    border: none;
-                    padding-bottom: 0;
+                div.submissionBoxPreview:last-child {
+                    border: none !important;
+                    padding-bottom: 0 !important;
+                    margin-bottom: 0 !important;
                 }
             `}</style>
         </Box>

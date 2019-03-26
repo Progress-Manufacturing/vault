@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
-import SubmissionPreview from "./preview"
+import Preview from "./preview"
 
 const GET_USER_SUBMISSIONS = gql`
     query userSubmissions($id: Int!) {
@@ -40,7 +40,7 @@ const SubmissionPreviewList = ({ id }) => (
                 <React.Fragment>    
                     {data.user.submissions.map((submission, index) => {
                         return (
-                            <SubmissionPreview
+                            <Preview
                                 key={submission.id}
                                 id={submission.id}
                                 index={index}
