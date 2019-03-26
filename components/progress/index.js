@@ -14,6 +14,8 @@ const GET_SUBMISSION_PROGRESS = gql`
                 name
                 step
             }
+            createdAt
+            updatedAt
         }
         progress: allProgresses {
             id
@@ -70,7 +72,9 @@ const SubmissionProgress = ({ id }) => (
                                                 {step.step <= data.submission.progress.step &&
                                                     <li>
                                                         <span className="ProgressTextInfo" style={{ color: "#00C781" }}>Completed</span><Compliance className="ProgressTextIcon" size="12px" color="status-ok" />
-                                                        <span className="ProgressTextDate">2016-12-12 12:32</span>
+                                                        <span className="ProgressTextDate">
+                                                            <Moment format="YYYY-MM-DD HH:mm">{step.step === 1 ? data.submission.createdAt : data.submission.updatedAt}</Moment>
+                                                        </span>
                                                     </li>
                                                 }
                                                 {step.step === data.submission.progress.step + 1 &&
@@ -90,7 +94,7 @@ const SubmissionProgress = ({ id }) => (
                                 position: relative;
                                 top: 15px;
                                 left: -25px;
-                                width: 100px;
+                                width: 95px;
                             }
                             .ProgressText ul {
                                 margin: 0;

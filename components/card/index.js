@@ -23,20 +23,11 @@ const Card = (props) => {
                     >
                         <Box
                             border={props.highlight && { side: "bottom", color: "brand", size: "2px" }}
-                            flex={true}
-                            fill={true}
                             alignContent="center"
                             justify="start"
                             pad={{ vertical: "12px", horizontal: "18px" }}
                         >               
-                            <Box
-                                flex={true}
-                                alignContent="center"
-                                justify="center"
-                            >
-                                <Text textAlign="start" size="15px">{props.title}</Text>
-                            </Box>       
-                            
+                            <Text textAlign="start" size="15px">{props.title}</Text>
                         </Box>
                         {props.supervisorApproval &&
                             <SupervisorApproval status={props.supervisorApproval} submissionId={props.submissionId} />
@@ -44,6 +35,7 @@ const Card = (props) => {
                         {props.committeeApproval && 
                             <CommitteeApproval status={props.committeeApproval} submissionId={props.submissionId} users={props.users} />
                         }
+                        
                     </Box>
                 }            
                 {props.announcement &&

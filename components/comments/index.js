@@ -2,7 +2,7 @@ import { Query } from "react-apollo"
 import gql from "graphql-tag"
 
 import { Box, Text, Button, Layer } from "grommet"
-import { Chat, Close } from "grommet-icons"
+import { Chat, Close, BlockQuote } from "grommet-icons"
 
 import Card from "../card"
 import LeadInfo from "./leadinfo"
@@ -43,12 +43,13 @@ const Comments = (props) => {
                         announcement={props.announcement}
                         supervisorApproval={ props.isSupervisor ? props.supervisorApproval : null}
                         committeeApproval={props.committeeApproval}
+                        leadInfoUpdates={props.leadInfoupdates}
                         submissionId={submission}
                         users={props.users}
                     >
                         <Box flex={true} fill={true}>
                             {props.lead &&
-                                <LeadInfo />           
+                                <LeadInfo submissionId={submission} />           
                             }
                             <Box fill={true} flex={true}>
                                 
@@ -67,11 +68,9 @@ const Comments = (props) => {
 
                                 {/* TODO: Only show if admin or supervisor */}
                                 <Button
+                                    icon={<BlockQuote color="brand" margin={{ left: "-15px" }} size="16px" />}
                                     label="Add Comment"
-                                    color="brand"  
-                                    primary
-                                    
-                                    style={{ maxWidth: "200px" }}
+                                    className="commentButton"
                                     alignSelf="end"
                                     onClick={() => setShow(true)}
                                 />
@@ -86,7 +85,6 @@ const Comments = (props) => {
                                         plain={true}
                                         className="commentModal"
                                     >   
-                                        
                                         <CommentForm submissionId={submission} commentType={props.commentType} show={true} />
                                         <Button 
                                             label={<Close color="brand" />}
@@ -107,6 +105,20 @@ const Comments = (props) => {
                                 position: absolute;
                                 top: 15px;
                                 right: 15px;
+                            }
+                            button.commentButton {
+                                border: none;
+                                box-shadow: none;
+                                color: black;
+                                max-width: 200px;
+                                font-size: 14px;
+                                position: relative;
+                                top: 10px;
+                                right: -20px;
+                            }
+                            button.commentButton:hover {
+                                color: blue
+                                box-shadow: none;
                             }
                         `}</style>
                     </Card>
