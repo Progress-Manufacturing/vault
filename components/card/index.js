@@ -29,10 +29,11 @@ const Card = (props) => {
                         >               
                             <Text textAlign="start" size="15px">{props.title}</Text>
                         </Box>
-                        {props.supervisorApproval &&
+
+                        {props.showSupervisorAuthLink &&
                             <SupervisorApproval status={props.supervisorApproval} submissionId={props.submissionId} />
                         }
-                        {props.committeeApproval && 
+                        {props.showAdminAuthLink && 
                             <CommitteeApproval status={props.committeeApproval} submissionId={props.submissionId} users={props.users} />
                         }
                         

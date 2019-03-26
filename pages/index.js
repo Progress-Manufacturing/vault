@@ -8,16 +8,23 @@ import { Button } from "grommet"
 
 import checkLoggedIn from "../lib/auth/checkLoggedIn"
 import checkSupervisor from "../lib/auth/checkSupervisor"
+import checkLead from "../lib/auth/checkLead"
 import redirect from "../lib/auth/redirect"
 
 class Home extends Component {
   static async getInitialProps (context, apolloClient) { 
     const { loggedInUser } = await checkLoggedIn(context.apolloClient)
-    const { supervisorUser } = await checkSupervisor(context.apolloClient)
+    const { supervisorSubmissions } = await checkSupervisor(context.apolloClient)
+    const { leadSubmissions } = await checkLead(context.apolloClient)
     let supervisorAuth = false
+    let leadAuth = false
     
-    if(supervisorUser) {
+    if((supervisorSubmissions.fetchSupervisorSubmissions).length !== 0) {
       supervisorAuth = true
+    }
+    
+    if((leadSubmissions.fetchLeadSubmissions).length !== 0) {
+      leadAuth = true
     }
 
     if (!loggedInUser.me) {
@@ -25,7 +32,7 @@ class Home extends Component {
       redirect(context, '/login')
     }
 
-    return { loggedInUser, supervisorUser, supervisorAuth }
+    return { loggedInUser, supervisorSubmissions, supervisorAuth, leadSubmissions, leadAuth }
   }
   
   render() {
@@ -34,8 +41,9 @@ class Home extends Component {
     return (
       <ApolloConsumer>
         {client => (
-          <Main supervisor={this.props.supervisorAuth}>
+          <Main supervisor={this.props.supervisorAuth} lead={this.props.leadAuth}>
             <Card title={`Welcome, ${userFirstName}`} highlight={true}>
+            {/* {console.log(this.props.leadAuth)} */}
               <p style={{ fontSize: "14px" }}>
                 Hello! Welcome to the world famous Continual Improvement App. It's world famous in that the world knows about it, pretty sure that makes you famous. Anyway, this is where you submit your absolutely brilliant idea to improve Progress Manufacturing. From there we'll decid if it's actually brilliant, because we can judge such things. Most likely it's just asking for a candy in the break room, so really not that brilliant. But hey, who doesn't like candy!? I mean, Hitler probably liked candy. Oh no, that means you and Hitler have something in common. Aw, that's actually a really depressing realization that Hitler was in fact just a human with small things he enjoyed like candy, which means he wasn't evil incarnate but just a man like you or I. Which means we have the same potential for such desctructive evil. Aw dear, that's really quite depressing.<br/>
                 Moving on!<br/><br/>

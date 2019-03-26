@@ -4,6 +4,7 @@ import { ApolloConsumer } from "react-apollo"
 
 import checkLoggedIn from "../../../lib/auth/checkLoggedIn"
 import checkSupervisor from "../../../lib/auth/checkSupervisor"
+import checkLead from "../../../lib/auth/checkLead"
 import redirect from "../../../lib/auth/redirect"
 
 import Main from "../../../lib/layout/main"
@@ -15,22 +16,28 @@ import { getUserSupervisor, getAllUsers } from "../../../lib/auth/msal-graph"
 
 
 class Submission extends Component {
-    static async getInitialProps (context, apolloClient) { 
-        const { loggedInUser } = await checkLoggedIn(context.apolloClient)
-        const { supervisorSubmissions } = await checkSupervisor(context.apolloClient)
-        let isSupervisor = false
-
-        if(supervisorSubmissions) {
-          isSupervisor = true
-        }
-        
-        if (!loggedInUser.me) {
-          // If not signed in, send them somewhere more useful
-          redirect(context, '/login')
-        }
-
-        return { loggedInUser, supervisorSubmissions, isSupervisor }
+  static async getInitialProps (context, apolloClient) { 
+    const { loggedInUser } = await checkLoggedIn(context.apolloClient)
+    const { supervisorSubmissions } = await checkSupervisor(context.apolloClient)
+    const { leadSubmissions } = await checkLead(context.apolloClient)
+    let supervisorAuth = false
+    let leadAuth = false
+    
+    if((supervisorSubmissions.fetchSupervisorSubmissions).length !== 0) {
+      supervisorAuth = true
     }
+    
+    if((leadSubmissions.fetchLeadSubmissions).length !== 0) {
+      leadAuth = true
+    }
+
+    if (!loggedInUser.me) {
+      // If not signed in, send them somewhere more useful
+      redirect(context, '/login')
+    }
+
+    return { loggedInUser, supervisorSubmissions, supervisorAuth, leadSubmissions, leadAuth }
+  }
 
     constructor() {
         super()
@@ -78,13 +85,14 @@ class Submission extends Component {
     render(props) {
         const { router } = this.props
         const submissionId = parseInt(router.query.id)
+        const currentUserOid = this.props.loggedInUser.me.user.oid
         
         return (
             <ApolloConsumer>
                 {client => (
-                    <Main supervisor={this.props.isSupervisor}>
+                    <Main supervisor={this.props.supervisorAuth} lead={this.props.leadAuth}>
                         <SubmissionProgress id={submissionId} />
-                        <UserSubmission id={submissionId} users={this.state.users} userSupervisor={this.state.supervisor} isSupervisor={this.props.isSupervisor}/>
+                        <UserSubmission id={submissionId} currentUserOid={currentUserOid} users={this.state.users} userSupervisor={this.state.supervisor} isSupervisor={this.props.supervisorAuth}/>
                     </Main>  
                 )}
             </ApolloConsumer>

@@ -7,6 +7,7 @@ import gql from "graphql-tag"
 
 import checkLoggedIn from "../../lib/auth/checkLoggedIn"
 import checkSupervisor from "../../lib/auth/checkSupervisor"
+import checkLead from "../../lib/auth/checkLead"
 import redirect from "../../lib/auth/redirect"
 
 import Authorization from "../../lib/auth/msal-auth"
@@ -54,11 +55,17 @@ const SUBMIT_IMPROVEMENT = gql`
 class SubmitImprovement extends Component {
     static async getInitialProps (context, apolloClient) { 
         const { loggedInUser } = await checkLoggedIn(context.apolloClient)
-        const { supervisorUser } = await checkSupervisor(context.apolloClient)
+        const { supervisorSubmissions } = await checkSupervisor(context.apolloClient)
+        const { leadSubmissions } = await checkLead(context.apolloClient)
         let supervisorAuth = false
+        let leadAuth = false
         
-        if(supervisorUser) {
+        if((supervisorSubmissions.fetchSupervisorSubmissions).length !== 0) {
           supervisorAuth = true
+        }
+        
+        if((leadSubmissions.fetchLeadSubmissions).length !== 0) {
+          leadAuth = true
         }
     
         if (!loggedInUser.me) {
@@ -66,9 +73,9 @@ class SubmitImprovement extends Component {
           redirect(context, '/login')
         }
     
-        return { loggedInUser, supervisorUser, supervisorAuth }
+        return { loggedInUser, supervisorSubmissions, supervisorAuth, leadSubmissions, leadAuth }
     }
-
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -168,7 +175,7 @@ class SubmitImprovement extends Component {
                 {client => (
                     <Mutation mutation={SUBMIT_IMPROVEMENT}>
                         {(addSubmission, { data }) => (
-                        <Main supervisor={this.props.supervisorAuth}>
+                        <Main supervisor={this.props.supervisorAuth} lead={this.props.leadAuth}>
                             <Card title="Continual Improvement Submission" highlight={true}>
                                 <Form 
                                     className="SubmissionForm"

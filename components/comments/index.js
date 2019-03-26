@@ -42,6 +42,8 @@ const Comments = (props) => {
                         title={props.title}
                         announcement={props.announcement}
                         supervisorApproval={ props.isSupervisor ? props.supervisorApproval : null}
+                        showSupervisorAuthLink={props.showSupervisorAuthLink}
+                        showAdminAuthLink={props.showAdminAuthLink}
                         committeeApproval={props.committeeApproval}
                         leadInfoUpdates={props.leadInfoupdates}
                         submissionId={submission}
@@ -67,14 +69,24 @@ const Comments = (props) => {
                                 ))}
 
                                 {/* TODO: Only show if admin or supervisor */}
-                                <Button
-                                    icon={<BlockQuote color="brand" margin={{ left: "-15px" }} size="16px" />}
-                                    label="Add Comment"
-                                    className="commentButton"
-                                    alignSelf="end"
-                                    onClick={() => setShow(true)}
-                                />
-                                
+                                {props.showSupervisorAuthLink  && 
+                                    <Button
+                                        icon={<BlockQuote color="brand" margin={{ left: "-15px" }} size="16px" />}
+                                        label="Add Comment"
+                                        className="commentButton"
+                                        alignSelf="end"
+                                        onClick={() => setShow(true)}
+                                    />                          
+                                }
+                                {props.showAdminAuthLink && 
+                                    <Button
+                                        icon={<BlockQuote color="brand" margin={{ left: "-15px" }} size="16px" />}
+                                        label="Add Comment"
+                                        className="commentButton"
+                                        alignSelf="end"
+                                        onClick={() => setShow(true)}
+                                    />     
+                                }
                                 {show && (
                                     <Layer
                                         onEsc={() => setShow(false)}

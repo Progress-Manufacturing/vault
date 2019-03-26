@@ -3,6 +3,7 @@ import { ApolloConsumer } from "react-apollo"
 
 import checkLoggedIn from "../../lib/auth/checkLoggedIn"
 import checkSupervisor from "../../lib/auth/checkSupervisor"
+import checkLead from "../../lib/auth/checkLead"
 import redirect from "../../lib/auth/redirect"
 
 import Main from "../../lib/layout/main"
@@ -15,11 +16,17 @@ import Card from "../../components/card"
 class CiHome extends Component {
   static async getInitialProps (context, apolloClient) { 
     const { loggedInUser } = await checkLoggedIn(context.apolloClient)
-    const { supervisorUser } = await checkSupervisor(context.apolloClient)
+    const { supervisorSubmissions } = await checkSupervisor(context.apolloClient)
+    const { leadSubmissions } = await checkLead(context.apolloClient)
     let supervisorAuth = false
+    let leadAuth = false
     
-    if(supervisorUser) {
+    if((supervisorSubmissions.fetchSupervisorSubmissions).length !== 0) {
       supervisorAuth = true
+    }
+    
+    if((leadSubmissions.fetchLeadSubmissions).length !== 0) {
+      leadAuth = true
     }
 
     if (!loggedInUser.me) {
@@ -27,7 +34,7 @@ class CiHome extends Component {
       redirect(context, '/login')
     }
 
-    return { loggedInUser, supervisorUser, supervisorAuth }
+    return { loggedInUser, supervisorSubmissions, supervisorAuth, leadSubmissions, leadAuth }
   }
 
   render() {
@@ -36,7 +43,7 @@ class CiHome extends Component {
     return (
       <ApolloConsumer>
         {client => (
-          <Main supervisor={this.props.supervisorAuth}>
+          <Main supervisor={this.props.supervisorAuth} lead={this.props.leadAuth}>
             {/* <SubmissionNotifications /> */}
             <Card title={`Welcome, ${userFirstName}`} highlight={true}>
                 <p style={{ fontSize: "14px" }}>

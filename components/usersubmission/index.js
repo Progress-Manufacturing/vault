@@ -48,6 +48,7 @@ const GET_SUBMISSION_BY_ID = gql`
                 id
                 name
             }
+            supervisor
             lead
         }
         committee_approvals: allApprovals {
@@ -71,7 +72,10 @@ const UserSubmission = (props) => {
             {({ loading, error, data }) => {
                 if (loading)  return "Loading..."
                 if (error) return `Error! ${error.message}`
-                
+                let submissionSupervisor = false
+                if(data.submission.supervisor === props.currentUserOid) {
+                    submissionSupervisor = true
+                }
                 let supervisorApprovalNotification = data.submission.supervisorapproval ? data.submission.supervisorapproval.name : ''
                 let supervisorNotificationBackground = data.submission.supervisorapproval ? data.submission.supervisorapproval.id : -1
                 let committeeApprovalNotification = data.submission.approval ? data.submission.approval.name : ''
@@ -97,20 +101,20 @@ const UserSubmission = (props) => {
                                     announcement={{ title: supervisorApprovalNotification, status: supervisorNotificationBackground }}
                                     supervisorApproval={data.supervisor_approvals}
                                     isSupervisor={props.isSupervisor}
+                                    showSupervisorAuthLink={submissionSupervisor}
                                     submissionId={data.submission.id}
                                     commentType={2}
                                 />
                                 
-                                {props.admin &&
-                                    <Comments 
-                                        title="Committee Comments"
-                                        announcement={{ title: committeeApprovalNotification, status: committeeNotificationBackground}}
-                                        committeeApproval={data.committee_approvals}
-                                        users={props.users}
-                                        submissionId={data.submission.id}
-                                        commentType={1}
-                                    />
-                                }
+                                <Comments 
+                                    title="Committee Comments"
+                                    announcement={{ title: committeeApprovalNotification, status: committeeNotificationBackground}}
+                                    committeeApproval={data.committee_approvals}
+                                    users={props.users}
+                                    showAdminAuthLink={props.admin}
+                                    submissionId={data.submission.id}
+                                    commentType={1}
+                                />
 
                                 <Card title={`Submission #${data.submission.id}`}>
                                     <Box flex={true} fill={true}>
