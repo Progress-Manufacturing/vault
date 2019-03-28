@@ -44,6 +44,7 @@ const Comments = (props) => {
                         supervisorApproval={ props.isSupervisor ? props.supervisorApproval : null}
                         showSupervisorAuthLink={props.showSupervisorAuthLink}
                         showAdminAuthLink={props.showAdminAuthLink}
+                        showLeadAuthLink={props.showLeadAuthLink}
                         committeeApproval={props.committeeApproval}
                         leadInfoUpdates={props.leadInfoupdates}
                         submissionId={submission}
@@ -68,8 +69,17 @@ const Comments = (props) => {
                                     </InnerCard>
                                 ))}
 
-                                {/* TODO: Only show if admin or supervisor */}
-                                {props.showSupervisorAuthLink  && 
+                                {props.showLeadAuthLink && 
+                                    <Button
+                                        icon={<BlockQuote color="brand" margin={{ left: "-15px" }} size="16px" />}
+                                        label="Add Comment"
+                                        className="commentButton"
+                                        alignSelf="end"
+                                        onClick={() => setShow(true)}
+                                    />     
+                                }
+                                
+                                {props.showSupervisorAuthLink && 
                                     <Button
                                         icon={<BlockQuote color="brand" margin={{ left: "-15px" }} size="16px" />}
                                         label="Add Comment"

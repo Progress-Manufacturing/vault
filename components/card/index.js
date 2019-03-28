@@ -1,6 +1,7 @@
 import React from "react"
 import { Box, Text } from "grommet"
 import SupervisorApproval from "../comments/supervisorapproval"
+import LeadInfo from "../comments/leadinfoupdates"
 import CommitteeApproval from "../comments/committeeapproval"
 
 const Card = (props) => {
@@ -30,6 +31,9 @@ const Card = (props) => {
                             <Text textAlign="start" size="15px">{props.title}</Text>
                         </Box>
 
+                        {props.showLeadAuthLink && 
+                            <LeadInfo submissionId={props.submissionId} />
+                        }
                         {props.showSupervisorAuthLink &&
                             <SupervisorApproval status={props.supervisorApproval} submissionId={props.submissionId} />
                         }

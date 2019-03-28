@@ -73,8 +73,12 @@ const UserSubmission = (props) => {
                 if (loading)  return "Loading..."
                 if (error) return `Error! ${error.message}`
                 let submissionSupervisor = false
+                let submissionLead = false
                 if(data.submission.supervisor === props.currentUserOid) {
                     submissionSupervisor = true
+                }
+                if(data.submission.lead === props.currentUserOid) {
+                    submissionLead = true
                 }
                 let supervisorApprovalNotification = data.submission.supervisorapproval ? data.submission.supervisorapproval.name : ''
                 let supervisorNotificationBackground = data.submission.supervisorapproval ? data.submission.supervisorapproval.id : -1
@@ -91,6 +95,7 @@ const UserSubmission = (props) => {
                                     <Comments 
                                         title="Project Lead Comments" 
                                         submissionId={data.submission.id}
+                                        showLeadAuthLink={submissionLead}
                                         commentType={3}
                                         lead={true}
                                     />

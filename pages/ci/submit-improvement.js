@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { ApolloConsumer } from "react-apollo"
 import { Box, Heading, Button, Form, Text, TextArea } from "grommet"
-import Link from "next/link"
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag"
 
@@ -17,7 +16,7 @@ import { getUserSupervisor } from "../../lib/auth/msal-graph"
 import Main from "../../lib/layout/main"
 import Card from "../../components/card"
 import Areas from "../../components/options/areas"
-import Improments from "../../components/options/improvements"
+import Improvments from "../../components/options/improvements"
 import Resources from "../../components/options/resources"
 import Wastes from "../../components/options/wastes"
 
@@ -231,7 +230,7 @@ class SubmitImprovement extends Component {
                                         pad={{ vertical: "15px" }}
                                     >
                                         <Text margin={{ bottom: "10px" }} size="14px"><strong>How will this suggestion improve the process (select all that apply)? <sup>*</sup></strong></Text>
-                                        <Improments handleClick={this.onCheckImprovements} checked={improvementsChecked} />
+                                        <Improvments handleClick={this.onCheckImprovements} checked={improvementsChecked} />
                                     </Box>
                                     <Box
                                         fill="horizontal"

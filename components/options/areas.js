@@ -1,4 +1,3 @@
-import React, { Component } from "react"
 import { Query } from "react-apollo";
 import gql from 'graphql-tag'
 import { Box, CheckBox } from "grommet"
@@ -32,7 +31,7 @@ const Areas = (props) => (
                             width="50%"
                             margin={{ vertical: "5px" }}
                         >
-                            <CheckBox                                
+                            <CheckBox
                                 key={item.id}
                                 checked={props.checked.indexOf(item.id) !== -1}
                                 label={item.name}

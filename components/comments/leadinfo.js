@@ -1,6 +1,8 @@
 import gql from "graphql-tag"
 import { Box, Text } from "grommet"
 import { Query } from "react-apollo"
+import Moment from "react-moment"
+import "moment-timezone"
 
 const GET_LEAD_INFO = gql`
     query fetchSubmissionLeadInfo ($submission: Int!) {
@@ -22,31 +24,44 @@ const GET_LEAD_INFO = gql`
     }
 `
 
+
+
 const LeadInfo = (props) => {
     const submission = props.submissionId
-
+    let potentialStartDate, actualStartDate, potentialEndDate, actualEndDate = "TBD"     
+    const milliTosec = (ms) => {
+        let sec = ms * .001
+        return sec
+    }    
+    
     return (
         <Query query={GET_LEAD_INFO} variables={{ submission }}>
                 {({ loading, error, data }) => {
                     if (loading)  return "Loading..."
                     if (error) return `Error! ${error.message}`
                     
+                    if (data.leadinfo) {
+                        potentialStartDate = data.leadinfo.potentialStartDate != null || data.leadinfo.potentialStartDate == "" ? milliTosec(data.leadinfo.potentialStartDate) : "TBD"
+                        actualStartDate = data.leadinfo.actualStartDate != null || data.leadinfo.actualStartDate == "" ? milliTosec(data.leadinfo.actualStartDate) : "TBD"
+                        potentialEndDate = data.leadinfo.potentialEndDate != null || data.leadinfo.potentialEndDate == "" ? milliTosec(data.leadinfo.potentialEndDate) : "TBD"
+                        actualEndDate = data.leadinfo.actualEndDate != null || data.leadinfo.actualEndDate == "" ? milliTosec(data.leadinfo.actualEndDate) : "TBD"
+                    }
                     return (                    
                         <Box direction="row" wrap={true} margin={{ bottom: "15px" }}>
                             <Box width="33.33%">
                                 <Text size="14px" margin={{ bottom: "15px" }}>
-                                    <strong>Potential Start Date:</strong> {data.leadinfo ? data.leadinfo.potentialStartDate : "TBD"}
+                                    <strong>Potential Start Date: </strong>{potentialStartDate === "TBD" ? potentialStartDate : (<Moment format="YYYY-MM-DD" unix>{potentialStartDate}</Moment>)}
                                 </Text>
                                 <Text size="14px">
-                                    <strong>Actual Start Date:</strong> {data.leadinfo ? data.leadinfo.actualStartDate : "TBD"}
+                                    <strong>Actual Start Date: </strong>{actualStartDate === "TBD" ? actualStartDate : (<Moment format="YYYY-MM-DD" unix>{actualStartDate}</Moment>)}
                                 </Text>                                    
                             </Box>
                             <Box width="33.33%">
                                 <Text size="14px" margin={{ bottom: "15px" }}>
-                                    <strong>Potential End Date:</strong> {data.leadinfo ? data.leadinfo.potentialEndDate : "TBD"}
+                                    <strong>Potential End Date: </strong>{potentialEndDate === "TBD" ? potentialEndDate : (<Moment format="YYYY-MM-DD" unix>{potentialEndDate}</Moment>)}
                                 </Text>
                                 <Text size="14px">
-                                    <strong>Actual End Date:</strong> {data.leadinfo ? data.leadinfo.actualEndDate : "TBD"}
+                                    <strong>Actual End Date: </strong>{actualEndDate === "TBD" ? actualEndDate : (<Moment format="YYYY-MM-DD" unix>{actualEndDate}</Moment>)}
                                 </Text>
                             </Box>
                             <Box width="33.33%">

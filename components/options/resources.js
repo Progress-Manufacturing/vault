@@ -32,6 +32,7 @@ const Resources = (props) => (
                             margin={{ vertical: "5px" }}
                         >
                             <CheckBox
+                                className="universalCheckBox"
                                 key={item.id}
                                 checked={props.checked.indexOf(item.id) !== -1}
                                 label={item.name}
@@ -40,6 +41,14 @@ const Resources = (props) => (
                             />                                
                         </Box>
                     )}
+                    <style jsx global>{`
+                        .universalCheckBox ~ div{
+                            border: solid 2px rgba(0,0,0,0.15) !important;
+                        }
+                        .universalCheckBox ~ div > svg{
+                            stroke: #D0011B !important;
+                        }
+                    `}</style>
                 </Box>
             )
         }}
