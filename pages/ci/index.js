@@ -21,11 +21,11 @@ class CiHome extends Component {
     let supervisorAuth = false
     let leadAuth = false
     
-    if((supervisorSubmissions.fetchSupervisorSubmissions).length !== 0) {
+    if(supervisorSubmissions.length !== 0) {
       supervisorAuth = true
     }
     
-    if((leadSubmissions.fetchLeadSubmissions).length !== 0) {
+    if(leadSubmissions.length !== 0) {
       leadAuth = true
     }
 

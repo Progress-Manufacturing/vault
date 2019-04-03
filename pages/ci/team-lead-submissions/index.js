@@ -11,10 +11,9 @@ import Main from "../../../lib/layout/main"
 import { Box, Text, Tabs, Tab } from "grommet"
 import Card from "../../../components/card"
 
-import NewSubmissions from "../../../components/submissions/all/new"
-import InProgressSubmissions from "../../../components/submissions/all/inprogress"
-import CompletedSubmissions from "../../../components/submissions/all/complete"
-import ActiveSubmissions from "../../../components/submissions/all/active"
+import NewSubmissions from "../../../components/submissions/teams/new"
+import CompletedSubmissions from "../../../components/submissions/teams/complete"
+import ActiveSubmissions from "../../../components/submissions/teams/active"
 
 class PreviousSubmissions extends Component {
     static async getInitialProps (context, apolloClient) { 
@@ -47,7 +46,7 @@ class PreviousSubmissions extends Component {
             <ApolloConsumer>
                 {client => (
                     <Main supervisor={this.props.supervisorAuth} lead={this.props.leadAuth}>
-                        <Card title="All Submissions" tabs={true}>
+                        <Card title="Your Team Submissions" tabs={true}>
                             <Tabs 
                                 flex={true}
                                 fill={true}
@@ -61,11 +60,11 @@ class PreviousSubmissions extends Component {
                                         align="center"
                                     >   
                                         <NewSubmissions route={router.route} userId={this.props.loggedInUser.me.user.id} />
-                                    </Box>
-                                </Tab>
-                                <Tab title="In Progress">
-                                    <Box pad={{ vertical: "25px", horizontal: "25px" }}>
-                                        <InProgressSubmissions route={router.route} userId={this.props.loggedInUser.me.user.id} />
+                                        {/* TODO: Make into simple component */}
+                                        {/* <Box flex={true} pad={{ vertical: "50px" }} justify="center" align="center">
+                                            <Clear color="lighterBlack" size="40px"/>
+                                            <Text color="lighterBlack" margin={{ vertical: "15px" }}>No New Submissions at this time</Text>        
+                                        </Box> */}
                                     </Box>
                                 </Tab>
                                 <Tab title="Active">

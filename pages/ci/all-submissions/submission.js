@@ -23,11 +23,11 @@ class Submission extends Component {
     let supervisorAuth = false
     let leadAuth = false
     
-    if((supervisorSubmissions.fetchSupervisorSubmissions).length !== 0) {
+    if(supervisorSubmissions.length !== 0) {
       supervisorAuth = true
     }
     
-    if((leadSubmissions.fetchLeadSubmissions).length !== 0) {
+    if(leadSubmissions.length !== 0) {
       leadAuth = true
     }
 
@@ -39,13 +39,13 @@ class Submission extends Component {
     return { loggedInUser, supervisorSubmissions, supervisorAuth, leadSubmissions, leadAuth }
   }
 
-    constructor() {
-        super()
-        this.state = { 
-          supervisor: null,
-          users: null
-        }
+  constructor() {
+      super()
+      this.state = { 
+        supervisor: null,
+        users: null
       }
+    }
 
     componentDidMount() {
         this.getSupervisor()

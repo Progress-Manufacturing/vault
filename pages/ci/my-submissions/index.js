@@ -1,5 +1,6 @@
 import { Component } from "react"
 import { ApolloConsumer } from "react-apollo"
+import { withRouter } from "next/router"
 
 import checkLoggedIn from "../../../lib/auth/checkLoggedIn"
 import checkSupervisor from "../../../lib/auth/checkSupervisor"
@@ -13,9 +14,9 @@ import UserLastReward from "../../../components/usersubmission/lastreward"
 import UserSubmissionsCount from "../../../components/usersubmission/submissioncount"
 import SubmissionsImplemented from "../../../components/usersubmission/submissionimplemented"
 
-import InProgressSubmissions from "../../../components/submissions/inprogress"
-import CompletedSubmissions from "../../../components/submissions/complete"
-import ActiveSubmissions from "../../../components/submissions/active"
+import InProgressSubmissions from "../../../components/submissions/users/inprogress"
+import CompletedSubmissions from "../../../components/submissions/users/complete"
+import ActiveSubmissions from "../../../components/submissions/users/active"
 
 class PreviousSubmissions extends Component {
     static async getInitialProps (context, apolloClient) { 
@@ -25,12 +26,12 @@ class PreviousSubmissions extends Component {
         let supervisorAuth = false
         let leadAuth = false
         
-        if((supervisorSubmissions.fetchSupervisorSubmissions).length !== 0) {
-          supervisorAuth = true
+        if(supervisorSubmissions.length !== 0) {
+            supervisorAuth = true
         }
-        
-        if((leadSubmissions.fetchLeadSubmissions).length !== 0) {
-          leadAuth = true
+          
+        if(leadSubmissions.length !== 0) {
+            leadAuth = true
         }
     
         if (!loggedInUser.me) {
@@ -42,6 +43,8 @@ class PreviousSubmissions extends Component {
     }
 
     render() {
+        const { router } = this.props
+        
         return (
             <ApolloConsumer>
                 {client => (
@@ -91,7 +94,7 @@ class PreviousSubmissions extends Component {
                                         alignContent="center"
                                         align="center"
                                     >   
-                                        <InProgressSubmissions userId={this.props.loggedInUser.me.user.id} />
+                                        <InProgressSubmissions route={router.route} userId={this.props.loggedInUser.me.user.id} />
                                         {/* TODO: Make into simple component */}
                                         {/* <Box flex={true} pad={{ vertical: "50px" }} justify="center" align="center">
                                             <Clear color="lighterBlack" size="40px"/>
@@ -101,7 +104,7 @@ class PreviousSubmissions extends Component {
                                 </Tab>
                                 <Tab title="Active">
                                     <Box pad={{ vertical: "25px", horizontal: "25px" }}>
-                                        <ActiveSubmissions userId={this.props.loggedInUser.me.user.id} />
+                                        <ActiveSubmissions route={router.route} userId={this.props.loggedInUser.me.user.id} />
                                     </Box>
                                 </Tab>
                                 <Tab title="Complete">
@@ -111,7 +114,7 @@ class PreviousSubmissions extends Component {
                                         alignContent="center"
                                         align="center"
                                     >
-                                        <CompletedSubmissions userId={this.props.loggedInUser.me.user.id} />
+                                        <CompletedSubmissions route={router.route} userId={this.props.loggedInUser.me.user.id} />
                                     </Box>
                                 </Tab>
                             </Tabs>
@@ -124,4 +127,4 @@ class PreviousSubmissions extends Component {
     }
 }
 
-export default PreviousSubmissions
+export default withRouter(PreviousSubmissions)

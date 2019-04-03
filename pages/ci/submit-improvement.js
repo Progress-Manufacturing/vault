@@ -12,7 +12,6 @@ import redirect from "../../lib/auth/redirect"
 import Authorization from "../../lib/auth/msal-auth"
 import { getUserSupervisor } from "../../lib/auth/msal-graph"
 
-
 import Main from "../../lib/layout/main"
 import Card from "../../components/card"
 import Areas from "../../components/options/areas"
@@ -59,12 +58,12 @@ class SubmitImprovement extends Component {
         let supervisorAuth = false
         let leadAuth = false
         
-        if((supervisorSubmissions.fetchSupervisorSubmissions).length !== 0) {
-          supervisorAuth = true
+        if(supervisorSubmissions.length !== 0) {
+            supervisorAuth = true
         }
-        
-        if((leadSubmissions.fetchLeadSubmissions).length !== 0) {
-          leadAuth = true
+          
+        if(leadSubmissions.length !== 0) {
+            leadAuth = true
         }
     
         if (!loggedInUser.me) {

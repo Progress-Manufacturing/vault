@@ -11,10 +11,10 @@ import Main from "../../../lib/layout/main"
 import { Box, Text, Tabs, Tab } from "grommet"
 import Card from "../../../components/card"
 
-import NewSubmissions from "../../../components/submissions/all/new"
-import InProgressSubmissions from "../../../components/submissions/all/inprogress"
-import CompletedSubmissions from "../../../components/submissions/all/complete"
-import ActiveSubmissions from "../../../components/submissions/all/active"
+import NewSubmissions from "../../../components/submissions/supervisor/new"
+import InProgressSubmissions from "../../../components/submissions/supervisor/inprogress"
+import CompletedSubmissions from "../../../components/submissions/supervisor/complete"
+import ActiveSubmissions from "../../../components/submissions/supervisor/active"
 
 class PreviousSubmissions extends Component {
     static async getInitialProps (context, apolloClient) { 
@@ -47,7 +47,7 @@ class PreviousSubmissions extends Component {
             <ApolloConsumer>
                 {client => (
                     <Main supervisor={this.props.supervisorAuth} lead={this.props.leadAuth}>
-                        <Card title="All Submissions" tabs={true}>
+                        <Card title="Your Departments Submissions" tabs={true}>
                             <Tabs 
                                 flex={true}
                                 fill={true}
