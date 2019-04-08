@@ -276,7 +276,7 @@ class DepartmentReports extends Component {
                                     style={{ textAlign: "left" }}
                                     onChange={({ option }) => this.setState({ periodValue: option })}
                                 />
-                                <Button type="submit" className="updateSubmissionButton" label="Run Report(s)" />
+                                <Button type="submit" className="updateSubmissionButton" label="Run Report" />
                             </Form>
                         </Card>
 
