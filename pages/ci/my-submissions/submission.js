@@ -40,12 +40,12 @@ class Submission extends Component {
   }
 
   constructor() {
-      super()
+  super()
       this.state = { 
         supervisor: null,
         users: null
       }
-    }
+  }
 
     componentDidMount() {
         this.getSupervisor()
