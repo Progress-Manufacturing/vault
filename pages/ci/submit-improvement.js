@@ -4,11 +4,6 @@ import { Box, Heading, Button, Form, Text, TextArea } from "grommet"
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag"
 
-import checkLoggedIn from "../../lib/auth/checkLoggedIn"
-import checkSupervisor from "../../lib/auth/checkSupervisor"
-import checkLead from "../../lib/auth/checkLead"
-import redirect from "../../lib/auth/redirect"
-
 import Authorization from "../../lib/auth/msal-auth"
 import { getUserSupervisor } from "../../lib/auth/msal-graph"
 
@@ -50,30 +45,7 @@ const SUBMIT_IMPROVEMENT = gql`
   }
 `
 
-class SubmitImprovement extends Component {
-    static async getInitialProps (context, apolloClient) { 
-        const { loggedInUser } = await checkLoggedIn(context.apolloClient)
-        const { supervisorSubmissions } = await checkSupervisor(context.apolloClient)
-        const { leadSubmissions } = await checkLead(context.apolloClient)
-        let supervisorAuth = false
-        let leadAuth = false
-        
-        if(supervisorSubmissions.length !== 0) {
-            supervisorAuth = true
-        }
-          
-        if(leadSubmissions.length !== 0) {
-            leadAuth = true
-        }
-    
-        if (!loggedInUser.me) {
-          // If not signed in, send them somewhere more useful
-          redirect(context, '/login')
-        }
-    
-        return { loggedInUser, supervisorSubmissions, supervisorAuth, leadSubmissions, leadAuth }
-    }
-    
+class SubmitImprovement extends Component {    
     constructor(props) {
         super(props);
         this.state = {
@@ -156,6 +128,7 @@ class SubmitImprovement extends Component {
     }
       
     render() {
+        const { supervisorAuth, leadAuth } = this.props
         const { 
             description,
             explanation,
@@ -173,7 +146,7 @@ class SubmitImprovement extends Component {
                 {client => (
                     <Mutation mutation={SUBMIT_IMPROVEMENT}>
                         {(addSubmission, { data }) => (
-                        <Main supervisor={this.props.supervisorAuth} lead={this.props.leadAuth}>
+                        <Main supervisor={supervisorAuth} lead={leadAuth}>
                             <Card title="Continual Improvement Submission" highlight={true}>
                                 <Form 
                                     className="SubmissionForm"
