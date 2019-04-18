@@ -24,9 +24,9 @@ class Home extends Component {
               </p>
               <Link href="/ci/submit-improvement" passHref>
                 <Button
-                  className="SimpleButton"
                   label="Submit Continual Improvement"
-                  pad="20px"
+                  primary
+                  style={{ padding: "20px" }}
                 />
               </Link>
             </Card>

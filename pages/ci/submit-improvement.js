@@ -284,10 +284,10 @@ class SubmitImprovement extends Component {
                                         align="end"
                                     >
                                         <Button
-                                            className="SimpleButton"
+                                            primary
                                             label="Submit Improvement"
                                             type="submit"
-                                            pad="20px"
+                                            style={{ padding: "20px" }}
                                         />
                                     </Box>
                                 </Form>

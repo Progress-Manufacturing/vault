@@ -20,7 +20,7 @@ const Resources = (props) => (
                 <Box
                     direction="row"
                     wrap={true}
-                    pad={{ vertical: "10px", horizontal: "25px" }}
+                    pad={{ vertical: "10px" }}
                 >
                     {data.allResources.map(item =>
                         <Box
@@ -29,7 +29,7 @@ const Resources = (props) => (
                             fill={false}
                             flex={false}
                             width="50%"
-                            margin={{ vertical: "5px" }}
+                            margin={{ vertical: "10px", right: "0px" }}
                         >
                             <CheckBox
                                 className="universalCheckBox"

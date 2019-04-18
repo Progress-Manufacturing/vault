@@ -20,7 +20,7 @@ const Improvements = (props) => (
                 <Box
                     direction="row"
                     wrap={true}
-                    pad={{ vertical: "10px", horizontal: "25px" }}
+                    pad={{ vertical: "10px" }}
                 >
                     {data.allImprovements.map(item =>
                         <Box
@@ -29,7 +29,7 @@ const Improvements = (props) => (
                             fill={false}
                             flex={false}
                             width="50%"
-                            margin={{ vertical: "5px" }}
+                            margin={{ vertical: "10px", right: "0px" }}
                         >
                             <CheckBox
                                 key={item.id}

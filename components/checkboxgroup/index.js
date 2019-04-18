@@ -10,6 +10,7 @@ class CheckBoxGroup extends Component {
     onChange = e => this.setState({ checked: e.target.checked, name: e.target.name })
     
     render() {
+        const { label } = this.props
         const { checked } = this.state
         
         return (
@@ -23,8 +24,8 @@ class CheckBoxGroup extends Component {
             >
                 <CheckBox
                     checked={checked}
-                    id={this.props.label}
-                    name={this.props.label}
+                    id={label}
+                    name={label}
                     onChange={this.onChange}
                     {...this.props}
                 />

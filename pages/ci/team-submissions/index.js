@@ -29,7 +29,7 @@ class PreviousSubmissions extends Component {
                             >
                                 <Tab title="New">
                                     <Box 
-                                        pad={{ vertical: "25px", horizontal: "25px" }}
+                                        pad={{ vertical: "25px", horizontal: "15px" }}
                                         justify="center"
                                         alignContent="center"
                                         align="center"
@@ -38,18 +38,18 @@ class PreviousSubmissions extends Component {
                                     </Box>
                                 </Tab>
                                 <Tab title="In Progress">
-                                    <Box pad={{ vertical: "25px", horizontal: "25px" }}>
+                                    <Box pad={{ vertical: "25px", horizontal: "15px" }}>
                                         <InProgressSubmissions route={router.route} userId={currentUser.id} />
                                     </Box>
                                 </Tab>
                                 <Tab title="Active">
-                                    <Box pad={{ vertical: "25px", horizontal: "25px" }}>
+                                    <Box pad={{ vertical: "25px", horizontal: "15px" }}>
                                         <ActiveSubmissions route={router.route} userId={currentUser.id} />
                                     </Box>
                                 </Tab>
                                 <Tab title="Complete">
                                     <Box 
-                                        pad={{ vertical: "25px", horizontal: "25px" }}
+                                        pad={{ vertical: "25px", horizontal: "15px" }}
                                         justify="center"
                                         alignContent="center"
                                         align="center"

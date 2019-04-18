@@ -33,7 +33,7 @@ class PreviousSubmissions extends Component {
                                     align="center"
                                     border={{ width: "1px", side: "right", color: "lightGray" }}
                                 >
-                                    <Text size="12px" color="lighterBlack">Number of Submissions</Text>
+                                    <Text size="12px" color="lighterBlack" style={{ textAlign: "center" }}>Number of Submissions</Text>
                                     <UserSubmissionsCount id={currentUser.id} />
                                 </Box>
                                 <Box
@@ -41,15 +41,14 @@ class PreviousSubmissions extends Component {
                                     align="center"
                                     border={{ width: "1px", side: "right", color: "lightGray" }}
                                 >
-                                    <Text size="12px" color="lighterBlack">Last Reward</Text>
+                                    <Text size="12px" color="lighterBlack" style={{ textAlign: "center" }}>Last Reward</Text>
                                     <UserLastReward id={currentUser.id} />
                                 </Box>
                                 <Box 
                                     width="33.33%"
                                     align="center"
                                 >
-                                    <Text size="12px" color="lighterBlack">Submissions Implemented</Text>
-                                    {/* TODO: Figure out how we'll figure out if submission was implemented */}
+                                    <Text size="12px" color="lighterBlack" style={{ textAlign: "center" }}>Submissions Implemented</Text>
                                     <SubmissionsImplemented id={currentUser.id} />
                                 </Box>
                             </Box>
@@ -62,7 +61,7 @@ class PreviousSubmissions extends Component {
                             >
                                 <Tab title="In Progress">
                                     <Box 
-                                        pad={{ vertical: "25px", horizontal: "25px" }}
+                                        pad={{ vertical: "25px", horizontal: "15px" }}
                                         justify="center"
                                         alignContent="center"
                                         align="center"
@@ -76,13 +75,13 @@ class PreviousSubmissions extends Component {
                                     </Box>
                                 </Tab>
                                 <Tab title="Active">
-                                    <Box pad={{ vertical: "25px", horizontal: "25px" }}>
+                                    <Box pad={{ vertical: "25px", horizontal: "15px" }}>
                                         <ActiveSubmissions route={router.route} userId={currentUser.id} />
                                     </Box>
                                 </Tab>
                                 <Tab title="Complete">
                                     <Box 
-                                        pad={{ vertical: "25px", horizontal: "25px" }}
+                                        pad={{ vertical: "25px", horizontal: "15px" }}
                                         justify="center"
                                         alignContent="center"
                                         align="center"

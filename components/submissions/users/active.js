@@ -62,7 +62,7 @@ const ActiveSubmissions = (props) => {
                     return (
                         <Box flex={true} pad={{ top: "50px" }} justify="center" align="center">
                             <Clear color="lighterBlack" size="40px"/>
-                            <Text color="lighterBlack" margin={{ vertical: "15px" }}>You have no <strong>active</strong> submissions at this time</Text>        
+                            <Text color="lighterBlack" margin={{ vertical: "15px" }} style={{ textAlign: "center" }}>You have no <strong>active</strong> submissions at this time</Text>        
                         </Box>
                     )
                 }
