@@ -61,7 +61,12 @@ const SubmissionProgress = ({ id }) => (
                 <Card title="Submission Status">
                     <Stack guidingChild={1} margin={{ top: "-40px", bottom: "40px", horizontal: "auto" }}>
                         <Diagram connections={connections} />
-                        <Box fill={true} flex={true} align="center" justify="center">
+                        <Box 
+                            fill={true}
+                            flex={true}
+                            align="center"
+                            justify="center"
+                        >
                             <Box direction="row">
                             {data.progress.map(step =>
                                 <Box key={step.id}>

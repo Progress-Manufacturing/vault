@@ -52,7 +52,7 @@ const Card = (props) => {
                         <Text color="white" size="14px">{props.announcement.title}</Text>
                     </Box>
                 }
-                <Box flex={true} pad={{ vertical: "15px", horizontal: `${!props.tabs && 15}px` }} align="start">
+                <Box flex={true} pad={{ vertical: "15px", horizontal: `${!props.tabs && 15}px` }} align="start" overflow={props.title == "Submission Status" ? { horizontal: "scroll" } : {horizontal: "hidden"} }>
                     {props.children}
                 </Box>
                 <style jsx global>{`

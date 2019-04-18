@@ -7,7 +7,7 @@ import SubmissionProgress from "../../../components/progress"
 import UserSubmission from "../../../components/usersubmission"
 
 import Authorization from "../../../lib/auth/msal-auth"
-import { getUserSupervisor, getAllUsers } from "../../../lib/auth/msal-graph"
+import { getAllUsers } from "../../../lib/auth/msal-graph"
 
 
 class Submission extends Component {

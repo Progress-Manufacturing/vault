@@ -39,7 +39,7 @@ const GET_SUBMISSION_BY_ID = gql`
             improvementExplanation
             proposedSolution
             resourceExplanation
-            solutionMeasurement        
+            solutionMeasurement     
             progress {
                 id
                 name
@@ -54,6 +54,7 @@ const GET_SUBMISSION_BY_ID = gql`
             }
             supervisor
             lead
+            department
         }
         committee_approvals: allApprovals {
             id
@@ -83,8 +84,6 @@ class UserSubmission extends Component {
                 superName: subSuper.displayName,
                 superEmail: subSuper.mail
             })
-
-            return {}
         } catch (err) {
             console.log(err)
         }
@@ -112,7 +111,7 @@ class UserSubmission extends Component {
                     if(data.submission.lead === currentUserOid) {
                         submissionLead = true
                     }
-                    console.log(this.state)
+
                     let supervisorApprovalNotification = data.submission.supervisorapproval ? data.submission.supervisorapproval.name : ''
                     let supervisorNotificationBackground = data.submission.supervisorapproval ? data.submission.supervisorapproval.id : -1
                     let committeeApprovalNotification = data.submission.approval ? data.submission.approval.name : ''
@@ -160,6 +159,9 @@ class UserSubmission extends Component {
                                                 </Box>
                                                 <Box width="33.33%">
                                                     <Text size="14px"><strong>Supervisor:</strong> <a href={`mailto: ${superEmail}`} target="_blank">{superName}</a></Text>
+                                                </Box>
+                                                <Box width="33.33%">
+                                                    <Text size="14px"><strong>Department:</strong>{data.submission.department}</Text>
                                                 </Box>
                                             </Box>
                                             <Box
