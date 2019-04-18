@@ -36,6 +36,7 @@ class Submission extends Component {
 
   render() {
     const { router, user, supervisorAuth, leadAuth } = this.props
+    const { users } = this.state
     const submissionId = parseInt(router.query.id)
     const currentUserOid = user.me.user.oid
     
@@ -44,7 +45,7 @@ class Submission extends Component {
             {client => (
                 <Main supervisor={supervisorAuth} lead={leadAuth}>
                     <SubmissionProgress id={submissionId} />
-                    <UserSubmission id={submissionId} currentUserOid={currentUserOid} users={this.state.users} isSupervisor={supervisorAuth}/>
+                    <UserSubmission id={submissionId} currentUserOid={currentUserOid} users={users} isSupervisor={supervisorAuth}/>
                 </Main>  
             )}
         </ApolloConsumer>

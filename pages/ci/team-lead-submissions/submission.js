@@ -11,65 +11,46 @@ import { getUserSupervisor, getAllUsers } from "../../../lib/auth/msal-graph"
 
 
 class Submission extends Component {
-  constructor() {
-      super()
-      this.state = { 
-        supervisor: null,
-        users: null
-      }
-    }
+  state = { 
+    users: null
+  }
 
-    componentDidMount() {
-        this.getSupervisor()
-        this.getAllUsers()
-    }
+  componentDidMount() {
+    this.getAllUsers()
+  }
 
-    getAllUsers = async () => {
-      const auth = new Authorization()
+  getAllUsers = async () => {
+    const auth = new Authorization()
 
-      try {
-        const token = await auth.getToken()
-        const allUsers = await getAllUsers(token)
-        
-        this.setState({
-          users: allUsers
-        })
-      } catch (err) {
-        console.log(err)
-      }
-    }
-
-    getSupervisor = async () => {
-        const auth = new Authorization()
+    try {
+      const token = await auth.getToken()
+      const allUsers = await getAllUsers(token)
       
-        try {
-          const token = await auth.getToken()
-          const userSupervisor = await getUserSupervisor(token)
-    
-          this.setState({
-            supervisor: userSupervisor.supervisor,
-          })
-        } catch(err) {
-          console.log(err)
-        }
-      }
-
-    render() {
-      const { router, user, supervisorAuth, leadAuth } = this.props
-      const submissionId = parseInt(router.query.id)
-      const currentUserOid = user.me.user.oid
-        
-      return (
-          <ApolloConsumer>
-              {client => (
-                <Main supervisor={supervisorAuth} lead={leadAuth}>
-                  <SubmissionProgress id={submissionId} />
-                  <UserSubmission id={submissionId} currentUserOid={currentUserOid} users={this.state.users} userSupervisor={this.state.supervisor} isSupervisor={this.props.supervisorAuth}/>
-                </Main>  
-              )}
-          </ApolloConsumer>
-      )
+      this.setState({
+        users: allUsers
+      })
+    } catch (err) {
+      console.log(err)
     }
+  }
+
+  render() {
+    const { router, user, supervisorAuth, leadAuth } = this.props
+    const { users } = this.state
+    const submissionId = parseInt(router.query.id)
+    const currentUserOid = user.me.user.oid
+      
+    return (
+        <ApolloConsumer>
+            {client => (
+              <Main supervisor={supervisorAuth} lead={leadAuth}>
+                <SubmissionProgress id={submissionId} />
+                <UserSubmission id={submissionId} currentUserOid={currentUserOid} users={users} isSupervisor={supervisorAuth}/>
+              </Main>  
+            )}
+        </ApolloConsumer>
+    )
+  }
 }
 
 export default withRouter(Submission)
