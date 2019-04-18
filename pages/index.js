@@ -22,7 +22,7 @@ class Home extends Component {
                 Submit ideas and get candy, cash, or just a solid pat on the back from Jed! I know most of you are hoping for the pat on the back, but Jed is a busy man and will at times send is liason James to give you a pat on the back; please be aware James is a bit touchy feely and the pat could possibly turn into a full fledged hug.<br/><br/>
                 Below you'll find some exciting stats about our Continual Improvement Program.<br/><br/>
               </p>
-              <Link href="/submit-improvement" passHref>
+              <Link href="/ci/submit-improvement" passHref>
                 <Button
                   className="SimpleButton"
                   label="Submit Continual Improvement"
