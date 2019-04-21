@@ -57,7 +57,7 @@ const Comments = (props) => {
                             <Box fill={true} flex={true}>
                                 
                                 {data.comment.length === 0 &&
-                                    <Box align="center">
+                                    <Box align="center" pad={{ top: "20px" }}>
                                         <Chat color="lighterBlack" />
                                         <Text color="lighterBlack" size="14px" margin={{ top: "15px", bottom: "15px" }}>No Comments</Text>
                                     </Box>    

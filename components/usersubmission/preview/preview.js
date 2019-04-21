@@ -7,7 +7,7 @@ const SubmissionPreview = (props) => {
     const submissionProgressValue = props.submissionprogress / props.allprogress.length * 100
     const submissionApprovalValue = props.approval !== 1 ? (submissionProgressValue < 70 ? "status-warning" : "status-ok") : "status-error"
     const iconColor = props.index % 2 ? "black" : "brand"
-    
+    console.log(props)
     return (
         <ResponsiveContext.Consumer>
             {size => (
@@ -27,9 +27,11 @@ const SubmissionPreview = (props) => {
                         areas={size !== "small" ? ([
                                 { name: "icon", start: [0, 0], end: [0, 1] },
                                 { name: "snippet", start: [1, 0], end: [1, 1] },
-                                { name: "date", start: [2, 0], end: [2, 1] },
-                                { name: "progress", start: [3, 0], end: [3, 1] },
-                                { name: "view", start: [4, 0], end: [4, 1] }
+                                { name: "user", start: [2, 0], end: [2, 1] },
+                                { name: "department", start: [3, 0], end: [3, 1] },
+                                { name: "date", start: [4, 0], end: [4, 1] },
+                                { name: "progress", start: [5, 0], end: [5, 1] },
+                                { name: "view", start: [6, 0], end: [6, 1] }
                             ]) : ([
                                 { name: "view", start: [0, 0], end: [0, 0] },
                                 { name: "snippet", start: [1, 0], end: [1, 0] },
@@ -59,8 +61,26 @@ const SubmissionPreview = (props) => {
                             pad={{ horizontal: "10px" }}
                         >
                             <Text size="12px" color="lighterBlack" margin={{ bottom: "5px" }}>Submission {props.id}</Text>
-                            <Text size="14px" color="black">{props.description.substring(0, 87)}...</Text>
+                            <Text size="14px" color="black">{props.description.substring(0, 40)}...</Text>
                         </Box>
+                        {size !== "small" &&
+                            <React.Fragment>
+                                <Box 
+                                    gridArea="user"
+                                    pad={{ horizontal: "10px" }}
+                                >
+                                    <Text size="12px" color="lighterBlack" margin={{ bottom: "5px" }}>Submitted By</Text>
+                                    <Text size="14px" color="black">{props.user}</Text>
+                                </Box>
+                                <Box 
+                                    gridArea="department"
+                                    pad={{ horizontal: "10px" }}
+                                >
+                                    <Text size="12px" color="lighterBlack" margin={{ bottom: "5px" }}>Department</Text>
+                                    <Text size="14px" color="black">{props.department}</Text>
+                                </Box>
+                            </React.Fragment>
+                        }
                         <Box
                             gridArea="date"
                             pad={{ horizontal: "10px" }}

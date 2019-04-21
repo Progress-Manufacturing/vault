@@ -19,6 +19,11 @@ const GET_IN_PROGRESS_SUPERVISOR_SUBMISSIONS = gql`
                 id
                 name
             }
+            user {
+                id
+                name
+            }
+            department
         }
         progress: allProgresses {
             id
@@ -53,6 +58,8 @@ const InProgressSubmissions = (props) => {
                                         border={true}
                                         padding={true}
                                         route={props.route}
+                                        user={submission.user.name}
+                                        department={submission.department}
                                     />
                                 )
                             })}

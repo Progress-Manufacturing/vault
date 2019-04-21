@@ -91,7 +91,6 @@ class PreviousSubmissions extends Component {
                                 </Tab>
                             </Tabs>
                         </Card>
-
                     </Main>
                 )}
             </ApolloConsumer>

@@ -19,6 +19,11 @@ const GET_ACTIVE_USER_SUBMISSIONS = gql`
                 id
                 name
             }
+            user {
+                id
+                name
+            }
+            department
         }
         progress: allProgresses {
             id
@@ -52,7 +57,9 @@ const ActiveSubmissions = (props) => {
                                         allprogress={data.progress}
                                         border={true}
                                         padding={true}
-                                        route={props.route}
+                                        route={props.route}  
+                                        user={submission.user.name}
+                                        department={submission.department}
                                     />
                                 )
                             })}

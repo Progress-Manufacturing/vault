@@ -36,7 +36,6 @@ const GET_SUBMISSION_BY_ID = gql`
                 name
             }
             description
-            improvementExplanation
             proposedSolution
             resourceExplanation
             solutionMeasurement     
@@ -161,7 +160,7 @@ class UserSubmission extends Component {
                                                     <Text size="14px"><strong>Supervisor:</strong> <a href={`mailto: ${superEmail}`} target="_blank">{superName}</a></Text>
                                                 </Box>
                                                 <Box width="33.33%">
-                                                    <Text size="14px"><strong>Department:</strong>{data.submission.department}</Text>
+                                                    <Text size="14px"><strong>Department:</strong> {data.submission.department}</Text>
                                                 </Box>
                                             </Box>
                                             <Box
