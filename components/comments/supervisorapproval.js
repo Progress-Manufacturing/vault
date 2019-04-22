@@ -2,6 +2,10 @@ import gql from "graphql-tag"
 import { Box, Form, Select, Button } from "grommet"
 import { Mutation } from "react-apollo"
 
+import Authorization from "../../lib/auth/msal-auth"
+import { emailNotification } from "../../lib/auth/msal-graph"
+import { supervisorReviewNotification } from "../../lib/notifications"
+
 const UPDATE_SUPERVISOR_APPROVAL = gql`
     mutation updateSubmissionSupervisorApproval(
         $id: Int!
@@ -31,14 +35,34 @@ const UPDATE_SUPERVISOR_APPROVAL = gql`
         }
     }
 `
+const emailNotifications = async (message) => {
+    const auth = new Authorization()
+
+    try {
+        const token = await auth.getToken()
+        const sendNotification = await emailNotification(token, message)
+        
+        return sendNotification
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 const SupervisorApproval = (props) => {
     const [value, setValue] = React.useState("")
     const currentProgress = value.id === 2 ? 9 : 3
     const currentReward = value.id === 2 ? 2 : null
-    
+    const userMessage = supervisorReviewNotification(props.user, props.submissionId)
+
     return (
-        <Mutation mutation={UPDATE_SUPERVISOR_APPROVAL}>
+        <Mutation 
+            mutation={UPDATE_SUPERVISOR_APPROVAL}
+            onCompleted={
+                () => {
+                    emailNotifications(userMessage)
+                }
+            }
+        >
             {(updateSupervisorApproval, {data}) => (
                 <Box    
                     width="auto"

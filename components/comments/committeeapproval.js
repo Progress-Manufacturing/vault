@@ -2,6 +2,10 @@ import gql from "graphql-tag"
 import { Box, Form, Select, Button } from "grommet"
 import { Mutation } from "react-apollo"
 
+import Authorization from "../../lib/auth/msal-auth"
+import { emailNotification } from "../../lib/auth/msal-graph"
+import { committeeReviewNotification } from "../../lib/notifications"
+
 const UPDATE_COMMITTEE_APPROVAL = gql`
     mutation updateSubmissionCommitteeApproval(
         $id: Int!
@@ -35,10 +39,24 @@ const UPDATE_COMMITTEE_APPROVAL = gql`
     }
 `
 
-const SupervisorApproval = (props) => {
+const emailNotifications = async (message) => {
+    const auth = new Authorization()
+
+    try {
+        const token = await auth.getToken()
+        const sendNotification = await emailNotification(token, message)
+        
+        return sendNotification
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const CommitteeApproval = (props) => {
     const [approvalValue, setApprovalValue] = React.useState("")
     const [leadValue, setLeadValue] = React.useState("")
     const currentReward = approvalValue.id === 2 ? 2 : 4
+    // const userMessage = committeeReviewNotification(props.user, props.submissionId)
     let currentProgress    
     if (approvalValue.id === 2) {
         currentProgress = 9
@@ -124,4 +142,4 @@ const SupervisorApproval = (props) => {
     )
 }
 
-export default SupervisorApproval
+export default CommitteeApproval

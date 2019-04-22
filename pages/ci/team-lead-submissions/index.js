@@ -12,13 +12,12 @@ import ActiveSubmissions from "../../../components/submissions/teams/active"
 
 class PreviousSubmissions extends Component {
     render() {
-        const { router, user, supervisorAuth, leadAuth } = this.props
-        const currentUser = user.me.user
+        const { router, user, isSupervisor, isLead, isAdmin } = this.props
         
         return (
             <ApolloConsumer>
                 {client => (
-                    <Main supervisor={supervisorAuth} lead={leadAuth}>
+                    <Main isSupervisor={isSupervisor} isLead={isLead} isAdmin={isAdmin}>
                         <Card title="Your Team Submissions" tabs={true}>
                             <Tabs 
                                 flex={true}
@@ -32,12 +31,12 @@ class PreviousSubmissions extends Component {
                                         alignContent="center"
                                         align="center"
                                     >   
-                                        <NewSubmissions route={router.route} userId={currentUser.id} />
+                                        <NewSubmissions route={router.route} userId={user.id} />
                                     </Box>
                                 </Tab>
                                 <Tab title="Active">
                                     <Box pad={{ vertical: "25px", horizontal: "15px" }}>
-                                        <ActiveSubmissions route={router.route} userId={currentUser.id} />
+                                        <ActiveSubmissions route={router.route} userId={user.id} />
                                     </Box>
                                 </Tab>
                                 <Tab title="Complete">
@@ -47,7 +46,7 @@ class PreviousSubmissions extends Component {
                                         alignContent="center"
                                         align="center"
                                     >
-                                        <CompletedSubmissions route={router.route} userId={currentUser.id} />
+                                        <CompletedSubmissions route={router.route} userId={user.id} />
                                     </Box>
                                 </Tab>
                             </Tabs>

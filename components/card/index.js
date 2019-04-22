@@ -31,14 +31,14 @@ const Card = (props) => {
                             <Text textAlign="start" size="15px">{props.title}</Text>
                         </Box>
 
-                        {props.showLeadAuthLink && 
-                            <LeadInfo submissionId={props.submissionId} />
+                        {props.isSubmissionLead && 
+                            <LeadInfo user={props.user} submissionId={props.submissionId} />
                         }
-                        {props.showSupervisorAuthLink &&
-                            <SupervisorApproval status={props.supervisorApproval} submissionId={props.submissionId} />
+                        {props.isSubmissionSupervisor &&
+                            <SupervisorApproval user={props.user} status={props.supervisorApproval} submissionId={props.submissionId} />
                         }
-                        {props.showAdminAuthLink && 
-                            <CommitteeApproval status={props.committeeApproval} submissionId={props.submissionId} users={props.users} />
+                        {props.isAdmin && 
+                            <CommitteeApproval user={props.user} status={props.committeeApproval} submissionId={props.submissionId} users={props.users} />
                         }
                         
                     </Box>

@@ -6,9 +6,6 @@ import { Button } from "grommet"
 import { Query } from "react-apollo";
 import gql from "graphql-tag"
 
-import Authorization from "../../../lib/auth/msal-auth"
-import { getUserSupervisor } from "../../../lib/auth/msal-graph"
-
 import Main from "../../../lib/layout/main"
 import Card from "../../../components/card"
 
@@ -20,38 +17,9 @@ const GET_SUBMISSION_BY_ID = gql`
   }
 `
 
-class SubmissionSuccess extends Component {    
-    state = {
-        supervisor: "No Supervisor",
-    }
-
-    async componentWillMount() {
-        try {
-            const supervisor = await this.getSupervisor()
-            this.setState({
-                supervisor: supervisor.supervisor.id
-            })
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    async getSupervisor() {
-        const auth = new Authorization()
-
-        try {
-            const token = await auth.getToken()
-            const supervisor = await getUserSupervisor(token)
-
-            return supervisor
-        } catch(err) {
-            console.log(err)
-        }
-    }
-      
+class SubmissionSuccess extends Component {          
     render() {
-        const { router, supervisorAuth, leadAuth } = this.props
-        const { supervisor } = this.state
+        const { router, isSupervisor, isLead, isAdmin } = this.props
         const id = parseInt(router.query.id)
         return (
             <ApolloConsumer>
@@ -62,7 +30,7 @@ class SubmissionSuccess extends Component {
                             if (error) return `Something went wrong, please contact IT: ${error}`;
                 
                             return (
-                                <Main supervisor={supervisorAuth} lead={leadAuth}>
+                                <Main isSupervisor={isSupervisor} isLead={isLead} isAdmin={isAdmin}>
                                     <Card title="Thank You" highlight={true}>
                                         <p><strong>Submission #{id}</strong></p>
                                         <p style={{ fontSize: "14px" }}>

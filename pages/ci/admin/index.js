@@ -34,12 +34,12 @@ const GET_MESSAGES = gql`
 
 class Admin extends Component {
     render() {
-        const { supervisorAuth, leadAuth } = this.props
+        const { isSupervisor, isLead, isAdmin } = this.props
 
         return (
             <ApolloConsumer>
                 {client => (
-                    <Main supervisor={supervisorAuth} lead={leadAuth}>
+                    <Main isSupervisor={isSupervisor} isLead={isLead} isAdmin={isAdmin}>
                         <Query query={GET_MESSAGES}>
                         {({ loading, error, data }) => {
                             if (loading) return "Loading..."

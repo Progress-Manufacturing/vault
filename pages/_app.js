@@ -6,26 +6,27 @@ import { ApolloProvider } from "react-apollo"
 class Vault extends App {
   render () { 
     const { 
-      loggedInUser,
+      user,
       supervisorSubmissions,
       leadSubmissions,
-      supervisorAuth,
-      leadAuth,
+      isSupervisor,
+      isLead,
       Component,
       pageProps,
       apolloClient 
     } = this.props
-
+    
     return (
       <Container>
         <ApolloProvider client={apolloClient}>
           <Component 
             {...pageProps} 
-            user={loggedInUser}
-            super={supervisorSubmissions}
-            lead={leadSubmissions}
-            supervisorAuth={supervisorAuth}
-            leadAuth={leadAuth} 
+            user={user}
+            // supervisor={supervisorSubmissions}
+            // lead={leadSubmissions}
+            isSupervisor={isSupervisor}
+            isLead={isLead} 
+            isAdmin={user.admin}
           />
         </ApolloProvider>
       </Container>

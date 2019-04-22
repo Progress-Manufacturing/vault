@@ -42,12 +42,15 @@ const Comments = (props) => {
                         title={props.title}
                         announcement={props.announcement}
                         supervisorApproval={ props.isSupervisor ? props.supervisorApproval : null}
-                        showSupervisorAuthLink={props.showSupervisorAuthLink}
-                        showAdminAuthLink={props.showAdminAuthLink}
-                        showLeadAuthLink={props.showLeadAuthLink}
+                        isSupervisor={props.isSupervisor}
+                        isAdmin={props.isAdmin}
+                        isLead={props.isLead}
+                        isSubmissionLead={props.isSubmissionLead}
+                        isSubmissionSupervisor={props.isSubmissionSupervisor}
                         committeeApproval={props.committeeApproval}
                         leadInfoUpdates={props.leadInfoupdates}
                         submissionId={submission}
+                        user={props.user}
                         users={props.users}
                     >
                         <Box flex={true} fill={true}>
@@ -69,7 +72,7 @@ const Comments = (props) => {
                                     </InnerCard>
                                 ))}
 
-                                {props.showLeadAuthLink && 
+                                {props.isSubmissionLead && 
                                     <Button
                                         icon={<BlockQuote color="brand" margin={{ left: "-15px" }} size="16px" />}
                                         label="Add Comment"
@@ -79,7 +82,7 @@ const Comments = (props) => {
                                     />     
                                 }
                                 
-                                {props.showSupervisorAuthLink && 
+                                {props.isSubmissionSupervisor && 
                                     <Button
                                         icon={<BlockQuote color="brand" margin={{ left: "-15px" }} size="16px" />}
                                         label="Add Comment"
@@ -88,7 +91,8 @@ const Comments = (props) => {
                                         onClick={() => setShow(true)}
                                     />                          
                                 }
-                                {props.showAdminAuthLink && 
+                                
+                                {props.isAdmin && 
                                     <Button
                                         icon={<BlockQuote color="brand" margin={{ left: "-15px" }} size="16px" />}
                                         label="Add Comment"

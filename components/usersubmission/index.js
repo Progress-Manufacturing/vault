@@ -89,9 +89,9 @@ class UserSubmission extends Component {
     }
 
     render() {
-        const { currentUserOid, isSupervisor, admin, users, id } = this.props
+        const { currentUserOid, isSupervisor, isAdmin, users, id } = this.props
         const { superName, superEmail } = this.state
-
+        
         return (
             <Query 
                 query={GET_SUBMISSION_BY_ID} 
@@ -101,14 +101,14 @@ class UserSubmission extends Component {
                 {({ loading, error, data }) => {
                     if (loading)  return "Loading..."
                     if (error) return `Error! ${error.message}`
-                    let submissionSupervisor = false
-                    let submissionLead = false
+                    let isSubmissionSupervisor = false
+                    let isSubmissionLead = false
                     
                     if(data.submission.supervisor === currentUserOid) {
-                        submissionSupervisor = true
+                        isSubmissionSupervisor = true
                     }
                     if(data.submission.lead === currentUserOid) {
-                        submissionLead = true
+                        isSubmissionLead = true
                     }
 
                     let supervisorApprovalNotification = data.submission.supervisorapproval ? data.submission.supervisorapproval.name : ''
@@ -126,7 +126,9 @@ class UserSubmission extends Component {
                                         <Comments 
                                             title="Project Lead Comments" 
                                             submissionId={data.submission.id}
-                                            showLeadAuthLink={submissionLead}
+                                            isLead={isLead}
+                                            isSubmissionLead={isSubmissionLead}
+                                            user={data.submission.user.email}
                                             commentType={3}
                                             lead={true}
                                         />
@@ -136,8 +138,9 @@ class UserSubmission extends Component {
                                         announcement={{ title: supervisorApprovalNotification, status: supervisorNotificationBackground }}
                                         supervisorApproval={data.supervisor_approvals}
                                         isSupervisor={isSupervisor}
-                                        showSupervisorAuthLink={submissionSupervisor}
+                                        isSubmissionSupervisor={isSubmissionSupervisor}
                                         submissionId={data.submission.id}
+                                        user={data.submission.user.email}
                                         commentType={2}
                                     />
                                     
@@ -146,8 +149,9 @@ class UserSubmission extends Component {
                                         announcement={{ title: committeeApprovalNotification, status: committeeNotificationBackground}}
                                         committeeApproval={data.committee_approvals}
                                         users={users}
-                                        showAdminAuthLink={admin}
                                         submissionId={data.submission.id}
+                                        user={data.submission.user.email}
+                                        isAdmin={isAdmin}
                                         commentType={1}
                                     />
                                     <Card title={`Submission #${data.submission.id}`}>

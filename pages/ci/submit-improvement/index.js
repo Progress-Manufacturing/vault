@@ -6,7 +6,8 @@ import { Mutation } from "react-apollo"
 import gql from "graphql-tag"
 
 import Authorization from "../../../lib/auth/msal-auth"
-import { getUserSupervisor } from "../../../lib/auth/msal-graph"
+import { getUserSupervisor, emailNotification } from "../../../lib/auth/msal-graph"
+import { initialUserNotification, initialSupervisorNotification } from "../../../lib/notifications"
 
 import Main from "../../../lib/layout/main"
 import Card from "../../../components/card"
@@ -47,28 +48,27 @@ const SUBMIT_IMPROVEMENT = gql`
 `
 
 class SubmitImprovement extends Component {    
-    constructor(props) {
-        super(props);
-        this.state = {
-            description: "",
-            areasChecked: [],
-            wastesChecked: [],
-            improvementsChecked: [],
-            explanation: "",
-            solution: "",
-            resourcesChecked: [],
-            resource: "",
-            measure: "",
-            supervisor: "No Supervisor",
-            department: ""
-        }    
-    }
+    state = {
+        description: "",
+        areasChecked: [],
+        wastesChecked: [],
+        improvementsChecked: [],
+        explanation: "",
+        solution: "",
+        resourcesChecked: [],
+        resource: "",
+        measure: "",
+        supervisorId: "",
+        supervisorEmail: "",
+        department: ""
+    }    
 
     async componentWillMount() {
         try {
             const supervisor = await this.getSupervisor()
             this.setState({
-                supervisor: supervisor.supervisor.id,
+                supervisorId: supervisor.supervisor.id,
+                supervisorEmail: supervisor.supervisor.mail,
                 department: supervisor.supervisor.department
             })
         } catch (err) {
@@ -84,7 +84,20 @@ class SubmitImprovement extends Component {
             const supervisor = await getUserSupervisor(token)
 
             return supervisor
-        } catch(err) {
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    async emailNotifications(message) {
+        const auth = new Authorization()
+
+        try {
+            const token = await auth.getToken()
+            const sendNotification = await emailNotification(token, message)
+            
+            return sendNotification
+        } catch (err) {
             console.log(err)
         }
     }
@@ -131,7 +144,7 @@ class SubmitImprovement extends Component {
     }
       
     render() {
-        const { supervisorAuth, leadAuth } = this.props
+        const { isSupervisor, isLead, isAdmin, user } = this.props
         const { 
             description,
             areasChecked,
@@ -141,20 +154,30 @@ class SubmitImprovement extends Component {
             resourcesChecked,
             resource,
             measure,
-            supervisor,
+            supervisorId,
+            supervisorEmail,
             department
         } = this.state
+        const userMessage = initialUserNotification(user.email)
+        const superMessage = initialSupervisorNotification(supervisorEmail)
+        
         return (
             <ApolloConsumer>
                 {client => (
                     <Mutation 
                         mutation={SUBMIT_IMPROVEMENT}
-                        onCompleted={(data) =>
-                            Router.push(`/ci/submit-improvement/success?id=${data.addSubmission.id}`)
+                        onCompleted={
+                            data => {
+                                this.emailNotifications(userMessage).then(() => {
+                                    this.emailNotifications(superMessage).then(() => {
+                                        Router.push(`/ci/submit-improvement/success?id=${data.addSubmission.id}`)
+                                    })
+                                })
+                            }
                         }
                     >
                         {(addSubmission, { data }) => (
-                        <Main supervisor={supervisorAuth} lead={leadAuth}>
+                        <Main isSupervisor={isSupervisor} isLead={isLead} isAdmin={isAdmin}>
                             <Card title="Continual Improvement Submission" highlight={true}>
                                 <Form 
                                     className="SubmissionForm"
@@ -170,7 +193,7 @@ class SubmitImprovement extends Component {
                                                 resources: resourcesChecked,
                                                 resourceExplanation: resource,
                                                 solutionMeasurement: measure,
-                                                supervisor: supervisor,
+                                                supervisor: supervisorId,
                                                 department: department
                                             } 
                                         });

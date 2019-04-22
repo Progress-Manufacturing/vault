@@ -162,7 +162,7 @@ class DepartmentReports extends Component {
     }
 
     render() {
-        const { supervisorAuth, leadAuth } = this.props
+        const { isSupervisor, isLead, isAdmin } = this.props
         const { periodValue, departmentValue, submissions, timePeriod, participation } = this.state
         const timePeriods = [
             {id: 1, label: "This Year"},
@@ -217,7 +217,7 @@ class DepartmentReports extends Component {
         return (
             <ApolloConsumer>
                 {client => (
-                    <Main supervisor={supervisorAuth} lead={leadAuth}>
+                    <Main isSupervisor={isSupervisor} isLead={isLead} isAdmin={isAdmin}>
                         <Card>
                             <Form
                                 onSubmit={async e => {

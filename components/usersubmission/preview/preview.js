@@ -7,7 +7,7 @@ const SubmissionPreview = (props) => {
     const submissionProgressValue = props.submissionprogress / props.allprogress.length * 100
     const submissionApprovalValue = props.approval !== 1 ? (submissionProgressValue < 70 ? "status-warning" : "status-ok") : "status-error"
     const iconColor = props.index % 2 ? "black" : "brand"
-    console.log(props)
+    
     return (
         <ResponsiveContext.Consumer>
             {size => (
