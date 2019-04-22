@@ -16,17 +16,17 @@ const GET_LAST_SUBMISSION_REWARD = gql`
     }
 `
 
-const lastReward = (data) => {
+// const lastReward = (data) => {
     
-    const rewardNull = data.usercount.submissions.findIndex(x => x.reward === null)
-    let lastReward
-    if(rewardNull !== 0) {
-        lastReward = data.usercount.submissions[rewardNull - 1].reward.name
-    } else {
-        lastReward = '--'
-    }
-    return lastReward
-}
+//     const rewardNull = data.usercount.submissions.findIndex(x => x.reward === null)
+//     let lastReward
+//     if(rewardNull !== 0) {
+//         lastReward = data.usercount.submissions[rewardNull - 1].reward.name
+//     } else {
+//         lastReward = '--'
+//     }
+//     return lastReward
+// }
 
 const LastSubmissionReward = ({ id }) => (
     <Query query={GET_LAST_SUBMISSION_REWARD} variables={{ id }}>
@@ -35,7 +35,8 @@ const LastSubmissionReward = ({ id }) => (
         if (error) return `Error! ${error.message}`
         return (
             <Text size="32px" margin={{ top: "10px" }}>                                
-                {lastReward(data)}
+                $25
+                {/* {lastReward(data)} */}
             </Text>
         )
     }}
