@@ -4,7 +4,7 @@ import { Query, Mutation } from "react-apollo"
 
 import Authorization from "../../lib/auth/msal-auth"
 import { emailNotification } from "../../lib/auth/msal-graph"
-import { supervisorReviewNotification } from "../../lib/notifications"
+import { supervisorReviewNotification, initialAdminNotification } from "../../lib/notifications"
 
 const UPDATE_SUPERVISOR_APPROVAL = gql`
     mutation updateSubmissionSupervisorApproval(
@@ -76,7 +76,8 @@ const SupervisorApproval = (props) => {
     const [value, setValue] = React.useState("")
     const currentProgress = value.id === 2 ? 9 : 3
     const currentReward = value.id === 2 ? 2 : null
-    
+    const userMessage = supervisorReviewNotification(props.user, props.submissionId)
+
     return (
         <Query query={GET_ADMIN_USERS}>
         {({ loading, error, data }) => {
@@ -89,8 +90,9 @@ const SupervisorApproval = (props) => {
                     mutation={UPDATE_SUPERVISOR_APPROVAL}
                     onCompleted={
                         () => {
-                            const userMessage = supervisorReviewNotification(emails, props.submissionId)
+                            const adminMessage = initialAdminNotification(emails, props.submissionId)
                             emailNotifications(userMessage)
+                            emailNotifications(adminMessage)
                         }
                     }
                 >

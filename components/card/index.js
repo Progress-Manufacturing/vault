@@ -38,7 +38,7 @@ const Card = (props) => {
                             <SupervisorApproval user={props.user} status={props.supervisorApproval} submissionId={props.submissionId} />
                         }
                         {props.isAdmin && 
-                            <CommitteeApproval user={props.user} status={props.committeeApproval} submissionId={props.submissionId} users={props.users} />
+                            <CommitteeApproval superEmail={props.superEmail} user={props.user} status={props.committeeApproval} submissionId={props.submissionId} users={props.users} />
                         }
                         
                     </Box>

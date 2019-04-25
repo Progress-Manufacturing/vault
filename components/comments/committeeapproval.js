@@ -4,7 +4,11 @@ import { Mutation } from "react-apollo"
 
 import Authorization from "../../lib/auth/msal-auth"
 import { emailNotification } from "../../lib/auth/msal-graph"
-import { committeeReviewNotification } from "../../lib/notifications"
+import { 
+    committeeReviewNotificationToUser,
+    committeeReviewNotificationToSupervisor,
+    committeeReviewNotificationToLead
+} from "../../lib/notifications"
 
 const UPDATE_COMMITTEE_APPROVAL = gql`
     mutation updateSubmissionCommitteeApproval(
@@ -56,8 +60,11 @@ const CommitteeApproval = (props) => {
     const [approvalValue, setApprovalValue] = React.useState("")
     const [leadValue, setLeadValue] = React.useState("")
     const currentReward = approvalValue.id === 2 ? 2 : 4
-    // const userMessage = committeeReviewNotification(props.user, props.submissionId)
+    const userMessage = committeeReviewNotificationToUser(props.user, props.submissionId)
+    const supervisorMessage = committeeReviewNotificationToSupervisor(props.superEmail, props.submissionId)
+    // const leadMessage = committeeReviewNotificationToLead(leadEmail)
     let currentProgress    
+    
     if (approvalValue.id === 2) {
         currentProgress = 9
     } else if (leadValue != null) {
@@ -71,7 +78,17 @@ const CommitteeApproval = (props) => {
     }
     
     return (
-        <Mutation mutation={UPDATE_COMMITTEE_APPROVAL}>
+        <Mutation 
+            mutation={UPDATE_COMMITTEE_APPROVAL}
+            onCompleted={
+                () => {
+                    emailNotifications(userMessage)
+                    emailNotification(supervisorMessage)
+                    // emailNotification(leadMessage)
+                }
+            }
+            
+        >
             {(updateCommitteeApproval, {data}) => (
                 <Box    
                     width="auto"

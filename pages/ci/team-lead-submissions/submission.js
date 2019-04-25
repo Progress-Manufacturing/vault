@@ -35,7 +35,7 @@ class Submission extends Component {
   }
 
   render() {
-    const { router, user, supervisorAuth, leadAuth } = this.props
+    const { router, user, isSupervisor, isLead, isAdmin } = this.props
     const { users } = this.state
     const submissionId = parseInt(router.query.id)
       

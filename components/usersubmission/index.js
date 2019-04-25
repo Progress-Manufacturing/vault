@@ -78,7 +78,7 @@ class UserSubmission extends Component {
         try {
             const token = await auth.getToken()
             const subSuper = await getUserById(token, id)
-
+            console.log(subSuper)
             this.setState({
                 superName: subSuper.displayName,
                 superEmail: subSuper.mail
@@ -149,6 +149,7 @@ class UserSubmission extends Component {
                                         announcement={{ title: committeeApprovalNotification, status: committeeNotificationBackground}}
                                         committeeApproval={data.committee_approvals}
                                         users={users}
+                                        superEmail={this.state.superEmail}
                                         submissionId={data.submission.id}
                                         user={data.submission.user.email}
                                         isAdmin={isAdmin}

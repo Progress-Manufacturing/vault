@@ -42,6 +42,7 @@ const Comments = (props) => {
                         title={props.title}
                         announcement={props.announcement}
                         supervisorApproval={ props.isSupervisor ? props.supervisorApproval : null}
+                        superEmail={props.superEmail}
                         isSupervisor={props.isSupervisor}
                         isAdmin={props.isAdmin}
                         isLead={props.isLead}
