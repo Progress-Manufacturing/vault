@@ -9,8 +9,6 @@ class Vault extends App {
       user,
       supervisorSubmissions,
       leadSubmissions,
-      isSupervisor,
-      isLead,
       Component,
       pageProps,
       apolloClient 
@@ -24,8 +22,8 @@ class Vault extends App {
             user={user}
             // supervisor={supervisorSubmissions}
             // lead={leadSubmissions}
-            isSupervisor={isSupervisor}
-            isLead={isLead} 
+            isSupervisor={supervisorSubmissions.length === 0 ? false : true}
+            isLead={leadSubmissions.length === 0 ? false : true} 
             isAdmin={user.admin === 0 ? false : true}
           />
         </ApolloProvider>

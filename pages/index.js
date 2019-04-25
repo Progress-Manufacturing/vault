@@ -9,7 +9,6 @@ import { Button } from "grommet"
 class Home extends Component {
   render() {
     const { user, isSupervisor, isLead, isAdmin } = this.props
-    console.log(user)
     const userFirstName = (user.name).split(" ")[0]
     
     return (
