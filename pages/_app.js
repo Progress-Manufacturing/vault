@@ -26,7 +26,7 @@ class Vault extends App {
             // lead={leadSubmissions}
             isSupervisor={isSupervisor}
             isLead={isLead} 
-            isAdmin={user.admin}
+            isAdmin={user.admin === 0 ? false : true}
           />
         </ApolloProvider>
       </Container>
