@@ -75,8 +75,7 @@ const Comments = (props) => {
 
                                 {props.isSubmissionLead && 
                                     <Button
-                                        icon={<BlockQuote color="brand" margin={{ left: "-15px" }} size="16px" />}
-                                        label="Add Comment"
+                                        label="Update Status"
                                         className="commentButton"
                                         alignSelf="end"
                                         onClick={() => setShow(true)}
@@ -85,8 +84,7 @@ const Comments = (props) => {
                                 
                                 {props.isSubmissionSupervisor && 
                                     <Button
-                                        icon={<BlockQuote color="brand" margin={{ left: "-15px" }} size="16px" />}
-                                        label="Add Comment"
+                                        label="Update Status"
                                         className="commentButton"
                                         alignSelf="end"
                                         onClick={() => setShow(true)}
@@ -95,8 +93,7 @@ const Comments = (props) => {
                                 
                                 {props.isAdmin && 
                                     <Button
-                                        icon={<BlockQuote color="brand" margin={{ left: "-15px" }} size="16px" />}
-                                        label="Add Comment"
+                                        label="Update Status"
                                         className="commentButton"
                                         alignSelf="end"
                                         onClick={() => setShow(true)}
@@ -134,14 +131,16 @@ const Comments = (props) => {
                                 right: 15px;
                             }
                             button.commentButton {
+                                background: #D0011B;
+                                border-radius: 4px 0 0 0;
                                 border: none;
                                 box-shadow: none;
-                                color: black;
-                                max-width: 200px;
+                                color: white;
+                                max-width: 250px;
                                 font-size: 14px;
                                 position: relative;
-                                top: 10px;
-                                right: -20px;
+                                top: 15px;
+                                right: -15px;
                             }
                             button.commentButton:hover {
                                 color: blue

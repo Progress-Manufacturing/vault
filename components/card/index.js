@@ -31,7 +31,7 @@ const Card = (props) => {
                             <Text textAlign="start" size="15px">{props.title}</Text>
                         </Box>
 
-                        {props.isSubmissionLead && 
+                        {/* {props.isSubmissionLead && 
                             <LeadInfo user={props.user} submissionId={props.submissionId} />
                         }
                         {props.isSubmissionSupervisor &&
@@ -39,7 +39,7 @@ const Card = (props) => {
                         }
                         {props.isAdmin && 
                             <CommitteeApproval superEmail={props.superEmail} user={props.user} status={props.committeeApproval} submissionId={props.submissionId} users={props.users} />
-                        }
+                        } */}
                         
                     </Box>
                 }            
