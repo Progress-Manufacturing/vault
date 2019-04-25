@@ -20,8 +20,6 @@ class Vault extends App {
           <Component 
             {...pageProps} 
             user={user}
-            // supervisor={supervisorSubmissions}
-            // lead={leadSubmissions}
             isSupervisor={supervisorSubmissions.length === 0 ? false : true}
             isLead={leadSubmissions.length === 0 ? false : true} 
             isAdmin={user.admin === 0 ? false : true}
