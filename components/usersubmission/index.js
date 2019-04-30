@@ -89,7 +89,7 @@ class UserSubmission extends Component {
     }
 
     render() {
-        const { currentUserOid, isSupervisor, isAdmin, users, id } = this.props
+        const { currentUserOid, isSupervisor, isLead, isAdmin, users, id } = this.props
         const { superName, superEmail } = this.state
         
         return (
@@ -103,7 +103,7 @@ class UserSubmission extends Component {
                     if (error) return `Error! ${error.message}`
                     let isSubmissionSupervisor = false
                     let isSubmissionLead = false
-                    
+
                     if(data.submission.supervisor === currentUserOid) {
                         isSubmissionSupervisor = true
                     }

@@ -28,8 +28,25 @@ const GET_COMMENTS = gql`
 
 const Comments = (props) => {
     const [show, setShow] = React.useState("")
-    const commentType = props.commentType
-    const submission = props.submissionId
+    const { 
+        commentType,
+        submissionId,
+        announcement,
+        isSupervisor,
+        isAdmin,
+        isLead,
+        isSubmissionLead,
+        isSubmissionSupervisor,
+        supervisorApproval,
+        superEmail,
+        committeeApproval,
+        leadInfoupdates,
+        user,
+        users,
+        lead,
+        title,
+    } = props
+    const submission = submissionId
     
     return (
         <Query query={GET_COMMENTS} variables={{ submission, commentType }}>
@@ -39,24 +56,24 @@ const Comments = (props) => {
                 
                 return (                    
                     <Card 
-                        title={props.title}
-                        announcement={props.announcement}
-                        supervisorApproval={ props.isSupervisor ? props.supervisorApproval : null}
-                        superEmail={props.superEmail}
-                        isSupervisor={props.isSupervisor}
-                        isAdmin={props.isAdmin}
-                        isLead={props.isLead}
-                        isSubmissionLead={props.isSubmissionLead}
-                        isSubmissionSupervisor={props.isSubmissionSupervisor}
-                        committeeApproval={props.committeeApproval}
-                        leadInfoUpdates={props.leadInfoupdates}
-                        submissionId={submission}
-                        user={props.user}
-                        users={props.users}
+                        title={title}
+                        announcement={announcement}
+                        supervisorApproval={ isSupervisor ? supervisorApproval : null}
+                        superEmail={superEmail}
+                        isSupervisor={isSupervisor}
+                        isAdmin={isAdmin}
+                        isLead={isLead}
+                        isSubmissionLead={isSubmissionLead}
+                        isSubmissionSupervisor={isSubmissionSupervisor}
+                        committeeApproval={committeeApproval}
+                        leadInfoUpdates={leadInfoupdates}
+                        submissionId={submissionId}
+                        user={user}
+                        users={users}
                     >
                         <Box flex={true} fill={true}>
-                            {props.lead &&
-                                <LeadInfo submissionId={submission} />           
+                            {lead &&
+                                <LeadInfo submissionId={submissionId} />           
                             }
                             <Box fill={true} flex={true}>
                                 
@@ -73,7 +90,7 @@ const Comments = (props) => {
                                     </InnerCard>
                                 ))}
 
-                                {props.isSubmissionLead && 
+                                {(isSubmissionLead || isSubmissionSupervisor || isAdmin) && 
                                     <Button
                                         label="Update Status"
                                         className="commentButton"
@@ -81,38 +98,44 @@ const Comments = (props) => {
                                         onClick={() => setShow(true)}
                                     />     
                                 }
-                                
-                                {props.isSubmissionSupervisor && 
-                                    <Button
-                                        label="Update Status"
-                                        className="commentButton"
-                                        alignSelf="end"
-                                        onClick={() => setShow(true)}
-                                    />                          
-                                }
-                                
-                                {props.isAdmin && 
-                                    <Button
-                                        label="Update Status"
-                                        className="commentButton"
-                                        alignSelf="end"
-                                        onClick={() => setShow(true)}
-                                    />     
-                                }
+
                                 {show && (
                                     <Layer
                                         onEsc={() => setShow(false)}
                                         onClickOutside={() => setShow(false)}
-                                        position="bottom"
+                                        position="center"
                                         responsive={true}
-                                        full={true}
-                                        plain={true}
+                                        full={false}
+                                        plain={false}
                                         className="commentModal"
+                                        style={{ 
+                                            backgroundColor: "white",
+                                            padding: "0",
+                                            borderRadius: "4px",
+                                            overflow: "hidden",
+                                            width: "800px",
+                                            maxWidth: "100%"
+                                        }}
                                     >   
-                                        <CommentForm submissionId={submission} commentType={props.commentType} show={true} />
+                                        <CommentForm
+                                            submissionId={submissionId}
+                                            commentType={commentType}
+                                            isSubmissionSupervisor={isSubmissionSupervisor}
+                                            supervisorApproval={supervisorApproval}
+                                            announcement={announcement}
+                                            title={title}
+                                            show={true}
+                                        />
                                         <Button 
                                             label={<Close color="brand" />}
-                                            className="commentLayerClose"
+                                            style={{ 
+                                                position: "absolute",
+                                                top: "6px",
+                                                right: "-10px",
+                                                border: "none",
+                                                boxShadow: "none"
+                                            }}
+                                            className="closeModal"
                                             color="white"
                                             onClick={() => setShow(false)} 
                                         />
@@ -121,15 +144,6 @@ const Comments = (props) => {
                             </Box>
                         </Box>
                         <style jsx global>{`
-                            .commentModal {
-                                background: white;
-                                padding: 50px;
-                            }
-                            .commentLayerClose {
-                                position: absolute;
-                                top: 15px;
-                                right: 15px;
-                            }
                             button.commentButton {
                                 background: #D0011B;
                                 border-radius: 4px 0 0 0;

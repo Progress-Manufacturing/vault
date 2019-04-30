@@ -7,12 +7,12 @@ import SubmissionProgress from "../../../components/progress"
 import UserSubmission from "../../../components/usersubmission"
 
 import Authorization from "../../../lib/auth/msal-auth"
-import { getUserSupervisor, getAllUsers } from "../../../lib/auth/msal-graph"
+import { getAllUsers } from "../../../lib/auth/msal-graph"
 
 
 class Submission extends Component {
   state = { 
-    users: null
+    users: []
   }
 
   componentDidMount() {
@@ -44,7 +44,7 @@ class Submission extends Component {
         {client => (
           <Main isSupervisor={isSupervisor} isLead={isLead} isAdmin={isAdmin}>
             <SubmissionProgress id={submissionId} />
-            <UserSubmission id={submissionId} currentUserOid={user.oid} users={users} isAdmin={isAdmin} isSupervisor={isSupervisor}/>
+            <UserSubmission id={submissionId} currentUserOid={user.oid} users={users} isAdmin={isAdmin} isLead={isLead} isSupervisor={isSupervisor}/>
           </Main>  
         )}
       </ApolloConsumer>
