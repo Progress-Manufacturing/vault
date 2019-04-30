@@ -2,7 +2,7 @@ import { Query } from "react-apollo"
 import gql from "graphql-tag"
 
 import { Box, Text, Button, Layer } from "grommet"
-import { Chat, Close, BlockQuote } from "grommet-icons"
+import { Chat, Close } from "grommet-icons"
 
 import Card from "../card"
 import LeadInfo from "./leadinfo"
@@ -44,7 +44,7 @@ const Comments = (props) => {
         user,
         users,
         lead,
-        title,
+        title
     } = props
     const submission = submissionId
     
@@ -67,13 +67,13 @@ const Comments = (props) => {
                         isSubmissionSupervisor={isSubmissionSupervisor}
                         committeeApproval={committeeApproval}
                         leadInfoUpdates={leadInfoupdates}
-                        submissionId={submissionId}
+                        submissionId={submission}
                         user={user}
                         users={users}
                     >
                         <Box flex={true} fill={true}>
                             {lead &&
-                                <LeadInfo submissionId={submissionId} />           
+                                <LeadInfo submissionId={submission} />           
                             }
                             <Box fill={true} flex={true}>
                                 
@@ -89,12 +89,24 @@ const Comments = (props) => {
                                             {content}
                                     </InnerCard>
                                 ))}
-
+                                
                                 {(isSubmissionLead || isSubmissionSupervisor || isAdmin) && 
                                     <Button
-                                        label="Update Status"
+                                        label={isSubmissionSupervisor == true && announcement.status != -1 ? "Add Comment" : "Update Status"}
                                         className="commentButton"
                                         alignSelf="end"
+                                        style={{ 
+                                            background: "#D0011B",
+                                            borderRadius: "4px 0 0 0",
+                                            border: "none",
+                                            boxShadow: "none",
+                                            color: "white",
+                                            maxWidth: "250px",
+                                            fontSize: "14px",
+                                            position: "relative",
+                                            top: "15px",
+                                            right: "-15px"
+                                        }}
                                         onClick={() => setShow(true)}
                                     />     
                                 }
@@ -118,7 +130,7 @@ const Comments = (props) => {
                                         }}
                                     >   
                                         <CommentForm
-                                            submissionId={submissionId}
+                                            submissionId={submission}
                                             commentType={commentType}
                                             isSubmissionSupervisor={isSubmissionSupervisor}
                                             supervisorApproval={supervisorApproval}
@@ -143,24 +155,6 @@ const Comments = (props) => {
                                 )}
                             </Box>
                         </Box>
-                        <style jsx global>{`
-                            button.commentButton {
-                                background: #D0011B;
-                                border-radius: 4px 0 0 0;
-                                border: none;
-                                box-shadow: none;
-                                color: white;
-                                max-width: 250px;
-                                font-size: 14px;
-                                position: relative;
-                                top: 15px;
-                                right: -15px;
-                            }
-                            button.commentButton:hover {
-                                color: blue
-                                box-shadow: none;
-                            }
-                        `}</style>
                     </Card>
                 )
             }}

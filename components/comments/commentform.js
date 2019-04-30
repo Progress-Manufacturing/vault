@@ -3,6 +3,7 @@ import gql from "graphql-tag"
 import { Box, Form, TextArea, Text, Button } from "grommet"
 
 import SupervisorComment from "./supervisorcomment"
+import Comment from "./comment"
 
 const ADD_COMMENT = gql`
     mutation addComment(
@@ -51,64 +52,14 @@ const CommentForm = (props) => {
             <div> <Text color="black">Lead Comment -- {announcement.status}</Text></div>
         )
     } else {
-        return <Comment />
+        return (
+            <Comment 
+                submissionId={submissionId}
+                title={title}
+                commentType={commentType}
+            />
+        )
     }
-    // return (
-    //     <Mutation 
-    //         mutation={ADD_COMMENT}
-    //         onCompleted={() => (
-    //             window.location.reload()
-    //         )}
-    //     >
-    //         {(addComment, {data}) => (
-    //             <Box>
-    //                 <Form
-    //                     onSubmit={e => {
-    //                         e.preventDefault();
-    //                         addComment({ variables: { 
-    //                             content: value,
-    //                             commentType: commentType,
-    //                             submission: submissionId
-    //                         } });
-    //                     }}
-    //                 >
-    //                     <Box
-    //                         background="white"
-    //                         pad="10px"
-    //                         margin={{ bottom: "15px" }}
-    //                         style={{ borderBottom: "1px solid gray" }}
-    //                     >
-    //                         <Text>{title}</Text>
-    //                     </Box>
-    //                     <Box
-    //                         pad={{ horizontal: "15px" }}
-    //                     >
-
-    //                         <Text margin={{ bottom: "10px" }} size="14px" color="black">Add Your Comment Below</Text>
-    //                         <TextArea
-    //                             placeholder="Your comments will be seen by the employee who submitted the suggestion as well as their supervisor, team lead and the committee."
-    //                             value={value}
-    //                             onChange={event => setValue(event.target.value)}
-    //                         />
-    //                     </Box>
-    //                     <Box
-    //                         flex={false}
-    //                         justify="end"
-    //                         margin={{ top: "15px" }}
-    //                     >
-    //                         <Button 
-    //                             type="submit"
-    //                             className="updateSubmissionButton"
-    //                             label="Submit" 
-    //                             alignSelf="end"
-    //                         />
-    //                     </Box>
-                        
-    //                 </Form>
-    //             </Box>
-    //         )}
-    //     </Mutation>
-    // )
 }
 
 export default CommentForm
