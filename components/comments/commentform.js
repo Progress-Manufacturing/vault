@@ -1,46 +1,38 @@
-import { Mutation } from "react-apollo"
 import gql from "graphql-tag"
-import { Box, Form, TextArea, Text, Button } from "grommet"
+import { Text } from "grommet"
 
 import SupervisorComment from "./supervisorcomment"
+import CommitteeComment from "./committecomment"
 import Comment from "./comment"
 
-const ADD_COMMENT = gql`
-    mutation addComment(
-        $content: String!
-        $commentType: Int!
-        $submission: Int!
-    ) {
-        addComment(
-            content: $content
-            commentType: $commentType
-            submission: $submission
-        ) {
-            user {
-                id
-                name
-            }
-            content
-            commentType
-            submission {
-                id
-            }
-        }
-    }
-
-`
-
 const CommentForm = (props) => {
-    const [value, setValue] = React.useState("")
-    const { commentType, submissionId, title, announcement, supervisorApproval } = props
-    
-    if (commentType === 1) {
+    const { 
+        commentType,
+        submissionId,
+        title,
+        announcement,
+        supervisorApproval,
+        committeeApproval,
+        supervisorEmail,
+        improvementAreas,
+        users 
+    } = props
+
+    if (commentType === 1 && announcement.status === -1) {
         return (
-            <div> <Text color="black">Admin Comment -- {announcement.status}</Text></div>
+            <CommitteeComment
+                submissionId={submissionId}
+                title={title}
+                commentType={commentType}
+                committeeApproval={committeeApproval}
+                supervisorEmail={supervisorEmail}
+                users={users}
+                improvementAreas={improvementAreas}
+            />
         )
     } else if (commentType === 2 && announcement.status === -1) {
         return (
-            <SupervisorComment 
+            <SupervisorComment
                 submissionId={submissionId}
                 title={title}
                 commentType={commentType} 

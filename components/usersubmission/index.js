@@ -63,6 +63,10 @@ const GET_SUBMISSION_BY_ID = gql`
             id
             name
         }
+        improvement_area_types: allImprovementAreaTypes {
+            id
+            name
+        }
     }
 `
 
@@ -78,7 +82,7 @@ class UserSubmission extends Component {
         try {
             const token = await auth.getToken()
             const subSuper = await getUserById(token, id)
-            console.log(subSuper)
+            
             this.setState({
                 superName: subSuper.displayName,
                 superEmail: subSuper.mail
@@ -103,14 +107,13 @@ class UserSubmission extends Component {
                     if (error) return `Error! ${error.message}`
                     let isSubmissionSupervisor = false
                     let isSubmissionLead = false
-
                     if(data.submission.supervisor === currentUserOid) {
                         isSubmissionSupervisor = true
                     }
                     if(data.submission.lead === currentUserOid) {
                         isSubmissionLead = true
                     }
-
+                    
                     let supervisorApprovalNotification = data.submission.supervisorapproval ? data.submission.supervisorapproval.name : ''
                     let supervisorNotificationBackground = data.submission.supervisorapproval ? data.submission.supervisorapproval.id : -1
                     let committeeApprovalNotification = data.submission.approval ? data.submission.approval.name : ''
@@ -149,9 +152,11 @@ class UserSubmission extends Component {
                                         announcement={{ title: committeeApprovalNotification, status: committeeNotificationBackground}}
                                         committeeApproval={data.committee_approvals}
                                         users={users}
-                                        superEmail={this.state.superEmail}
+                                        supervisorEmail={this.state.superEmail}
                                         submissionId={data.submission.id}
                                         user={data.submission.user.email}
+                                        improvementAreas={data.improvement_area_types}
+                                        approvalSet={data.submission.approval}
                                         isAdmin={isAdmin}
                                         commentType={1}
                                     />

@@ -1,12 +1,10 @@
 import React from "react"
 import { Box, Text } from "grommet"
-import SupervisorComment from "../comments/supervisorcomment"
-import LeadInfo from "../comments/leadinfoupdates"
-import CommitteeApproval from "../comments/committeeapproval"
 
 const Card = (props) => {
+    const { absolute, highlight, announcement, tabs, margin, children, title } = props
     return (
-        <Box flex={{ grow: 0, shrink: 0 }} margin={props.margin} className={props.absolute && "PositionRelative"}>
+        <Box flex={{ grow: 0, shrink: 0 }} margin={margin} className={absolute && "PositionRelative"}>
             <Box 
                 background="white"
                 elevation="xsmall"
@@ -14,46 +12,35 @@ const Card = (props) => {
                 flex={{ grow: 0, shrink: 0 }}
                 overflow="hidden"
                 margin={{ vertical: "10px", horizontal: "0px" }}
-                className={props.absolute && "AbsoluteBox"}
+                className={absolute && "AbsoluteBox"}
             >
-                {props.title &&
+                {title &&
                     <Box
-                        border={!props.tabs && { side: "bottom", color: "lightGray", size: "1px" }}
+                        border={!tabs && { side: "bottom", color: "lightGray", size: "1px" }}
                         align="start"
                         direction="row"
                     >
                         <Box
-                            border={props.highlight && { side: "bottom", color: "brand", size: "2px" }}
+                            border={highlight && { side: "bottom", color: "brand", size: "2px" }}
                             alignContent="center"
                             justify="start"
                             pad={{ vertical: "12px", horizontal: "18px" }}
                         >               
-                            <Text textAlign="start" size="15px">{props.title}</Text>
+                            <Text textAlign="start" size="15px">{title}</Text>
                         </Box>
-
-                        {/* {props.isSubmissionLead && 
-                            <LeadInfo user={props.user} submissionId={props.submissionId} />
-                        }
-                        {props.isSubmissionSupervisor &&
-                            <SupervisorComment user={props.user} status={props.supervisorApproval} submissionId={props.submissionId} />
-                        }
-                        {props.isAdmin && 
-                            <CommitteeApproval superEmail={props.superEmail} user={props.user} status={props.committeeApproval} submissionId={props.submissionId} users={props.users} />
-                        } */}
-                        
                     </Box>
                 }            
-                {props.announcement &&
+                {announcement &&
                     <Box
-                        background={props.announcement.status === 1 || props.announcement.status === 3 || props.announcement.status === 4 ? "neutral-1" : "neutral-4"}
-                        pad={props.announcement.status === -1 ? "0" : "15px"}
-                        height={props.announcement.status === -1 ? "0" : "auto"}
+                        background={announcement.status === 1 || announcement.status === 3 || announcement.status === 4 ? "neutral-1" : "neutral-4"}
+                        pad={announcement.status === -1 ? "0" : "15px"}
+                        height={announcement.status === -1 ? "0" : "auto"}
                     >
-                        <Text color="white" size="14px">{props.announcement.title}</Text>
+                        <Text color="white" size="14px">{announcement.title}</Text>
                     </Box>
                 }
-                <Box flex={true} pad={{ vertical: "15px", horizontal: `${!props.tabs && 15}px` }} align="start" overflow={props.title == "Submission Status" ? { horizontal: "scroll" } : {horizontal: "hidden"} }>
-                    {props.children}
+                <Box flex={true} pad={{ vertical: "15px", horizontal: `${!tabs && 15}px` }} align="start" overflow={title == "Submission Status" ? { horizontal: "scroll" } : {horizontal: "hidden"} }>
+                    {children}
                 </Box>
                 <style jsx global>{`
                     .AbsoluteBox {

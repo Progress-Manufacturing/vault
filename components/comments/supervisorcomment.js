@@ -69,7 +69,7 @@ const message = (admins, user) => {
 
 const SupervisorComment = (props) => {
     const [statusValue, setStatusValue] = React.useState("")
-    const [commentValue, setCommentValue] = React.useState(null)
+    const [commentValue, setCommentValue] = React.useState(undefined)
     const currentProgress = statusValue.id === 2 ? 9 : 3
     const currentReward = statusValue.id === 2 ? 2 : null
     const { user, submissionId, supervisorApproval, title, commentType } = props
@@ -92,7 +92,9 @@ const SupervisorComment = (props) => {
                                     emailNotifications(adminMessage)
                                 )).then(() => (
                                     window.location.reload()
-                                ))
+                                )).catch((err) => {
+                                        throw err
+                                })
                             }
                         }
                     >

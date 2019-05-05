@@ -6,6 +6,7 @@ import { Chat, Close } from "grommet-icons"
 
 import Card from "../card"
 import LeadInfo from "./leadinfo"
+import AdminInfo from "./admininfo"
 import CommentForm from "./commentform"
 import InnerCard from "../card/innercard"
 
@@ -38,13 +39,15 @@ const Comments = (props) => {
         isSubmissionLead,
         isSubmissionSupervisor,
         supervisorApproval,
-        superEmail,
+        supervisorEmail,
         committeeApproval,
         leadInfoupdates,
+        improvementAreas,
         user,
         users,
         lead,
-        title
+        title,
+        approvalSet
     } = props
     const submission = submissionId
     
@@ -59,7 +62,7 @@ const Comments = (props) => {
                         title={title}
                         announcement={announcement}
                         supervisorApproval={ isSupervisor ? supervisorApproval : null}
-                        superEmail={superEmail}
+                        supervisorEmail={supervisorEmail}
                         isSupervisor={isSupervisor}
                         isAdmin={isAdmin}
                         isLead={isLead}
@@ -75,8 +78,11 @@ const Comments = (props) => {
                             {lead &&
                                 <LeadInfo submissionId={submission} />           
                             }
+                            {approvalSet && 
+                                <AdminInfo submissionId={submission} />
+                            }
+                            
                             <Box fill={true} flex={true}>
-                                
                                 {data.comment.length === 0 &&
                                     <Box align="center" pad={{ top: "20px" }}>
                                         <Chat color="lighterBlack" />
@@ -90,7 +96,7 @@ const Comments = (props) => {
                                     </InnerCard>
                                 ))}
                                 
-                                {(isSubmissionLead || isSubmissionSupervisor || isAdmin) && 
+                                {(isSubmissionLead || isSubmissionSupervisor) && 
                                     <Button
                                         label={isSubmissionSupervisor == true && announcement.status != -1 ? "Add Comment" : "Update Status"}
                                         className="commentButton"
@@ -109,6 +115,60 @@ const Comments = (props) => {
                                         }}
                                         onClick={() => setShow(true)}
                                     />     
+                                }
+                                {isAdmin && 
+                                    <Box 
+                                        direction="row"
+                                        flex={true}
+                                        fill="horizontal"
+                                        style={{ 
+                                            position: "relative",
+                                            bottom: "-15px",
+                                            left: "-15px",
+                                            maxWidth: "calc(100% + 30px)",
+                                            width: "calc(100% + 30px)"
+                                        }}
+                                    >
+                                        <Box 
+                                            direction="row"
+                                            justify="end"
+                                        >
+                                            <Button
+                                                label="Reward"
+                                                alignSelf="start"
+                                                style={{ 
+                                                    background: "#F3DE8A",
+                                                    borderRadius: "0 4px 0 0",
+                                                    border: "none",
+                                                    boxShadow: "none",
+                                                    color: "black",
+                                                    maxWidth: "250px",
+                                                    fontSize: "14px",
+                                                }}
+                                                onClick={() => setShow(true)}
+                                            /> 
+                                        </Box>
+                                        <Box 
+                                            direction="row"
+                                            justify="end"
+                                            margin={{ vertical: "0px", left: "auto", right: "0px" }}
+                                        >
+                                            <Button
+                                                label={isAdmin == true && announcement.status != -1 ? "Add Comment" : "Update Status"}                                            
+                                                alignSelf="end"
+                                                style={{ 
+                                                    background: "#D0011B",
+                                                    borderRadius: "4px 0 0 0",
+                                                    border: "none",
+                                                    boxShadow: "none",
+                                                    color: "white",
+                                                    maxWidth: "250px",
+                                                    fontSize: "14px",
+                                                }}
+                                                onClick={() => setShow(true)}
+                                            /> 
+                                        </Box> 
+                                    </Box>
                                 }
 
                                 {show && (
@@ -134,9 +194,13 @@ const Comments = (props) => {
                                             commentType={commentType}
                                             isSubmissionSupervisor={isSubmissionSupervisor}
                                             supervisorApproval={supervisorApproval}
+                                            committeeApproval={committeeApproval}
                                             announcement={announcement}
+                                            improvementAreas={improvementAreas}
                                             title={title}
+                                            supervisorEmail={supervisorEmail}
                                             show={true}
+                                            users={users}
                                         />
                                         <Button 
                                             label={<Close color="brand" />}
