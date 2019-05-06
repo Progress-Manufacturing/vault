@@ -5,7 +5,6 @@ import { Query } from "react-apollo"
 
 import Authorization from "../../lib/auth/msal-auth"
 import { getUserById } from "../../lib/auth/msal-graph"
-import { resolve } from "any-promise";
 
 const GET_ADMIN_INFO = gql`
     query submission($id: Int!) {
@@ -27,7 +26,8 @@ const GET_ADMIN_INFO = gql`
 
 class AdminInfo extends Component {
     state = { 
-        leadName: ""
+        leadName: "",
+        leadEmail: ""
     }
 
     getLeadName = async (userId) => {
@@ -37,9 +37,11 @@ class AdminInfo extends Component {
             const token = await auth.getToken()
             const user = await getUserById(token, userId)
             const displayName = await user.displayName
+            const displayEmail = await user.userPrincipalName
             
             this.setState({
-                leadName: displayName
+                leadName: displayName,
+                leadEmail: displayEmail
             })
 
             
@@ -49,7 +51,7 @@ class AdminInfo extends Component {
     }
 
     render() {
-        const { leadName } = this.state
+        const { leadName, leadEmail } = this.state
         const { submissionId } = this.props
         const id = submissionId
         return (
@@ -67,7 +69,8 @@ class AdminInfo extends Component {
                         <Box direction="row" wrap={true} margin={{ bottom: "15px" }}>
                             <Box width="33.33%">
                                 <Text size="14px" margin={{ bottom: "15px" }}>
-                                    <strong>Lead: </strong>{leadName}
+                                    <strong>Lead: </strong>
+                                    <a href={`mailto: ${leadEmail}`} className="leadEmail">{leadName}</a>
                                 </Text>   
                                 <Text size="14px">
                                     <strong>Reward: </strong>{data.submission.reward ? data.submission.reward.name : ""}
@@ -100,6 +103,14 @@ class AdminInfo extends Component {
                                 li{
                                     list-style-type: none;
                                     margin-top: 5px;
+                                }
+                                .leadEmail{
+                                    color: #D0001B;
+                                    text-decoration: none;
+                                    transition: color 0.3s ease-in-out
+                                }
+                                .leadEmail:hover{
+                                    color: black;
                                 }
                             `}</style>
                         </Box> 

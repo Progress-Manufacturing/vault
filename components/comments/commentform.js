@@ -3,6 +3,7 @@ import { Text } from "grommet"
 
 import SupervisorComment from "./supervisorcomment"
 import CommitteeComment from "./committecomment"
+import Reward from "./reward"
 import Comment from "./comment"
 
 const CommentForm = (props) => {
@@ -15,10 +16,20 @@ const CommentForm = (props) => {
         committeeApproval,
         supervisorEmail,
         improvementAreas,
-        users 
+        users,
+        reward,
+        rewarded
     } = props
-
-    if (commentType === 1 && announcement.status === -1) {
+    
+    if (reward === true) {
+        return (
+            <Reward
+                submissionId={submissionId}
+                title={title}
+                rewarded={rewarded}
+            />
+        )
+    } else if (commentType === 1 && announcement.status === -1) {
         return (
             <CommitteeComment
                 submissionId={submissionId}

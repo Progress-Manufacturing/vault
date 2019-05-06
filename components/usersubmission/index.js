@@ -53,6 +53,11 @@ const GET_SUBMISSION_BY_ID = gql`
             }
             supervisor
             lead
+            rewarded
+            reward {
+                id
+                name
+            }
             department
         }
         committee_approvals: allApprovals {
@@ -95,7 +100,6 @@ class UserSubmission extends Component {
     render() {
         const { currentUserOid, isSupervisor, isLead, isAdmin, users, id } = this.props
         const { superName, superEmail } = this.state
-        
         return (
             <Query 
                 query={GET_SUBMISSION_BY_ID} 
@@ -159,6 +163,7 @@ class UserSubmission extends Component {
                                         approvalSet={data.submission.approval}
                                         isAdmin={isAdmin}
                                         commentType={1}
+                                        rewarded={data.submission.rewarded}
                                     />
                                     <Card title={`Submission #${data.submission.id}`}>
                                         <Box flex={true} fill={true}>

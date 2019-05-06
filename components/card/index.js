@@ -1,8 +1,10 @@
 import React from "react"
 import { Box, Text } from "grommet"
+import { Achievement } from "grommet-icons"
 
 const Card = (props) => {
-    const { absolute, highlight, announcement, tabs, margin, children, title } = props
+    const { absolute, highlight, announcement, tabs, margin, children, title, rewarded } = props
+    
     return (
         <Box flex={{ grow: 0, shrink: 0 }} margin={margin} className={absolute && "PositionRelative"}>
             <Box 
@@ -19,6 +21,9 @@ const Card = (props) => {
                         border={!tabs && { side: "bottom", color: "lightGray", size: "1px" }}
                         align="start"
                         direction="row"
+                        style={{
+                            position: "relative"
+                        }}
                     >
                         <Box
                             border={highlight && { side: "bottom", color: "brand", size: "2px" }}
@@ -28,6 +33,20 @@ const Card = (props) => {
                         >               
                             <Text textAlign="start" size="15px">{title}</Text>
                         </Box>
+                        {rewarded === 1 &&
+                            <Box
+                                background="#00873D"
+                                flex={false}
+                                round="50%"
+                                align="center"
+                                justify="center"
+                                height="28px"
+                                width="28px"  
+                                margin={{ left: "-10px", top: "8px" }}
+                            >
+                                <Achievement color="white" style={{ maxWidth: "16px" }}/>
+                            </Box>
+                        }
                     </Box>
                 }            
                 {announcement &&

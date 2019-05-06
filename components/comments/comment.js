@@ -28,7 +28,7 @@ const ADD_COMMENT = gql`
 `
 
 const Comment = (props) => {
-    const [commentValue, setCommentValue] = React.useState(null)
+    const [commentValue, setCommentValue] = React.useState(undefined)
     const { commentType, submissionId, title, announcement, supervisorApproval } = props
     return (
         <Mutation 

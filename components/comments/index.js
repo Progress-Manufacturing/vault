@@ -2,7 +2,7 @@ import { Query } from "react-apollo"
 import gql from "graphql-tag"
 
 import { Box, Text, Button, Layer } from "grommet"
-import { Chat, Close } from "grommet-icons"
+import { Chat, Close, UnorderedList } from "grommet-icons"
 
 import Card from "../card"
 import LeadInfo from "./leadinfo"
@@ -29,6 +29,7 @@ const GET_COMMENTS = gql`
 
 const Comments = (props) => {
     const [show, setShow] = React.useState("")
+    const [reward, setReward] = React.useState(false)
     const { 
         commentType,
         submissionId,
@@ -47,10 +48,11 @@ const Comments = (props) => {
         users,
         lead,
         title,
-        approvalSet
+        approvalSet,
+        rewarded
     } = props
     const submission = submissionId
-    
+
     return (
         <Query query={GET_COMMENTS} variables={{ submission, commentType }}>
             {({ loading, error, data }) => {
@@ -73,6 +75,7 @@ const Comments = (props) => {
                         submissionId={submission}
                         user={user}
                         users={users}
+                        rewarded={rewarded}
                     >
                         <Box flex={true} fill={true}>
                             {lead &&
@@ -143,9 +146,12 @@ const Comments = (props) => {
                                                     boxShadow: "none",
                                                     color: "black",
                                                     maxWidth: "250px",
-                                                    fontSize: "14px",
+                                                    fontSize: "14px"
                                                 }}
-                                                onClick={() => setShow(true)}
+                                                onClick={() => {
+                                                    setReward(true)
+                                                    setShow(true)
+                                                }}
                                             /> 
                                         </Box>
                                         <Box 
@@ -173,13 +179,18 @@ const Comments = (props) => {
 
                                 {show && (
                                     <Layer
-                                        onEsc={() => setShow(false)}
-                                        onClickOutside={() => setShow(false)}
+                                        onEsc={() => {
+                                            setReward(false)
+                                            setShow(false)
+                                        }}
+                                        onClickOutside={() => { 
+                                            setReward(false)
+                                            setShow(false)
+                                        }}
                                         position="center"
                                         responsive={true}
                                         full={false}
                                         plain={false}
-                                        className="commentModal"
                                         style={{ 
                                             backgroundColor: "white",
                                             padding: "0",
@@ -201,6 +212,8 @@ const Comments = (props) => {
                                             supervisorEmail={supervisorEmail}
                                             show={true}
                                             users={users}
+                                            reward={reward}
+                                            rewarded={rewarded}
                                         />
                                         <Button 
                                             label={<Close color="brand" />}
@@ -213,7 +226,10 @@ const Comments = (props) => {
                                             }}
                                             className="closeModal"
                                             color="white"
-                                            onClick={() => setShow(false)} 
+                                            onClick={() => {
+                                                setReward(false)
+                                                setShow(false)
+                                            }}
                                         />
                                     </Layer>
                                 )}
