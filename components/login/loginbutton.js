@@ -58,7 +58,7 @@ const LoginButton = ({ client }) => {
                 id="LoginButton"
                 color="#5558AF"
                 plain={true}
-                label="Signin with Microsoft"
+                label="Sign in with Microsoft"
                 icon={<Windows size="20px" color="white" />}
                 round="5px"
                 style={{ 
