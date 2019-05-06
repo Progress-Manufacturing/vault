@@ -3,6 +3,7 @@ import { Text } from "grommet"
 
 import SupervisorComment from "./supervisorcomment"
 import CommitteeComment from "./committecomment"
+import LeadComment from "./leadcomment"
 import Reward from "./reward"
 import Comment from "./comment"
 
@@ -52,7 +53,11 @@ const CommentForm = (props) => {
         )
     } else if (commentType === 3) {
         return (
-            <div> <Text color="black">Lead Comment -- {announcement.status}</Text></div>
+            <LeadComment
+                submissionId={submissionId}
+                title={title}
+                commentType={commentType}
+            />
         )
     } else {
         return (

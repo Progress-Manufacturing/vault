@@ -16,10 +16,6 @@ const GET_LEAD_INFO = gql`
             actualStartDate
             potentialEndDate
             actualEndDate
-            resources {
-                id
-                name
-            }
         }
     }
 `
@@ -28,7 +24,7 @@ const GET_LEAD_INFO = gql`
 
 const LeadInfo = (props) => {
     const submission = props.submissionId
-    let potentialStartDate, actualStartDate, potentialEndDate, actualEndDate = "TBD"     
+    let potentialStartDate, actualStartDate, potentialEndDate, actualEndDate = undefined     
     const milliTosec = (ms) => {
         let sec = ms * .001
         return sec
@@ -50,28 +46,18 @@ const LeadInfo = (props) => {
                         <Box direction="row" wrap={true} margin={{ bottom: "15px" }}>
                             <Box width="33.33%">
                                 <Text size="14px" margin={{ bottom: "15px" }}>
-                                    <strong>Potential Start Date: </strong>{potentialStartDate === "TBD" ? potentialStartDate : (<Moment format="YYYY-MM-DD" unix>{potentialStartDate}</Moment>)}
+                                    <strong>Potential Start Date: </strong>{potentialStartDate === undefined ? "TBD" : (<Moment format="YYYY-MM-DD" unix>{potentialStartDate}</Moment>)}
                                 </Text>
                                 <Text size="14px">
-                                    <strong>Actual Start Date: </strong>{actualStartDate === "TBD" ? actualStartDate : (<Moment format="YYYY-MM-DD" unix>{actualStartDate}</Moment>)}
+                                    <strong>Actual Start Date: </strong>{actualStartDate === undefined ? "TBD" : (<Moment format="YYYY-MM-DD" unix>{actualStartDate}</Moment>)}
                                 </Text>                                    
                             </Box>
                             <Box width="33.33%">
                                 <Text size="14px" margin={{ bottom: "15px" }}>
-                                    <strong>Potential End Date: </strong>{potentialEndDate === "TBD" ? potentialEndDate : (<Moment format="YYYY-MM-DD" unix>{potentialEndDate}</Moment>)}
+                                    <strong>Potential End Date: </strong>{potentialEndDate === undefined ? "TBD" : (<Moment format="YYYY-MM-DD" unix>{potentialEndDate}</Moment>)}
                                 </Text>
                                 <Text size="14px">
-                                    <strong>Actual End Date: </strong>{actualEndDate === "TBD" ? actualEndDate : (<Moment format="YYYY-MM-DD" unix>{actualEndDate}</Moment>)}
-                                </Text>
-                            </Box>
-                            <Box width="33.33%">
-                                <Text size="14px">
-                                    <strong>Resources Being Used:</strong>
-                                    <ul>
-                                        {data.leadinfo ? data.leadinfo.resources.map((resource) => (
-                                            <li key={resource.id}>{resource.name}</li>    
-                                        )) : "TBD"}
-                                    </ul>
+                                    <strong>Actual End Date: </strong>{actualEndDate === undefined ? "TBD" : (<Moment format="YYYY-MM-DD" unix>{actualEndDate}</Moment>)}
                                 </Text>
                             </Box>
                             <Box
