@@ -1,10 +1,9 @@
 import { Component } from "react"
 import { ApolloConsumer } from "react-apollo"
-import Link from "next/link"
 
 import Main from "../lib/layout/main"
 import Card from "../components/card"
-import { Button } from "grommet"
+import { Text } from "grommet"
 
 class Home extends Component {
   render() {
@@ -16,10 +15,9 @@ class Home extends Component {
         {client => (
           <Main isSupervisor={isSupervisor} isLead={isLead} isAdmin={isAdmin}>          
             <Card title={`Welcome, ${userFirstName}`} highlight={true}>
-              <p style={{ fontSize: "24px"; text-align:center; width:100%;}}>
+              <Text color="black" style={{ fontSize: "24px", textAlign: "center", width: "100%" }}>
                 Coming Soon!
-              </p>
-
+              </Text>
             </Card>
           </Main>
         )}
