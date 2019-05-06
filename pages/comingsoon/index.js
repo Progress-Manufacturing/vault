@@ -1,8 +1,8 @@
 import { Component } from "react"
 import { ApolloConsumer } from "react-apollo"
 
-import Main from "../lib/layout/main"
-import Card from "../components/card"
+import Main from "../../lib/layout/main"
+import Card from "../../components/card"
 import { Text } from "grommet"
 
 class Home extends Component {
