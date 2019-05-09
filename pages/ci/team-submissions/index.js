@@ -8,8 +8,9 @@ import Card from "../../../components/card"
 
 import NewSubmissions from "../../../components/submissions/supervisor/new"
 import InProgressSubmissions from "../../../components/submissions/supervisor/inprogress"
-import CompletedSubmissions from "../../../components/submissions/supervisor/complete"
 import ActiveSubmissions from "../../../components/submissions/supervisor/active"
+import CompletedSubmissions from "../../../components/submissions/supervisor/complete"
+import ArchivedSubmissions from "../../../components/submissions/supervisor/archived"
 
 class PreviousSubmissions extends Component {
     render() {
@@ -53,6 +54,16 @@ class PreviousSubmissions extends Component {
                                         align="center"
                                     >
                                         <CompletedSubmissions route={router.route} userId={user.id} />
+                                    </Box>
+                                </Tab>
+                                <Tab title="Archived">
+                                    <Box 
+                                        pad={{ vertical: "25px", horizontal: "15px" }}
+                                        justify="center"
+                                        alignContent="center"
+                                        align="center"
+                                    >
+                                        <ArchivedSubmissions route={router.route} userId={user.id} />
                                     </Box>
                                 </Tab>
                             </Tabs>

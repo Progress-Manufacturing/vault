@@ -7,8 +7,9 @@ import { Box, Tabs, Tab } from "grommet"
 import Card from "../../../components/card"
 
 import NewSubmissions from "../../../components/submissions/teams/new"
-import CompletedSubmissions from "../../../components/submissions/teams/complete"
 import ActiveSubmissions from "../../../components/submissions/teams/active"
+import CompletedSubmissions from "../../../components/submissions/teams/complete"
+import ArchivedSubmissions from "../../../components/submissions/teams/archived"
 
 class PreviousSubmissions extends Component {
     render() {
@@ -47,6 +48,16 @@ class PreviousSubmissions extends Component {
                                         align="center"
                                     >
                                         <CompletedSubmissions route={router.route} userId={user.id} />
+                                    </Box>
+                                </Tab>
+                                <Tab title="Archived">
+                                    <Box 
+                                        pad={{ vertical: "25px", horizontal: "15px" }}
+                                        justify="center"
+                                        alignContent="center"
+                                        align="center"
+                                    >
+                                        <ArchivedSubmissions route={router.route} userId={user.id} />
                                     </Box>
                                 </Tab>
                             </Tabs>

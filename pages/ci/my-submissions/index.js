@@ -10,8 +10,9 @@ import UserSubmissionsCount from "../../../components/usersubmission/submissionc
 import SubmissionsImplemented from "../../../components/usersubmission/submissionimplemented"
 
 import InProgressSubmissions from "../../../components/submissions/users/inprogress"
-import CompletedSubmissions from "../../../components/submissions/users/complete"
 import ActiveSubmissions from "../../../components/submissions/users/active"
+import CompletedSubmissions from "../../../components/submissions/users/complete"
+import ArchivedSubmissions from "../../../components/submissions/users/archived"
 
 class PreviousSubmissions extends Component {
     render() {
@@ -66,11 +67,6 @@ class PreviousSubmissions extends Component {
                                         align="center"
                                     >   
                                         <InProgressSubmissions route={router.route} userId={user.id} />
-                                        {/* TODO: Make into simple component */}
-                                        {/* <Box flex={true} pad={{ vertical: "50px" }} justify="center" align="center">
-                                            <Clear color="lighterBlack" size="40px"/>
-                                            <Text color="lighterBlack" margin={{ vertical: "15px" }}>No New Submissions at this time</Text>        
-                                        </Box> */}
                                     </Box>
                                 </Tab>
                                 <Tab title="Active">
@@ -86,6 +82,16 @@ class PreviousSubmissions extends Component {
                                         align="center"
                                     >
                                         <CompletedSubmissions route={router.route} userId={user.id} />
+                                    </Box>
+                                </Tab>
+                                <Tab title="Archived">
+                                    <Box 
+                                        pad={{ vertical: "25px", horizontal: "15px" }}
+                                        justify="center"
+                                        alignContent="center"
+                                        align="center"
+                                    >
+                                        <ArchivedSubmissions route={router.route} userId={user.id} />
                                     </Box>
                                 </Tab>
                             </Tabs>
