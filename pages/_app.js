@@ -13,15 +13,15 @@ class Vault extends App {
       pageProps,
       apolloClient 
     } = this.props
-    
+
     return (
       <Container>
         <ApolloProvider client={apolloClient}>
           <Component 
             {...pageProps} 
             user={user}
-            isSupervisor={supervisorSubmissions.length === 0 ? false : true}
-            isLead={leadSubmissions.length === 0 ? false : true} 
+            isSupervisor={supervisorSubmissions ? (supervisorSubmissions.length === 0 ? false : true ) : false}
+            isLead={leadSubmissions ? (leadSubmissions.length === 0 ? false : true) : false} 
             isAdmin={user.admin === 0 ? false : true}
           />
         </ApolloProvider>

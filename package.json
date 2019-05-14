@@ -30,7 +30,7 @@
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.23",
-    "msal": "^0.2.4",
+    "msal": "^1.0.0",
     "next": "^7.0.2",
     "next-apollo": "^2.0.7",
     "next-cookies": "^1.1.2",
