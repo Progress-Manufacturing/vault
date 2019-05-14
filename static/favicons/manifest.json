@@ -1,6 +1,9 @@
 {
-    "name": "Progress Mfg. Vault",
+    "manifest_version": 2,
+    "version": "1.0",
+    "default_locale": "en",
     "short_name": "Vault",
+    "name": "Progress Manufacturing Vault",
     "icons": [
         {
             "src": "android-chrome-192x192.png",
@@ -13,7 +16,6 @@
             "type": "image/png"
         }
     ],
-    "start_url": "/",
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
     "display": "standalone"
