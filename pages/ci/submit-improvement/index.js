@@ -64,30 +64,25 @@ class SubmitImprovement extends Component {
     }    
 
     async componentWillMount() {
-        try {
-            const supervisor = await this.getSupervisor()
-            this.setState({
-                supervisorId: supervisor.supervisor.id,
-                supervisorEmail: supervisor.supervisor.mail,
-                department: supervisor.supervisor.department
-            })
-        } catch (err) {
-            console.log(err)
-        }
+        // this.getSupervisor();
     }
 
-    async getSupervisor() {
-        const auth = new Authorization()
+    // async getSupervisor() {
+    //     const auth = new Authorization()
 
-        try {
-            const token = await auth.getToken()
-            const supervisor = await getUserSupervisor(token)
+    //     try {
+    //         const token = await auth.getToken()
+    //         const supervisor = await getUserSupervisor(token)
 
-            return supervisor
-        } catch (err) {
-            console.log(err)
-        }
-    }
+    //         this.setState({
+    //             supervisorId: supervisor.supervisor.id,
+    //             supervisorEmail: supervisor.supervisor.mail,
+    //             department: supervisor.supervisor.department
+    //         })
+    //     } catch (err) {
+    //         console.log(err)
+    //     }
+    // }
 
     async emailNotifications(message) {
         const auth = new Authorization()
@@ -193,7 +188,7 @@ class SubmitImprovement extends Component {
                                                 resources: resourcesChecked,
                                                 resourceExplanation: resource,
                                                 solutionMeasurement: measure,
-                                                supervisor: supervisorId,
+                                                supervisor: "1234-090",
                                                 department: department
                                             } 
                                         });
