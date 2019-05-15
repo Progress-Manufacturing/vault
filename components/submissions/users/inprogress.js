@@ -69,7 +69,7 @@ const InProgressSubmissions = (props) => {
                     return (
                         <Box flex={true} pad={{ top: "50px" }} justify="center" align="center">
                             <Clear color="lighterBlack" size="40px"/>
-                            <Text color="lighterBlack" margin={{ vertical: "15px" }} style={{ textAlign: "center" }}>You have no <strong>completed</strong> submissions at this time</Text>        
+                            <Text color="lighterBlack" margin={{ vertical: "15px" }} style={{ textAlign: "center" }}>No submissions <strong>in progress</strong> at this time</Text>        
                         </Box>
                     )
                 }
