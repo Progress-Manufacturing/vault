@@ -5,25 +5,27 @@ import redirect from '../../lib/auth/redirect'
 import jsCookie from 'js-cookie'
 import gql from 'graphql-tag'
 import Authentication from '../../lib/auth/msal-auth'
+import jwt from 'jsonwebtoken'
+
 
 const LoginButton = ({ client }) => {
     const auth = new Authentication();
-    const [token, setToken] = React.useState(
-        typeof window !== 'undefined' ? localStorage.getItem('msal.urlHash') : null
+    const [userToken, setUserToken] = React.useState(
+        typeof window !== 'undefined' ? localStorage.getItem('msal.idtoken') : null
     );
-    
+
     const handleLogClick = async () => {
         auth.login();
     }
 
+    console.log('decoded: ', jwt.decode(userToken));
+    // console.log('token: ', userToken);
+
     const loggedIn = async () => {
-        // TODO: Update state rather than innerHTML with loading icon
-        // document.getElementById('LoginButton').innerHTML = 'Redirecting...'
-        let cookieToken = jsCookie.get('id_token')
-        
+        console.log(userToken);
         const loggedIn = await client.mutate({ 
             variables: {
-                msalToken: cookieToken,
+                msalToken: userToken,
             },
             mutation: gql`
                 mutation loginUser($msalToken: String!) {
@@ -33,23 +35,19 @@ const LoginButton = ({ client }) => {
                 }
             `
         })
-        
+        console.log('loggedIn: ', loggedIn);
         return { loggedIn }
     }
 
-    if(token !== null) {
-        let inThirtyDays = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000);
-        jsCookie.set('id_token', token, { expires: inThirtyDays });
-
-        loggedIn().then(async (res) => {
-            let inThirtyDays = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000);
-            jsCookie.set('token', res.loggedIn.data.login.token, { expires: inThirtyDays });
-            client.cache.reset().then(() => {
-                redirect({}, '/')
-            });
-        }).catch((err) => {
-            console.info('error: ', err);
-        })
+    if(userToken !== null) {
+        loggedIn();
+        // loggedIn().then(async (res) => {
+        //     client.cache.reset().then(() => {
+        //         redirect({}, '/')
+        //     });
+        // }).catch((err) => {
+        //     console.info('error: ', err);
+        // })
     }
 
     return (

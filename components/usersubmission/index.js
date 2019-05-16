@@ -129,42 +129,6 @@ class UserSubmission extends Component {
                                 <SubmissionComplete id={data.submission.id} />
                             }
                                 <React.Fragment>
-                                    {data.submission.lead &&
-                                        <Comments 
-                                            title="Project Lead Comments" 
-                                            submissionId={data.submission.id}
-                                            isLead={isLead}
-                                            isSubmissionLead={isSubmissionLead}
-                                            user={data.submission.user.email}
-                                            commentType={3}
-                                            lead={true}
-                                        />
-                                    }
-                                    <Comments 
-                                        title="Supervisor Comments"
-                                        announcement={{ title: supervisorApprovalNotification, status: supervisorNotificationBackground }}
-                                        supervisorApproval={data.supervisor_approvals}
-                                        isSupervisor={isSupervisor}
-                                        isSubmissionSupervisor={isSubmissionSupervisor}
-                                        submissionId={data.submission.id}
-                                        user={data.submission.user.email}
-                                        commentType={2}
-                                    />
-                                    
-                                    <Comments 
-                                        title="Committee Comments"
-                                        announcement={{ title: committeeApprovalNotification, status: committeeNotificationBackground}}
-                                        committeeApproval={data.committee_approvals}
-                                        users={users}
-                                        supervisorEmail={this.state.superEmail}
-                                        submissionId={data.submission.id}
-                                        user={data.submission.user.email}
-                                        improvementAreas={data.improvement_area_types}
-                                        approvalSet={data.submission.approval}
-                                        isAdmin={isAdmin}
-                                        commentType={1}
-                                        rewarded={data.submission.rewarded}
-                                    />
                                     <Card title={`Submission #${data.submission.id}`}>
                                         <Box flex={true} fill={true}>
                                             <Box direction="row" wrap={true}>
@@ -242,6 +206,42 @@ class UserSubmission extends Component {
                                             }
                                         </Box>
                                     </Card>
+                                    {data.submission.lead &&
+                                        <Comments 
+                                            title="Project Lead Comments" 
+                                            submissionId={data.submission.id}
+                                            isLead={isLead}
+                                            isSubmissionLead={isSubmissionLead}
+                                            user={data.submission.user.email}
+                                            commentType={3}
+                                            lead={true}
+                                        />
+                                    }
+                                    <Comments 
+                                        title="Supervisor Comments"
+                                        announcement={{ title: supervisorApprovalNotification, status: supervisorNotificationBackground }}
+                                        supervisorApproval={data.supervisor_approvals}
+                                        isSupervisor={isSupervisor}
+                                        isSubmissionSupervisor={isSubmissionSupervisor}
+                                        submissionId={data.submission.id}
+                                        user={data.submission.user.email}
+                                        commentType={2}
+                                    />
+                                    
+                                    <Comments 
+                                        title="Committee Comments"
+                                        announcement={{ title: committeeApprovalNotification, status: committeeNotificationBackground}}
+                                        committeeApproval={data.committee_approvals}
+                                        users={users}
+                                        supervisorEmail={this.state.superEmail}
+                                        submissionId={data.submission.id}
+                                        user={data.submission.user.email}
+                                        improvementAreas={data.improvement_area_types}
+                                        approvalSet={data.submission.approval}
+                                        isAdmin={isAdmin}
+                                        commentType={1}
+                                        rewarded={data.submission.rewarded}
+                                    />
                                 </React.Fragment>
                             <style jsx>{`
                                 a {

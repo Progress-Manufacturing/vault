@@ -178,6 +178,7 @@ class SubmitImprovement extends Component {
                                     className="SubmissionForm"
                                     onSubmit={e => {
                                         e.preventDefault();
+                                        console.log(e);
                                         addSubmission({
                                             variables: { 
                                                 description: description,
