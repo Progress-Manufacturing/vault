@@ -5,15 +5,10 @@ import { ApolloProvider } from 'react-apollo';
 import Authentication from '../lib/auth/msal-auth';
 
 class Vault extends App {
-  state = { 
-    showSidebar: true,
+  state = {
     me: {},
     avatar: '../../static/avatar.svg'
   }
-    
-  // if (window.innerWidth <= 768) {
-  //   this.setState({showSidebar: false })
-  // }
 
   componentDidMount() {
     this.getUserData();

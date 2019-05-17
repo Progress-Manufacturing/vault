@@ -18,11 +18,9 @@ const LoginButton = ({ client }) => {
         auth.login();
     }
 
-    console.log('decoded: ', jwt.decode(userToken));
-    // console.log('token: ', userToken);
+    // console.log('decoded: ', jwt.decode(userToken));
 
     const loggedIn = async () => {
-        console.log(userToken);
         const loggedIn = await client.mutate({ 
             variables: {
                 msalToken: userToken,
@@ -35,19 +33,19 @@ const LoginButton = ({ client }) => {
                 }
             `
         })
-        console.log('loggedIn: ', loggedIn);
+
         return { loggedIn }
     }
 
     if(userToken !== null) {
         loggedIn();
-        // loggedIn().then(async (res) => {
-        //     client.cache.reset().then(() => {
-        //         redirect({}, '/')
-        //     });
-        // }).catch((err) => {
-        //     console.info('error: ', err);
-        // })
+        loggedIn().then(async (res) => {
+            client.cache.reset().then(() => {
+                redirect({}, '/')
+            });
+        }).catch((err) => {
+            console.info('error: ', err);
+        });
     }
 
     return (
