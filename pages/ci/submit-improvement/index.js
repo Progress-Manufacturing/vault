@@ -6,7 +6,6 @@ import { Mutation } from "react-apollo"
 import gql from "graphql-tag"
 
 import Authorization from "../../../lib/auth/msal-auth"
-import { getUserSupervisor, emailNotification } from "../../../lib/auth/msal-graph"
 import { initialUserNotification, initialSupervisorNotification } from "../../../lib/notifications"
 
 import Main from "../../../lib/layout/main"

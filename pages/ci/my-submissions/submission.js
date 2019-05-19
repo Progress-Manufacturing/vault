@@ -7,7 +7,6 @@ import SubmissionProgress from "../../../components/progress"
 import UserSubmission from "../../../components/usersubmission"
 
 import Authorization from "../../../lib/auth/msal-auth"
-import { getAllUsers } from "../../../lib/auth/msal-graph"
 
 
 class Submission extends Component {
@@ -16,7 +15,7 @@ class Submission extends Component {
   }
 
   componentDidMount() {
-      this.getAllUsers()
+      // this.getAllUsers()
   }
 
   getAllUsers = async () => {

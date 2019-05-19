@@ -9,7 +9,6 @@ import Main from "../../../lib/layout/main"
 import Card from "../../../components/card"
 
 import Authorization from "../../../lib/auth/msal-auth"
-import { getDepartments, getDepartmentUsersCount } from "../../../lib/auth/msal-graph"
 
 const GET_DEPARTMENT_SUBMISSIONS = gql`
     query fetchDepartmentSubmissions(
