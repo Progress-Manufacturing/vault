@@ -1,13 +1,12 @@
-import { Component } from "react"
-import { Query } from "react-apollo"
-import Moment from "react-moment"
-import gql from "graphql-tag"
-import { Box, Text, Heading } from "grommet"
-import { Checkmark } from "grommet-icons"
-import Card from "../card"
+import { Component } from 'react'
+import { Query } from 'react-apollo'
+import Moment from 'react-moment'
+import gql from 'graphql-tag'
+import { Box, Text, Heading } from 'grommet'
+import { Checkmark } from 'grommet-icons'
+import Card from '../card'
 
-import Authorization from "../../lib/auth/msal-auth"
-import { getUserById } from "../../lib/auth/msal-graph"
+import Authentication from '../../lib/auth/msal-auth'
 
 const GET_SUBMISSION_BY_ID = gql`
     query submission($id: Int!) {
@@ -31,18 +30,19 @@ const GET_SUBMISSION_BY_ID = gql`
 
 class SubmissionComplete extends Component {
     state = {
-        superEmail: "N/A",
-        superName: "",
-        leadEmail: "",
-        leadName: "N/A"
+        superEmail: 'N/A',
+        superName: '',
+        leadEmail: '',
+        leadName: 'N/A'
     }
 
     getUserName = async (id) => {
-        const auth = new Authorization()
+        const graphUrl = 'https://graph.microsoft.com/v1.0';
+        const auth = new Authentication();
     
         try {
-            const token = await auth.getToken()
-            const subSuper = await getUserById(token, id)
+            const token = await auth.getToken();
+            const subSuper = await auth.callMSGraph(false, token, `${graphUrl}/users/${id}`);
 
             this.setState({
                 superName: subSuper.displayName,
@@ -68,7 +68,7 @@ class SubmissionComplete extends Component {
                 }
             >
                 {({ loading, error, data }) => {
-                if (loading) return "Loading..."
+                if (loading) return 'Loading...'
                 if (error) return `${error.message}`
                 
                 return (
@@ -76,28 +76,28 @@ class SubmissionComplete extends Component {
                         <Box 
                             flex={true}
                             fill={true}
-                            align="center"
-                            justify="center" 
+                            align='center'
+                            justify='center' 
                         >
                             <Box 
-                                round="full"
-                                pad="20px"
-                                background="status-ok"
-                                margin={{ vertical: "25px" }}
+                                round='full'
+                                pad='20px'
+                                background='status-ok'
+                                margin={{ vertical: '25px' }}
                             >
-                                <Checkmark color="white" size="40px"/>
+                                <Checkmark color='white' size='40px'/>
                             </Box>
                             
-                            <Heading level="3" margin={{ vertical: "10px" }}>Project Complete</Heading>
-                            <Text color="lighterBlack" size="16px">Date: <Moment format="YYYY-MM-DD">{data.submission.updatedAt}</Moment></Text>
+                            <Heading level='3' margin={{ vertical: '10px' }}>Project Complete</Heading>
+                            <Text color='lighterBlack' size='16px'>Date: <Moment format='YYYY-MM-DD'>{data.submission.updatedAt}</Moment></Text>
                             <Box 
-                                background="lightGray"
-                                round="xxsmall" 
-                                pad={{ vertical: "25px" }}
-                                margin="20px"
-                                style={{ textAlign: "center", width: "500px", maxWidth: "95%" }}
+                                background='lightGray'
+                                round='xxsmall' 
+                                pad={{ vertical: '25px' }}
+                                margin='20px'
+                                style={{ textAlign: 'center', width: '500px', maxWidth: '95%' }}
                             >
-                                <ul className="ProjectCompleteList">
+                                <ul className='ProjectCompleteList'>
                                     <li><span>Submitted By: </span><a href={`mailto: ${data.submission.user.email}`}>{data.submission.user.name}</a></li>
                                     <li><span>Project Lead: </span><a href={`mailto: ${leadEmail}`}>{leadName}</a></li>
                                     <li><span>Supervisor: </span><a href={`mailto: ${superEmail}`}>{superName}</a></li>

@@ -2,8 +2,8 @@ import gql from "graphql-tag"
 import { Box, Form, Select, Button, FormField, TextArea, Text } from "grommet"
 import { Mutation } from "react-apollo"
 
-import Authorization from "../../lib/auth/msal-auth"
-import { emailNotification } from "../../lib/auth/msal-graph"
+import Authentication from "../../lib/auth/msal-auth"
+
 import { 
     committeeReviewNotificationToUser,
     committeeReviewNotificationToSupervisor,
@@ -40,11 +40,14 @@ const ADD_COMMITTEE_APPROVAL = gql`
 `
 
 const emailNotifications = async (message) => {
-    const auth = new Authorization()
+    const graphUrl = 'https://graph.microsoft.com/v1.0';
+    const auth = new Authentication();
 
     try {
-        const token = await auth.getToken()
-        const sendNotification = await emailNotification(token, message)
+        const token = await auth.getToken();
+        // POST
+        const sendNotification = '';
+        // const sendNotification = await auth.callMSGraph(false, token, `${graphUrl}/me/sendMail`);
         
         return sendNotification
     } catch (err) {

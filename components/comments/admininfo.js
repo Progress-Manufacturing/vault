@@ -1,10 +1,9 @@
-import { Component } from "react"
-import gql from "graphql-tag"
-import { Box, Text } from "grommet"
-import { Query } from "react-apollo"
+import { Component } from 'react'
+import gql from 'graphql-tag'
+import { Box, Text } from 'grommet'
+import { Query } from 'react-apollo'
 
-import Authorization from "../../lib/auth/msal-auth"
-import { getUserById } from "../../lib/auth/msal-graph"
+import Authentication from '../../lib/auth/msal-auth'
 
 const GET_ADMIN_INFO = gql`
     query submission($id: Int!) {
@@ -26,18 +25,19 @@ const GET_ADMIN_INFO = gql`
 
 class AdminInfo extends Component {
     state = { 
-        leadName: "",
-        leadEmail: ""
+        leadName: '',
+        leadEmail: ''
     }
 
     getLeadName = async (userId) => {
-        const auth = new Authorization()
+        const graphUrl = 'https://graph.microsoft.com/v1.0';
+        const auth = new Authentication()
 
         try {
-            const token = await auth.getToken()
-            const user = await getUserById(token, userId)
-            const displayName = await user.displayName
-            const displayEmail = await user.userPrincipalName
+            const token = await auth.getToken();
+            const user = await auth.callMSGraph(false, token, `${graphUrl}/users/${userId}`);
+            const displayName = await user.displayName;
+            const displayEmail = await user.userPrincipalName;
             
             this.setState({
                 leadName: displayName,
@@ -62,38 +62,38 @@ class AdminInfo extends Component {
                 onCompleted={data => this.getLeadName(data.submission.lead)}
             >
                 {({ loading, error, data }) => {
-                    if (loading)  return "Loading..."
+                    if (loading)  return 'Loading...'
                     if (error) return `Error! ${error.message}`
                     
                     return (                    
-                        <Box direction="row" wrap={true} margin={{ bottom: "15px" }}>
-                            <Box width="33.33%">
-                                <Text size="14px" margin={{ bottom: "15px" }}>
+                        <Box direction='row' wrap={true} margin={{ bottom: '15px' }}>
+                            <Box width='33.33%'>
+                                <Text size='14px' margin={{ bottom: '15px' }}>
                                     <strong>Lead: </strong>
-                                    <a href={`mailto: ${leadEmail}`} className="leadEmail">{leadName}</a>
+                                    <a href={`mailto: ${leadEmail}`} className='leadEmail'>{leadName}</a>
                                 </Text>   
-                                <Text size="14px">
-                                    <strong>Reward: </strong>{data.submission.reward ? data.submission.reward.name : ""}
+                                <Text size='14px'>
+                                    <strong>Reward: </strong>{data.submission.reward ? data.submission.reward.name : ''}
                                 </Text>                      
                             </Box>
-                            <Box width="33.33%">
-                                <Text size="14px">
-                                    <strong>Improvement Area Type: </strong>{data.submission.improvementAreaType ? data.submission.improvementAreaType.name : ""}
+                            <Box width='33.33%'>
+                                <Text size='14px'>
+                                    <strong>Improvement Area Type: </strong>{data.submission.improvementAreaType ? data.submission.improvementAreaType.name : ''}
                                 </Text>           
                             </Box>
-                            <Box width="33.33%">
-                                <Text size="14px">
+                            <Box width='33.33%'>
+                                <Text size='14px'>
                                     <strong>Department: </strong>{data.submission.department}
                                 </Text>           
                             </Box>
                             <Box
-                                background="lightGray"
-                                height="1px"
-                                justify="center"
-                                align="center"
-                                direction="row"
-                                width="96%"
-                                margin={{ vertical: "25px", horizontal: "auto" }}
+                                background='lightGray'
+                                height='1px'
+                                justify='center'
+                                align='center'
+                                direction='row'
+                                width='96%'
+                                margin={{ vertical: '25px', horizontal: 'auto' }}
                             />
                             <style jsx>{`
                                 ul{

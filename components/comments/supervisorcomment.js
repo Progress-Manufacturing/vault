@@ -2,8 +2,7 @@ import gql from "graphql-tag"
 import { Box, Form, FormField, Select, Button, Text, TextArea } from "grommet"
 import { Query, Mutation } from "react-apollo"
 
-import Authorization from "../../lib/auth/msal-auth"
-import { emailNotification } from "../../lib/auth/msal-graph"
+import Authentication from "../../lib/auth/msal-auth"
 import { supervisorReviewNotification, initialAdminNotification } from "../../lib/notifications"
 
 const ADD_SUPERVISOR_APPROVAL = gql`
@@ -43,11 +42,15 @@ const GET_ADMIN_USERS = gql`
 `
 
 const emailNotifications = async (message) => {
-    const auth = new Authorization()
+    const graphUrl = 'https://graph.microsoft.com/v1.0';
+    const auth = new Authentication();
 
     try {
-        const token = await auth.getToken()
-        const sendNotification = await emailNotification(token, message)
+        
+        const token = await auth.getToken();
+        // POST
+        const sendNotification = '';
+        // const sendNotification = await auth.callMSGraph(false, token, `${graphUrl}/me/sendMail`);
         
         return sendNotification
     } catch (err) {
@@ -87,14 +90,14 @@ const SupervisorComment = (props) => {
                         mutation={ADD_SUPERVISOR_APPROVAL}
                         onCompleted={
                             () => {
-                                const adminMessage = initialAdminNotification(emails, submissionId)
-                                emailNotifications(userMessage).then(() => (
-                                    emailNotifications(adminMessage)
-                                )).then(() => (
+                                // const adminMessage = initialAdminNotification(emails, submissionId)
+                                // emailNotifications(userMessage).then(() => (
+                                //     emailNotifications(adminMessage)
+                                // )).then(() => (
                                     window.location.reload()
-                                )).catch((err) => {
-                                        throw err
-                                })
+                                // )).catch((err) => {
+                                //         throw err
+                                // })
                             }
                         }
                     >

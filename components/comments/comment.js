@@ -42,7 +42,7 @@ const Comment = (props) => {
                     <Form
                         onSubmit={e => {
                             e.preventDefault();
-                            addComment({ variables: { 
+                            addComment({ variables: {
                                 content: commentValue,
                                 commentType: commentType,
                                 submission: submissionId

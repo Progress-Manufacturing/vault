@@ -1,14 +1,13 @@
-import { Component } from "react"
-import { Query } from "react-apollo";
+import { Component } from 'react'
+import { Query, compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag'
-import { Box, Text } from "grommet"
-import Card from "../card"
-import InnerCard from "../card/innercard"
-import Comments from "../comments"
-import SubmissionComplete from "./complete"
+import { Box, Text } from 'grommet'
+import Card from '../card'
+import InnerCard from '../card/innercard'
+import Comments from '../comments'
+import SubmissionComplete from './complete'
 
-import Authorization from "../../lib/auth/msal-auth"
-import { getUserById } from "../../lib/auth/msal-graph"
+import Authentication from '../../lib/auth/msal-auth'
 
 const GET_SUBMISSION_BY_ID = gql`
     query submission($id: Int!) {
@@ -75,31 +74,21 @@ const GET_SUBMISSION_BY_ID = gql`
     }
 `
 
-class UserSubmission extends Component {
-    state = {
-        superName: "",
-        superEmail: ""
+const GET_SUBMISSION_SUPERVISOR = gql`
+    query supervisor($id: String!) {
+    supervisor: fetchUserByOid(id: $id) {
+        name
+        email
+        secondaryEmail
     }
+}
+`
 
-    getSubimissionSuper = async (id) => {
-        const auth = new Authorization()
-    
-        try {
-            const token = await auth.getToken()
-            const subSuper = await getUserById(token, id)
-            
-            this.setState({
-                superName: subSuper.displayName,
-                superEmail: subSuper.mail
-            })
-        } catch (err) {
-            console.log(err)
-        }
-    }
+class UserSubmission extends Component {
 
     render() {
-        const { currentUserOid, isSupervisor, isLead, isAdmin, users, id } = this.props
-        const { superName, superEmail } = this.state
+        const { currentUserOid, isSupervisor, supervisorQuery, isLead, isAdmin, users, id } = this.props
+        
         return (
             <Query 
                 query={GET_SUBMISSION_BY_ID} 
@@ -107,7 +96,7 @@ class UserSubmission extends Component {
                 onCompleted={data => this.getSubimissionSuper(data.submission.supervisor)}
             >
                 {({ loading, error, data }) => {
-                    if (loading)  return "Loading..."
+                    if (loading)  return 'Loading...'
                     if (error) return `Error! ${error.message}`
                     let isSubmissionSupervisor = false
                     let isSubmissionLead = false
@@ -131,29 +120,29 @@ class UserSubmission extends Component {
                                 <React.Fragment>
                                     <Card title={`Submission #${data.submission.id}`}>
                                         <Box flex={true} fill={true}>
-                                            <Box direction="row" wrap={true}>
-                                                <Box width="33.33%">
-                                                    <Text size="14px"><strong>Name:</strong> <a href={`mailto: ${data.submission.user.email}`}> {data.submission.user.name}</a></Text>
+                                            <Box direction='row' wrap={true}>
+                                                <Box width='33.33%'>
+                                                    <Text size='14px'><strong>Name:</strong> <a href={`mailto: ${data.submission.user.email}`}> {data.submission.user.name}</a></Text>
                                                 </Box>
-                                                <Box width="33.33%">
-                                                    <Text size="14px"><strong>Supervisor:</strong> <a href={`mailto: ${superEmail}`} target="_blank">{superName}</a></Text>
+                                                <Box width='33.33%'>
+                                                    <Text size='14px'><strong>Supervisor:</strong> <a href={`mailto: ${supervisorQuery.supervisor.email}`} target='_blank'>{supervisorQuery.supervisor.name}</a></Text>
                                                 </Box>
-                                                <Box width="33.33%">
-                                                    <Text size="14px"><strong>Department:</strong> {data.submission.department}</Text>
+                                                <Box width='33.33%'>
+                                                    <Text size='14px'><strong>Department:</strong> {data.submission.department}</Text>
                                                 </Box>
                                             </Box>
                                             <Box
-                                                background="lightGray"
-                                                height="1px"
-                                                justify="center"
-                                                align="center"
-                                                direction="row"
-                                                width="96%"
-                                                margin={{ vertical: "25px", horizontal: "auto" }}
+                                                background='lightGray'
+                                                height='1px'
+                                                justify='center'
+                                                align='center'
+                                                direction='row'
+                                                width='96%'
+                                                margin={{ vertical: '25px', horizontal: 'auto' }}
                                             />
-                                            <Box direction="row" wrap={true} margin={{ bottom: "15px" }}>
-                                                <Box width="33.33%">
-                                                    <Text size="14px">
+                                            <Box direction='row' wrap={true} margin={{ bottom: '15px' }}>
+                                                <Box width='33.33%'>
+                                                    <Text size='14px'>
                                                         <strong>Areas Affected:</strong>
                                                         <ul>
                                                             {data.submission.areas.map(area => 
@@ -162,8 +151,8 @@ class UserSubmission extends Component {
                                                         </ul>
                                                     </Text>
                                                 </Box>
-                                                <Box width="33.33%">
-                                                    <Text size="14px">
+                                                <Box width='33.33%'>
+                                                    <Text size='14px'>
                                                         <strong>Wastes Seen:</strong>
                                                         <ul>
                                                             {data.submission.wastes.map(waste => 
@@ -172,8 +161,8 @@ class UserSubmission extends Component {
                                                         </ul>
                                                     </Text>
                                                 </Box>
-                                                <Box width="33.33%">
-                                                    <Text size="14px">
+                                                <Box width='33.33%'>
+                                                    <Text size='14px'>
                                                         <strong>Process Improved:</strong>
                                                         <ul>
                                                             {data.submission.improvements.map(improvement => 
@@ -182,8 +171,8 @@ class UserSubmission extends Component {
                                                         </ul>
                                                     </Text>
                                                 </Box>
-                                                <Box width="33.33%" margin={{ top: "35px" }}>
-                                                    <Text size="14px">
+                                                <Box width='33.33%' margin={{ top: '35px' }}>
+                                                    <Text size='14px'>
                                                         <strong>Proposed Resources Needed:</strong>
                                                         <ul>
                                                             {data.submission.resources.map(resource => 
@@ -193,22 +182,22 @@ class UserSubmission extends Component {
                                                     </Text>
                                                 </Box>
                                             </Box>
-                                            <InnerCard title="Issue Description">{data.submission.description}</InnerCard>
-                                            <InnerCard title="Proposed Solution">{data.submission.proposedSolution}</InnerCard>
+                                            <InnerCard title='Issue Description'>{data.submission.description}</InnerCard>
+                                            <InnerCard title='Proposed Solution'>{data.submission.proposedSolution}</InnerCard>
                                             {data.submission.resourceExplanation &&
-                                                <InnerCard title="Why Do You Need The Requested Resources">{data.submission.resourceExplanation}</InnerCard>
+                                                <InnerCard title='Why Do You Need The Requested Resources'>{data.submission.resourceExplanation}</InnerCard>
                                             }
                                             {data.submission.solutionMeasurement &&
-                                                <InnerCard title="How Will This Be Measured">{data.submission.solutionMeasurement}</InnerCard>
+                                                <InnerCard title='How Will This Be Measured'>{data.submission.solutionMeasurement}</InnerCard>
                                             }
                                             {data.submission.improvementExplanation &&
-                                                <InnerCard title="Other Explanation">{data.submission.improvementExplanation}</InnerCard>
+                                                <InnerCard title='Other Explanation'>{data.submission.improvementExplanation}</InnerCard>
                                             }
                                         </Box>
                                     </Card>
                                     {data.submission.lead &&
                                         <Comments 
-                                            title="Project Lead Comments" 
+                                            title='Project Lead Comments' 
                                             submissionId={data.submission.id}
                                             isLead={isLead}
                                             isSubmissionLead={isSubmissionLead}
@@ -218,7 +207,7 @@ class UserSubmission extends Component {
                                         />
                                     }
                                     <Comments 
-                                        title="Supervisor Comments"
+                                        title='Supervisor Comments'
                                         announcement={{ title: supervisorApprovalNotification, status: supervisorNotificationBackground }}
                                         supervisorApproval={data.supervisor_approvals}
                                         isSupervisor={isSupervisor}
@@ -229,11 +218,11 @@ class UserSubmission extends Component {
                                     />
                                     
                                     <Comments 
-                                        title="Committee Comments"
+                                        title='Committee Comments'
                                         announcement={{ title: committeeApprovalNotification, status: committeeNotificationBackground}}
                                         committeeApproval={data.committee_approvals}
                                         users={users}
-                                        supervisorEmail={this.state.superEmail}
+                                        supervisorEmail={supervisorQuery.supervisor.email}
                                         submissionId={data.submission.id}
                                         user={data.submission.user.email}
                                         improvementAreas={data.improvement_area_types}
@@ -271,4 +260,21 @@ class UserSubmission extends Component {
     }
 }
 
-export default UserSubmission
+export default compose(  
+    graphql(GET_SUBMISSION_BY_ID, { 
+        name: 'submissionQuery',
+        option: props => ({
+            variables: {
+                id: props.id
+            }
+        })
+    }),
+    graphql(GET_SUBMISSION_SUPERVISOR, { 
+        name: 'supervisorQuery',
+        options: ownProps => ({
+            variables: {
+                id: ownProps.submissionQuery.submission.supervisor
+            }
+        }) 
+    }),
+)(UserSubmission);
