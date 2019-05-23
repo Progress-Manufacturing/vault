@@ -28,6 +28,25 @@ const GET_SUBMISSION_BY_ID = gql`
     }
 `
 
+const GET_SUBMISSION_SUPERVISOR = gql`
+    query supervisor($id: String!) {
+        supervisor: fetchUserByOid(id: $id) {
+            name
+            email
+            secondaryEmail
+        }
+    }
+`
+const GET_SUBMISSION_LEAD = gql`
+    query supervisor($id: String!) {
+        lead: fetchUserByOid(id: $id) {
+            name
+            email
+            secondaryEmail
+        }
+    }
+`
+
 class SubmissionComplete extends Component {
     state = {
         superEmail: 'N/A',
@@ -101,7 +120,7 @@ class SubmissionComplete extends Component {
                                     <li><span>Submitted By: </span><a href={`mailto: ${data.submission.user.email}`}>{data.submission.user.name}</a></li>
                                     <li><span>Project Lead: </span><a href={`mailto: ${leadEmail}`}>{leadName}</a></li>
                                     <li><span>Supervisor: </span><a href={`mailto: ${superEmail}`}>{superName}</a></li>
-                                    <li><span>Reward: </span>{data.submission.reward.name}</li>
+                                    {/* <li><span>Reward: </span>{data.submission.reward ? data.submision.reward.name : ''}</li> */}
                                 </ul>
                             </Box>
                         </Box>
@@ -145,3 +164,32 @@ class SubmissionComplete extends Component {
 }
 
 export default SubmissionComplete
+
+
+// export default compose(  
+//     graphql(GET_SUBMISSION_BY_ID, { 
+//         name: 'submissionQuery',
+//         option: props => ({
+//             variables: {
+//                 id: props.id
+//             }
+//         })
+//     }),
+//     graphql(GET_SUBMISSION_SUPERVISOR, { 
+//         name: 'supervisorQuery',
+//         options: ownProps => 
+//         // ({
+//         //     variables: {
+//         //         id: ownProps.currentUserOid
+//         //     }
+//         // }) 
+//     }),
+//     graphql(GET_LEAD_SUPERVISOR, { 
+//         name: 'leadQuery',
+//         options: ownProps => ({
+//             variables: {
+//                 id: ownProps.currentUserOid
+//             }
+//         }) 
+//     }),
+// )(SubmissionComplete);

@@ -7,8 +7,6 @@ import InnerCard from '../card/innercard'
 import Comments from '../comments'
 import SubmissionComplete from './complete'
 
-import Authentication from '../../lib/auth/msal-auth'
-
 const GET_SUBMISSION_BY_ID = gql`
     query submission($id: Int!) {
         submission: fetchSubmission(id: $id) {
@@ -77,6 +75,7 @@ const GET_SUBMISSION_BY_ID = gql`
 const GET_SUBMISSION_SUPERVISOR = gql`
     query supervisor($id: String!) {
     supervisor: fetchUserByOid(id: $id) {
+        id
         name
         email
         secondaryEmail
@@ -88,12 +87,13 @@ class UserSubmission extends Component {
 
     render() {
         const { currentUserOid, isSupervisor, supervisorQuery, isLead, isAdmin, users, id } = this.props
-        
+        const supervisorName = supervisorQuery.supervisor ? supervisorQuery.supervisor.name : '';
+        const supervisorEmail = supervisorQuery.supervisor ? supervisorQuery.supervisor.email : '';
+
         return (
             <Query 
                 query={GET_SUBMISSION_BY_ID} 
                 variables={{ id }}
-                onCompleted={data => this.getSubimissionSuper(data.submission.supervisor)}
             >
                 {({ loading, error, data }) => {
                     if (loading)  return 'Loading...'
@@ -125,7 +125,7 @@ class UserSubmission extends Component {
                                                     <Text size='14px'><strong>Name:</strong> <a href={`mailto: ${data.submission.user.email}`}> {data.submission.user.name}</a></Text>
                                                 </Box>
                                                 <Box width='33.33%'>
-                                                    <Text size='14px'><strong>Supervisor:</strong> <a href={`mailto: ${supervisorQuery.supervisor.email}`} target='_blank'>{supervisorQuery.supervisor.name}</a></Text>
+                                                    <Text size='14px'><strong>Supervisor:</strong> <a href={`mailto: ${supervisorEmail}`} target='_blank'>{supervisorName}</a></Text>
                                                 </Box>
                                                 <Box width='33.33%'>
                                                     <Text size='14px'><strong>Department:</strong> {data.submission.department}</Text>
@@ -222,7 +222,7 @@ class UserSubmission extends Component {
                                         announcement={{ title: committeeApprovalNotification, status: committeeNotificationBackground}}
                                         committeeApproval={data.committee_approvals}
                                         users={users}
-                                        supervisorEmail={supervisorQuery.supervisor.email}
+                                        supervisorEmail={supervisorEmail}
                                         submissionId={data.submission.id}
                                         user={data.submission.user.email}
                                         improvementAreas={data.improvement_area_types}
@@ -273,7 +273,7 @@ export default compose(
         name: 'supervisorQuery',
         options: ownProps => ({
             variables: {
-                id: ownProps.submissionQuery.submission.supervisor
+                id: ownProps.submissionQuery.submission ? ownProps.submissionQuery.submission.supervisor : ''
             }
         }) 
     }),
