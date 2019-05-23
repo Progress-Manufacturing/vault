@@ -1,12 +1,10 @@
-import { Component } from 'react'
-import { Query } from 'react-apollo'
-import Moment from 'react-moment'
-import gql from 'graphql-tag'
-import { Box, Text, Heading } from 'grommet'
-import { Checkmark } from 'grommet-icons'
-import Card from '../card'
-
-import Authentication from '../../lib/auth/msal-auth'
+import { Component } from 'react';
+import { Query, compose, graphql } from 'react-apollo';
+import Moment from 'react-moment';
+import gql from 'graphql-tag';
+import { Box, Text, Heading } from 'grommet';
+import { Checkmark } from 'grommet-icons';
+import Card from '../card';
 
 const GET_SUBMISSION_BY_ID = gql`
     query submission($id: Int!) {
@@ -48,32 +46,12 @@ const GET_SUBMISSION_LEAD = gql`
 `
 
 class SubmissionComplete extends Component {
-    state = {
-        superEmail: 'N/A',
-        superName: '',
-        leadEmail: '',
-        leadName: 'N/A'
-    }
-
-    getUserName = async (id) => {
-        const graphUrl = 'https://graph.microsoft.com/v1.0';
-        const auth = new Authentication();
-    
-        try {
-            const token = await auth.getToken();
-            const subSuper = await auth.callMSGraph(false, token, `${graphUrl}/users/${id}`);
-
-            this.setState({
-                superName: subSuper.displayName,
-                superEmail: subSuper.mail
-            })
-        } catch (err) {
-            console.log(err)
-        }
-    }
     render() {
-        const { id } = this.props
-        const { superEmail, superName, leadName, leadEmail  } = this.state
+        const { id, supervisorQuery, leadQuery } = this.props
+        const supervisorName = supervisorQuery.supervisor ? supervisorQuery.supervisor.name : '';
+        const supervisorEmail = supervisorQuery.supervisor ? supervisorQuery.supervisor.email : '';
+        const leadName = leadQuery.lead ? leadQuery.lead.name : '';
+        const leadEmail = leadQuery.lead ? leadQuery.lead.email : '';
         
         return (
             <Query 
@@ -119,7 +97,7 @@ class SubmissionComplete extends Component {
                                 <ul className='ProjectCompleteList'>
                                     <li><span>Submitted By: </span><a href={`mailto: ${data.submission.user.email}`}>{data.submission.user.name}</a></li>
                                     <li><span>Project Lead: </span><a href={`mailto: ${leadEmail}`}>{leadName}</a></li>
-                                    <li><span>Supervisor: </span><a href={`mailto: ${superEmail}`}>{superName}</a></li>
+                                    <li><span>Supervisor: </span><a href={`mailto: ${supervisorEmail}`}>{supervisorName}</a></li>
                                     {/* <li><span>Reward: </span>{data.submission.reward ? data.submision.reward.name : ''}</li> */}
                                 </ul>
                             </Box>
@@ -163,33 +141,30 @@ class SubmissionComplete extends Component {
     }
 }
 
-export default SubmissionComplete
-
-
-// export default compose(  
-//     graphql(GET_SUBMISSION_BY_ID, { 
-//         name: 'submissionQuery',
-//         option: props => ({
-//             variables: {
-//                 id: props.id
-//             }
-//         })
-//     }),
-//     graphql(GET_SUBMISSION_SUPERVISOR, { 
-//         name: 'supervisorQuery',
-//         options: ownProps => 
-//         // ({
-//         //     variables: {
-//         //         id: ownProps.currentUserOid
-//         //     }
-//         // }) 
-//     }),
-//     graphql(GET_LEAD_SUPERVISOR, { 
-//         name: 'leadQuery',
-//         options: ownProps => ({
-//             variables: {
-//                 id: ownProps.currentUserOid
-//             }
-//         }) 
-//     }),
-// )(SubmissionComplete);
+export default compose(  
+    graphql(GET_SUBMISSION_BY_ID, { 
+        name: 'submissionQuery',
+        option: props => ({
+            variables: {
+                id: props.id
+            }
+        })
+    }),
+    graphql(GET_SUBMISSION_SUPERVISOR, { 
+        name: 'supervisorQuery',
+        options: ownProps => 
+        ({
+            variables: {
+                id: ownProps.submissionQuery.submission ? ownProps.submissionQuery.submission.supervisor : ''
+            }
+        }) 
+    }),
+    graphql(GET_SUBMISSION_LEAD, { 
+        name: 'leadQuery',
+        options: ownProps => ({
+            variables: {
+                id: ownProps.submissionQuery.submission ? ownProps.submissionQuery.submission.lead : ''
+            }
+        }) 
+    }),
+)(SubmissionComplete);
