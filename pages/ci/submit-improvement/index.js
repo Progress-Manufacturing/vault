@@ -1,19 +1,19 @@
-import React, { Component } from "react"
-import Router from "next/router"
-import { ApolloConsumer } from "react-apollo"
-import { Box, Heading, Button, Form, Text, TextArea } from "grommet"
-import { Mutation } from "react-apollo"
-import gql from "graphql-tag"
+import React, { Component } from 'react';
+import Router from 'next/router';
+import { ApolloConsumer } from 'react-apollo';
+import { Box, Heading, Button, Form, Text, TextArea } from 'grommet';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
 
-import Authorization from "../../../lib/auth/msal-auth"
-import { initialUserNotification, initialSupervisorNotification } from "../../../lib/notifications"
+import Authorization from '../../../lib/auth/msal-auth';
+import { initialUserNotification, initialSupervisorNotification } from '../../../lib/notifications';
 
-import Main from "../../../lib/layout/main"
-import Card from "../../../components/card"
-import Areas from "../../../components/options/areas"
-import Improvments from "../../../components/options/improvements"
-import Resources from "../../../components/options/resources"
-import Wastes from "../../../components/options/wastes"
+import Main from '../../../lib/layout/main';
+import Card from '../../../components/card';
+import Areas from '../../../components/options/areas';
+import Improvments from '../../../components/options/improvements';
+import Resources from '../../../components/options/resources';
+import Wastes from '../../../components/options/wastes';
 
 const SUBMIT_IMPROVEMENT = gql`
   mutation addSubmission(
@@ -48,40 +48,16 @@ const SUBMIT_IMPROVEMENT = gql`
 
 class SubmitImprovement extends Component {    
     state = {
-        description: "",
+        description: '',
         areasChecked: [],
         wastesChecked: [],
         improvementsChecked: [],
-        explanation: "",
-        solution: "",
+        explanation: '',
+        solution: '',
         resourcesChecked: [],
-        resource: "",
-        measure: "",
-        supervisorId: "",
-        supervisorEmail: "",
-        department: ""
-    }    
-
-    async componentWillMount() {
-        // this.getSupervisor();
+        resource: '',
+        measure: ''
     }
-
-    // async getSupervisor() {
-    //     const auth = new Authorization()
-
-    //     try {
-    //         const token = await auth.getToken()
-    //         const supervisor = await getUserSupervisor(token)
-
-    //         this.setState({
-    //             supervisorId: supervisor.supervisor.id,
-    //             supervisorEmail: supervisor.supervisor.mail,
-    //             department: supervisor.supervisor.department
-    //         })
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
 
     async emailNotifications(message) {
         const auth = new Authorization()
@@ -138,7 +114,7 @@ class SubmitImprovement extends Component {
     }
       
     render() {
-        const { isSupervisor, isLead, isAdmin, user } = this.props
+        const { isSupervisor, isLead, isAdmin, user, me, supervisor } = this.props
         const { 
             description,
             areasChecked,
@@ -147,14 +123,11 @@ class SubmitImprovement extends Component {
             solution,
             resourcesChecked,
             resource,
-            measure,
-            supervisorId,
-            supervisorEmail,
-            department
+            measure
         } = this.state
-        const userMessage = initialUserNotification(user.email)
-        const superMessage = initialSupervisorNotification(supervisorEmail)
-        
+        const userMessage = initialUserNotification(user.email);
+        const superMessage = initialSupervisorNotification(supervisor.email);
+
         return (
             <ApolloConsumer>
                 {client => (
@@ -171,13 +144,13 @@ class SubmitImprovement extends Component {
                         }
                     >
                         {(addSubmission, { data }) => (
-                        <Main isSupervisor={isSupervisor} isLead={isLead} isAdmin={isAdmin}>
-                            <Card title="Continual Improvement Submission" highlight={true}>
+                        <Main isSupervisor={isSupervisor} isLead={isLead} isAdmin={isAdmin}>                            
+                            <Card title='Continual Improvement Submission' highlight={true}>
                                 <Form 
-                                    className="SubmissionForm"
+                                    className='SubmissionForm'
                                     onSubmit={e => {
                                         e.preventDefault();
-                                        console.log(e);
+                                        document.getElementById('submissionButton').innerHTML = 'Submitting...'
                                         addSubmission({
                                             variables: { 
                                                 description: description,
@@ -188,102 +161,102 @@ class SubmitImprovement extends Component {
                                                 resources: resourcesChecked,
                                                 resourceExplanation: resource,
                                                 solutionMeasurement: measure,
-                                                supervisor: "1234-090",
-                                                department: department
+                                                supervisor: supervisor.id,
+                                                department: supervisor.department
                                             } 
                                         });
                                     }}
                                 >
                                     <Box
-                                        fill="horizontal"
-                                        pad={{ vertical: "15px" }}
+                                        fill='horizontal'
+                                        pad={{ vertical: '15px' }}
                                     >
-                                        <Text margin={{ bottom: "10px" }} size="14px"><strong>Describe the issue or opportunity <sup>*</sup></strong></Text>
+                                        <Text margin={{ bottom: '10px' }} size='14px'><strong>Describe the issue or opportunity <sup>*</sup></strong></Text>
                                         <TextArea
                                             plain={false}
-                                            resize="vertical"
-                                            placeholder="Make sure your description is clear and concise."
-                                            name="description"
+                                            resize='vertical'
+                                            placeholder='Make sure your description is clear and concise.'
+                                            name='description'
                                             value={description} 
                                             onChange={this.onChangeTextArea}
                                             {...this.props}
                                         />
                                     </Box>
                                     <Box
-                                        fill="horizontal"
-                                        pad={{ vertical: "15px" }}
+                                        fill='horizontal'
+                                        pad={{ vertical: '15px' }}
                                     >
-                                        <Text margin={{ bottom: "10px" }} size="14px"><strong>What areas would be affected (select all that apply)? <sup>*</sup></strong></Text>
+                                        <Text margin={{ bottom: '10px' }} size='14px'><strong>What areas would be affected (select all that apply)? <sup>*</sup></strong></Text>
                                         <Areas handleClick={this.onCheckAreas} checked={areasChecked} />
                                     </Box>
                                     <Box
-                                        fill="horizontal"
-                                        pad={{ vertical: "15px" }}
+                                        fill='horizontal'
+                                        pad={{ vertical: '15px' }}
                                     >
-                                        <Text margin={{ bottom: "10px" }} size="14px"><strong>What are some of the wastes seen (select all that apply)? <sup>*</sup></strong></Text>
+                                        <Text margin={{ bottom: '10px' }} size='14px'><strong>What are some of the wastes seen (select all that apply)? <sup>*</sup></strong></Text>
                                         <Wastes handleClick={this.onCheckWastes} checked={wastesChecked} />
                                     </Box>
                                     <Box
-                                        fill="horizontal"
-                                        pad={{ vertical: "15px" }}
+                                        fill='horizontal'
+                                        pad={{ vertical: '15px' }}
                                     >
-                                        <Text margin={{ bottom: "10px" }} size="14px"><strong>How will this suggestion improve the process (select all that apply)? <sup>*</sup></strong></Text>
+                                        <Text margin={{ bottom: '10px' }} size='14px'><strong>How will this suggestion improve the process (select all that apply)? <sup>*</sup></strong></Text>
                                         <Improvments handleClick={this.onCheckImprovements} checked={improvementsChecked} />
                                     </Box>                                    
                                     <Box 
-                                        fill="horizontal"
-                                        pad={{ vertical: "10px" }}
-                                        border={{ color: "black", side: "bottom", size: "1px" }}
+                                        fill='horizontal'
+                                        pad={{ vertical: '10px' }}
+                                        border={{ color: 'black', side: 'bottom', size: '1px' }}
                                     >
-                                        <Heading level={4} pad="0px" margin="0px">Solution</Heading>
+                                        <Heading level={4} pad='0px' margin='0px'>Solution</Heading>
                                     </Box>
                                     <Box
-                                        fill="horizontal"
-                                        pad={{ vertical: "15px" }}
+                                        fill='horizontal'
+                                        pad={{ vertical: '15px' }}
                                     >
-                                        <Text margin={{ bottom: "10px" }} size="14px"><strong>Proposed solution or improvement </strong></Text>
+                                        <Text margin={{ bottom: '10px' }} size='14px'><strong>Proposed solution or improvement </strong></Text>
                                         <TextArea
                                             plain={false}
-                                            resize="vertical"
-                                            placeholder="Make sure your description is clear and concise."
-                                            name="solution"
+                                            resize='vertical'
+                                            placeholder='Make sure your description is clear and concise.'
+                                            name='solution'
                                             value={solution} 
                                             onChange={this.onChangeTextArea}
                                             {...this.props}
                                         />
                                     </Box>
                                     <Box
-                                        fill="horizontal"
-                                        pad={{ vertical: "15px" }}
+                                        fill='horizontal'
+                                        pad={{ vertical: '15px' }}
                                     >
-                                        <Text margin={{ bottom: "10px" }} size="14px"><strong>Proposed resources needed (select all that apply): <sup>*</sup></strong></Text>
+                                        <Text margin={{ bottom: '10px' }} size='14px'><strong>Proposed resources needed (select all that apply): <sup>*</sup></strong></Text>
                                         <Resources handleClick={this.onCheckResources} checked={resourcesChecked} />
                                     </Box>
                                     <Box
-                                        fill="horizontal"
-                                        pad={{ vertical: "15px" }}
+                                        fill='horizontal'
+                                        pad={{ vertical: '15px' }}
                                     >
-                                        <Text margin={{ bottom: "10px" }} size="14px"><strong>Why do you need this resource involvement: </strong></Text>
+                                        <Text margin={{ bottom: '10px' }} size='14px'><strong>Why do you need this resource involvement: </strong></Text>
                                         <TextArea
                                             plain={false}
-                                            resize="vertical"
-                                            placeholder="Make sure your description is clear and concise."
-                                            name="resource"
+                                            resize='vertical'
+                                            placeholder='Make sure your description is clear and concise.'
+                                            name='resource'
                                             value={resource} 
                                             onChange={this.onChangeTextArea}
                                             {...this.props}
                                         />
                                     </Box>
                                     <Box
-                                        fill="horizontal"
-                                        pad={{ vertical: "15px" }}
+                                        fill='horizontal'
+                                        pad={{ vertical: '15px' }}
                                     >
-                                        <Text margin={{ bottom: "10px" }} size="14px"><strong>How will this suggestion be measured wheather or not the project or proposal was successful? </strong></Text>
+                                        <Text margin={{ bottom: '10px' }} size='14px'><strong>How will this suggestion be measured wheather or not the project or proposal was successful? </strong></Text>
                                         <TextArea
                                             plain={false}
-                                            resize="vertical"
-                                            placeholder="Make sure your description is clear and concise."
-                                            name="measure"
+                                            resize='vertical'
+                                            placeholder='Make sure your description is clear and concise.'
+                                            name='measure'
                                             value={measure} 
                                             onChange={this.onChangeTextArea}
                                             {...this.props}
@@ -291,14 +264,15 @@ class SubmitImprovement extends Component {
                                     </Box>
                                     <Box
                                         fill={false}
-                                        pad={{ vertical: "15px" }}
-                                        align="end"
+                                        pad={{ vertical: '15px' }}
+                                        align='end'
                                     >
                                         <Button
                                             primary
-                                            label="Submit Improvement"
-                                            type="submit"
-                                            style={{ padding: "20px" }}
+                                            label='Submit Improvement'
+                                            type='submit'
+                                            id='submissionButton'
+                                            style={{ padding: '20px' }}
                                         />
                                     </Box>
                                 </Form>

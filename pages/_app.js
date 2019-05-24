@@ -9,11 +9,15 @@ class Vault extends App {
       user,
       supervisorSubmissions,
       leadSubmissions,
+      me,
+      supervisor,
       Component,
       pageProps,
-      apolloClient 
+      apolloClient,
+      
+
     } = this.props
-    
+
     return (
       <Container>
         <ApolloProvider client={apolloClient}>
@@ -23,6 +27,8 @@ class Vault extends App {
             isSupervisor={supervisorSubmissions ? (supervisorSubmissions.length === 0 ? false : true ) : false}
             isLead={leadSubmissions ? (leadSubmissions.length === 0 ? false : true) : false} 
             isAdmin={user.admin === 0 ? false : true}
+            me={me}
+            supervisor={supervisor}
           />
         </ApolloProvider>
       </Container>
