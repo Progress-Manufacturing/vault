@@ -1,2 +1,4 @@
-URI_API=/graphql
-URL_REDIRECT=/auth/return
+URL_REDIRECT=http://localhost:3000/
+URI_API=http://localhost:8000/graphql
+CLIENT_ID=1234-45678-56789-56789
+AUTHORITY=https://login.microsoftonline.com/common
