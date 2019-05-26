@@ -1,13 +1,12 @@
-import { Component } from "react"
-import { withRouter } from "next/router"
-import { ApolloConsumer } from "react-apollo"
+import { Component } from 'react';
+import { withRouter } from 'next/router';
+import { ApolloConsumer } from 'react-apollo';
 
-import Main from "../../../lib/layout/main"
-import SubmissionProgress from "../../../components/progress"
-import UserSubmission from "../../../components/usersubmission"
+import Main from '../../../lib/layout/main';
+import SubmissionProgress from '../../../components/progress';
+import UserSubmission from '../../../components/usersubmission';
 
-import Authentication from "../../../lib/auth/msal-auth"
-
+import Authentication from '../../../lib/auth/msal-auth';
 
 class Submission extends Component {
   state = { 
@@ -15,7 +14,7 @@ class Submission extends Component {
   }
 
   componentDidMount() {
-    // this.getAllUsers()
+    this.getUserData();
   }
 
   getUserData = async () => {
@@ -25,10 +24,10 @@ class Submission extends Component {
     try {      
       const token = await auth.getToken();
       const users = await auth.callMSGraph(false, token, `${graphUrl}/users?$orderby=displayName`);
-      let allUsers = [{id: null, displayName: "No Lead", }]
+      let allUsers = [{id: null, displayName: 'No Lead', }];
       for (let user of users.value) {
-        if (user.officeLocation === null && user.id != "d8f5843d-53a4-4374-9e2d-29044b3dd9f8" && user.id != "1b92df1b-450e-43cb-a0c7-1b4b12e9d291") {
-          allUsers.push(user)
+        if (user.officeLocation === null && user.id != 'd8f5843d-53a4-4374-9e2d-29044b3dd9f8' && user.id != '1b92df1b-450e-43cb-a0c7-1b4b12e9d291') {
+          allUsers.push(user);
         }
       }
       
@@ -36,15 +35,15 @@ class Submission extends Component {
         users: allUsers
       });
     } catch(err) {
-      console.log(err)
+      console.log(err);
     }
   }
 
-  render(props) {
-    const { router, user, isSupervisor, isLead, isAdmin } = this.props
-    const { users } = this.state
-    const submissionId = parseInt(router.query.id)
-      
+  render() {
+    const { router, user, isSupervisor, isLead, isAdmin } = this.props;
+    const { users } = this.state;
+    const submissionId = parseInt(router.query.id);
+    
     return (
       <ApolloConsumer>
         {client => (

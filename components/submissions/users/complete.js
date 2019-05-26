@@ -35,7 +35,7 @@ const GET_COMPLETED_USER_SUBMISSIONS = gql`
 
 const CompletedSubmissions = (props) => {
     const userId = props.userId
-    
+    console.log(props)
     return (
         <Query query={GET_COMPLETED_USER_SUBMISSIONS} variables={{ userId }}>
             {({ loading, error, data }) => {

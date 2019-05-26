@@ -36,7 +36,7 @@ const GET_SUBMISSION_SUPERVISOR = gql`
     }
 `
 const GET_SUBMISSION_LEAD = gql`
-    query supervisor($id: String!) {
+    query lead($id: String!) {
         lead: fetchUserByOid(id: $id) {
             name
             email
@@ -57,12 +57,6 @@ class SubmissionComplete extends Component {
             <Query 
                 query={GET_SUBMISSION_BY_ID} 
                 variables={{ id }}
-                onCompleted={
-                    data => {
-                        this.getUserName(data.submission.supervisor)
-                        this.getUserName(data.submission.lead)
-                    }
-                }
             >
                 {({ loading, error, data }) => {
                 if (loading) return 'Loading...'
@@ -144,7 +138,7 @@ class SubmissionComplete extends Component {
 export default compose(  
     graphql(GET_SUBMISSION_BY_ID, { 
         name: 'submissionQuery',
-        option: props => ({
+        options: props => ({
             variables: {
                 id: props.id
             }
