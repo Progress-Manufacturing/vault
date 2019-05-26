@@ -6,8 +6,6 @@ import Main from '../../../lib/layout/main';
 import SubmissionProgress from '../../../components/progress';
 import UserSubmission from '../../../components/usersubmission';
 import ImprovementType from '../../../components/comments/improvementtype';
-import Card from '../../../components/card';
-
 import Authentication from '../../../lib/auth/msal-auth';
 
 class Submission extends Component {
@@ -50,12 +48,7 @@ class Submission extends Component {
       <ApolloConsumer>
         {client => (
           <Main isSupervisor={isSupervisor} isLead={isLead} isAdmin={isAdmin}>
-            {/* {isAdmin &&
-              <Card>
-                <ImprovementType />
-              </Card>
-            } */}
-            <SubmissionProgress id={submissionId} />
+            <SubmissionProgress id={submissionId} isAdmin={isAdmin} />
             <UserSubmission id={submissionId} currentUserOid={user.oid} users={users} isAdmin={isAdmin} isLead={isLead} isSupervisor={isSupervisor}/>
           </Main>  
         )}

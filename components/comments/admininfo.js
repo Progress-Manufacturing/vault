@@ -9,6 +9,9 @@ const GET_ADMIN_INFO = gql`
             id
             lead
             department
+            improvementAreaType {
+                name
+            }
             reward {
                 id
                 name
@@ -34,6 +37,7 @@ class AdminInfo extends Component {
         const id = submissionId
         const leadName = leadQuery.lead ? leadQuery.lead.name : '';
         const leadEmail = leadQuery.lead ? leadQuery.lead.email : '';
+        let improvementType = <i style={{ color: 'red' }}>Please Set</i>;
 
         return (
             <Query 
@@ -43,7 +47,11 @@ class AdminInfo extends Component {
                 {({ loading, error, data }) => {
                     if (loading)  return 'Loading...'
                     if (error) return `Error! ${error.message}`
-                    
+                    if (data.submission.improvementAreaType != null) {
+                        improvementType = data.submission.improvementAreaType.name
+                    }
+
+                    console.log(data.submission.improvementAreaType)
                     return (                    
                         <Box direction='row' wrap={true} margin={{ bottom: '15px' }}>
                             <Box width='33.33%'>
@@ -58,6 +66,11 @@ class AdminInfo extends Component {
                             <Box width='33.33%'>
                                 <Text size='14px'>
                                     <strong>Department: </strong>{data.submission.department}
+                                </Text>           
+                            </Box>
+                            <Box width='33.33%'>
+                                <Text size='14px'>
+                                    <strong>Improvement Area Type: </strong>{improvementType}
                                 </Text>           
                             </Box>
                             <Box

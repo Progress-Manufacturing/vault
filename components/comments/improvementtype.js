@@ -2,6 +2,8 @@ import gql from 'graphql-tag';
 import { Box, Form, Select, Button, FormField, TextArea, Text } from 'grommet';
 import { Mutation } from 'react-apollo';
 
+import Card from '../card';
+
 const ADD_IMPROVEMENT_TYPE = gql`
     mutation addSubmissionImprovementAreaType(
         $submissionId: Int!
@@ -20,87 +22,86 @@ const ADD_IMPROVEMENT_TYPE = gql`
 `;
 
 const ImprovementType = (props) => {
-    const [areaValue, setAreaValue] = React.useState('')
-    const { 
-        user,
-        submissionId,
-        improvementAreas
-    } = props
-    
+    const [areaValue, setAreaValue] = React.useState('');
+    const { submissionId, types } = props;
+    console.log(submissionId)
+    console.log(areaValue)
     return (
-        <Mutation 
-            mutation={ADD_IMPROVEMENT_TYPE}
-            onCompleted={
-                () => {
-                    window.location.reload();
-                    // emailNotifications(userMessage).then(() => (
-                    //     emailNotification(supervisorMessage)
-                    // )).then(() => (
-                        
-                    // ))
-                    // emailNotification(leadMessage)
+        <Card>
+            <Mutation 
+                mutation={ADD_IMPROVEMENT_TYPE}
+                onCompleted={
+                    () => { window.location.reload(); }
                 }
-            }
-            
-        >
-            {(addSubmissionImprovementAreaType, {data, error}) => (
-                <Box>
-                    <Form
-                        onSubmit={e => {
-                            e.preventDefault();
-                            addSubmissionImprovementAreaType({ variables: { 
-                                submissionId: submissionId,
-                                improvementAreaType: areaValue.id
-                            } });
-                        }}
+                
+            >
+                {(addSubmissionImprovementAreaType, {data, error}) => (
+                    <Box 
+                        align='center'
+                        alignContent='center'
+                        justify='center'
+                        fill={true}
                     >
-                        {error && <Box margin={{ left: '15px' }}><Text color='red' size='15px'>Error :( All fields are required.</Text></Box>}
-                        <Box
-                            justify='start'
-                            pad={{ left: '15px' }}
-                            margin={{ bottom: '15px' }}
+                        <Form
+                            onSubmit={e => {
+                                e.preventDefault();
+                                addSubmissionImprovementAreaType({ variables: { 
+                                    submissionId: submissionId,
+                                    improvementAreaType: areaValue.id
+                                } });
+                            }}
                         >
-                            <FormField
-                                label={<div style={{ fontSize: '14px', color: 'black', marginLeft: '-15px' }}>Choose the improvement area:<sup style={{ color: 'red' }}>*</sup></div>}
-                                htmlFor='areaSelect'
-                                {...props}
+                            {error && <Box margin={{ left: '15px' }}><Text color='red' size='15px'>Error :( All fields are required.</Text></Box>}
+                            <Box
+                                justify='start'
+                                pad={{ left: '15px' }}
+                                margin={{ bottom: '15px' }}
                             >
-                                <Select 
-                                    id='areaSelect'
-                                    labelKey='name'
-                                    valueKey='id'
-                                    options={improvementAreas}
-                                    value={areaValue}
-                                    placeholder='Production or Office'
-                                    alignSelf='start'
-                                    size='small'
-                                    plain={true}
-                                    style={{ 
-                                        textAlign: 'left',
-                                        padding: '11px 0',
-                                        color: 'black',
+                                <FormField
+                                    label={<div style={{ fontSize: '14px', color: 'black', marginLeft: '-15px' }}>Choose the improvement area:<sup style={{ color: 'red' }}>*</sup></div>}
+                                    htmlFor='areaSelect'
+                                    {...props}
+                                >
+                                    <Select 
+                                        id='areaSelect'
+                                        labelKey='name'
+                                        valueKey='id'
+                                        options={types}
+                                        value={areaValue}
+                                        placeholder='Production or Office'
+                                        alignSelf='start'
+                                        size='small'
+                                        plain={true}
+                                        style={{ 
+                                            textAlign: 'left',
+                                            padding: '11px 0',
+                                            color: 'black',
+                                        }}
+                                        onChange={({ option }) => setAreaValue(option)}
+                                    />
+                                </FormField>
+                            </Box>
+                            <Box 
+                                pad={{ bottom: '15px' }}
+                                justify='center'
+                                fill={true}
+                            >
+                                <Button 
+                                    type='submit'
+                                    label='Submit' 
+                                    primary
+                                    style={{
+                                        background: '#D0011B',
+                                        color: 'white',
+                                        margin: '0 auto'
                                     }}
-                                    onChange={({ option }) => setAreaValue(option)}
                                 />
-                            </FormField>
-                        </Box>
-                        <Box pad={{ bottom: '15px' }}>
-                            <Button 
-                                type='submit'
-                                label='Submit' 
-                                primary
-                                style={{
-                                    background: '#D0011B',
-                                    maxWidth: '250px',
-                                    color: 'white',
-                                    margin: '0 15px 0 auto'
-                                }}
-                            />
-                        </Box>
-                    </Form>
-                </Box>
-            )}
-        </Mutation>
+                            </Box>
+                        </Form>
+                    </Box>
+                )}
+            </Mutation>
+        </Card>
     )
 }
 
