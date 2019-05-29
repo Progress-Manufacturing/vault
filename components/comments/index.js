@@ -199,7 +199,7 @@ const Comments = (props) => {
                                             width: "800px",
                                             maxWidth: "100%"
                                         }}
-                                    >   
+                                    >
                                         <CommentForm
                                             submissionId={submission}
                                             commentType={commentType}
@@ -211,6 +211,7 @@ const Comments = (props) => {
                                             title={title}
                                             supervisorEmail={supervisorEmail}
                                             show={true}
+                                            user={user}
                                             users={users}
                                             reward={reward}
                                             rewarded={rewarded}

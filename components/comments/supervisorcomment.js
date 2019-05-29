@@ -1,9 +1,18 @@
-import gql from "graphql-tag"
-import { Box, Form, FormField, Select, Button, Text, TextArea } from "grommet"
-import { Query, Mutation } from "react-apollo"
+import gql from 'graphql-tag';
+import { Query, Mutation } from 'react-apollo';
+import { 
+    Box, 
+    Form,
+    FormField,
+    Select,
+    Button,
+    Text,
+    TextArea 
+} from 'grommet';
 
-import Authentication from "../../lib/auth/msal-auth"
-import { supervisorReviewNotification, initialAdminNotification } from "../../lib/notifications"
+
+import Authentication from '../../lib/auth/msal-auth';
+import { supervisorReviewNotificationToUser, initialAdminNotification } from '../../lib/notifications';
 
 const ADD_SUPERVISOR_APPROVAL = gql`
     mutation addSubmissionSupervisorApproval(
@@ -41,42 +50,37 @@ const GET_ADMIN_USERS = gql`
     }
 `
 
-const emailNotifications = async (message) => {
-    const graphUrl = 'https://graph.microsoft.com/v1.0';
-    const auth = new Authentication();
 
+const emailNotifications = async (message) => {
+    const auth = new Authentication();
+    
     try {
-        
         const token = await auth.getToken();
-        // POST
-        const sendNotification = '';
-        // const sendNotification = await auth.callMSGraph(false, token, `${graphUrl}/me/sendMail`);
+        const sendEmail = await auth.sendEmail(token, message);
         
-        return sendNotification
+        return sendEmail
     } catch (err) {
-        console.log(err)
+        console.log(err);
     }
 }
 
 const message = (admins, user) => {
-    const adminEmails = []
+    const adminEmails = [];
     
     for (let admin of admins) {
-        adminEmails.push(admin.email)
+        adminEmails.push(admin.email);
     }
-    adminEmails.push(user)
     let emailAddresses = Array.from(new Set(adminEmails));
-    
-    return emailAddresses
+    return emailAddresses;
 }
 
 const SupervisorComment = (props) => {
-    const [statusValue, setStatusValue] = React.useState("")
+    const [statusValue, setStatusValue] = React.useState('')
     const [commentValue, setCommentValue] = React.useState(undefined)
     const currentProgress = statusValue.id === 2 ? 9 : 3
     const currentReward = statusValue.id === 2 ? 2 : null
     const { user, submissionId, supervisorApproval, title, commentType } = props
-    const userMessage = supervisorReviewNotification(user, submissionId)
+    const userMessage = supervisorReviewNotificationToUser(user, submissionId)
     
     return (
         <Query query={GET_ADMIN_USERS}>
@@ -90,14 +94,12 @@ const SupervisorComment = (props) => {
                         mutation={ADD_SUPERVISOR_APPROVAL}
                         onCompleted={
                             () => {
-                                // const adminMessage = initialAdminNotification(emails, submissionId)
-                                // emailNotifications(userMessage).then(() => (
-                                //     emailNotifications(adminMessage)
-                                // )).then(() => (
-                                    window.location.reload()
-                                // )).catch((err) => {
-                                //         throw err
-                                // })
+                                const adminMessage = supervisorReviewNotificationToAdmin(emails, submissionId);
+                                emailNotifications(userMessage).then(() => (
+                                    emailNotifications(adminMessage).then(() => (
+                                        window.location.reload()
+                                    ))
+                                ));
                             }
                         }
                     >
@@ -117,64 +119,64 @@ const SupervisorComment = (props) => {
                                     }}
                                 > 
                                     <Box
-                                        background="white"
-                                        pad="10px"
-                                        margin={{ bottom: "15px" }}
-                                        style={{ borderBottom: "1px solid gray" }}
+                                        background='white'
+                                        pad='10px'
+                                        margin={{ bottom: '15px' }}
+                                        style={{ borderBottom: '1px solid gray' }}
                                     >
                                         <Text>{title}</Text>
                                     </Box>                               
-                                    {error && <Box margin={{ left: "15px" }}><Text color="red" size="15px">Error :( All fields are required.</Text></Box>}
+                                    {error && <Box margin={{ left: '15px' }}><Text color='red' size='15px'>Error :( All fields are required.</Text></Box>}
                                     <Box 
-                                        justify="start"
-                                        pad={{ left: "15px" }}
-                                        margin={{ bottom: "15px" }}
+                                        justify='start'
+                                        pad={{ left: '15px' }}
+                                        margin={{ bottom: '15px' }}
                                     >   
                                         <FormField
-                                            label={<div style={{ fontSize: "14px", color: "black", marginLeft: "-15px" }}>Endorse or Reject Improvement Suggestion:<sup style={{ color: "red" }}>*</sup></div>}
-                                            htmlFor="select"    
+                                            label={<div style={{ fontSize: '14px', color: 'black', marginLeft: '-15px' }}>Endorse or Reject Improvement Suggestion:<sup style={{ color: 'red' }}>*</sup></div>}
+                                            htmlFor='select'    
                                             {...props}
                                         >
                                             <Select 
-                                                id="select"
-                                                labelKey="name"
-                                                valueKey="id"
-                                                placeholder="Endorse or Reject"
+                                                id='select'
+                                                labelKey='name'
+                                                valueKey='id'
+                                                placeholder='Endorse or Reject'
                                                 options={supervisorApproval}
                                                 value={statusValue}
-                                                alignSelf="start"
-                                                size="small"
+                                                alignSelf='start'
+                                                size='small'
                                                 plain={true}
-                                                style={{ textAlign: "left", padding: "11px 0", color: "black" }}
+                                                style={{ textAlign: 'left', padding: '11px 0', color: 'black' }}
                                                 onChange={({ option }) => setStatusValue(option)}
                                             />
                                         </FormField>
                                     </Box>
-                                    <Box pad={{ horizontal: "15px", bottom: "15px" }}>
+                                    <Box pad={{ horizontal: '15px', bottom: '15px' }}>
                                         <FormField 
-                                            label={<div style={{ fontSize: "14px", color: "black", marginLeft: "-15px", marginBottom: "10px" }}>Please Add a Comment:<sup style={{ color: "red" }}>*</sup></div>}
-                                            htmlFor="text-area"
+                                            label={<div style={{ fontSize: '14px', color: 'black', marginLeft: '-15px', marginBottom: '10px' }}>Please Add a Comment:<sup style={{ color: 'red' }}>*</sup></div>}
+                                            htmlFor='text-area'
                                             {...props}
                                         >
                                             <TextArea 
-                                                id="text-area"
-                                                placeholder="Your comments will be seen by the employee who submitted the suggestion as well as the team lead and committee."
+                                                id='text-area'
+                                                placeholder='Your comments will be seen by the employee who submitted the suggestion as well as the team lead and committee.'
                                                 value={commentValue}
                                                 onChange={event => setCommentValue(event.target.value)}
-                                                style={{ color: "black" }}
+                                                style={{ color: 'black' }}
                                             />
                                         </FormField>
                                     </Box>
-                                    <Box pad={{ bottom: "15px" }} >
+                                    <Box pad={{ bottom: '15px' }} >
                                         <Button 
-                                            type="submit"
-                                            label="Submit" 
+                                            type='submit'
+                                            label='Submit' 
                                             primary
                                             style={{
-                                                background: "#D0011B",
-                                                maxWidth: "250px",
-                                                color: "white",
-                                                margin: "0 15px 0 auto"
+                                                background: '#D0011B',
+                                                maxWidth: '250px',
+                                                color: 'white',
+                                                margin: '0 15px 0 auto'
                                             }}
                                         />
                                     </Box>

@@ -5,7 +5,7 @@ import { Box, Heading, Button, Form, Text, TextArea } from 'grommet';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import Authorization from '../../../lib/auth/msal-auth';
+import Authentication from '../../../lib/auth/msal-auth';
 import { initialUserNotification, initialSupervisorNotification } from '../../../lib/notifications';
 
 import Main from '../../../lib/layout/main';
@@ -60,13 +60,13 @@ class SubmitImprovement extends Component {
     }
 
     async emailNotifications(message) {
-        const auth = new Authorization()
+        const auth = new Authentication();
 
         try {
-            const token = await auth.getToken()
-            const sendNotification = await emailNotification(token, message)
+            const token = await auth.getToken();
+            const sendEmail = await auth.sendEmail(token, message);
             
-            return sendNotification
+            return sendEmail
         } catch (err) {
             console.log(err)
         }
@@ -126,7 +126,8 @@ class SubmitImprovement extends Component {
             measure
         } = this.state
         const userMessage = initialUserNotification(user.email);
-        const superMessage = initialSupervisorNotification(supervisor.email);
+        const superMessage = initialSupervisorNotification(supervisor.mail);
+        // TODO: add admin notification for updating improvement type (Office/Production)
 
         return (
             <ApolloConsumer>
@@ -137,7 +138,7 @@ class SubmitImprovement extends Component {
                             data => {
                                 this.emailNotifications(userMessage).then(() => {
                                     this.emailNotifications(superMessage).then(() => {
-                                        Router.push(`/ci/submit-improvement/success?id=${data.addSubmission.id}`)
+                                        Router.push(`/ci/submit-improvement/success?id=${data.addSubmission.id}`);
                                     })
                                 })
                             }

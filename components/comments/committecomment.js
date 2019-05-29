@@ -38,19 +38,15 @@ const ADD_COMMITTEE_APPROVAL = gql`
 `;
 
 const emailNotifications = async (message) => {
-    const graphUrl = 'https://graph.microsoft.com/v1.0';
     const auth = new Authentication();
-
+    
     try {
         const token = await auth.getToken();
+        const sendEmail = await auth.sendEmail(token, message);
         
-        // POST
-        const sendNotification = '';
-        // const sendNotification = await auth.callMSGraph(false, token, `${graphUrl}/me/sendMail`);
-        
-        return sendNotification;
+        return sendEmail
     } catch (err) {
-        console.log(err)
+        console.log(err);
     }
 }
 
@@ -68,9 +64,10 @@ const CommitteeComment = (props) => {
         users
     } = props
     const currentReward = approvalValue.id === 2 ? 2 : 4;
-    // const userMessage = committeeReviewNotificationToUser(user, submissionId)
-    // const supervisorMessage = committeeReviewNotificationToSupervisor(supervisorEmail, submissionId)
-    // const leadMessage = committeeReviewNotificationToLead(leadEmail)
+
+    const userMessage = committeeReviewNotificationToUser(user, submissionId);
+    const supervisorMessage = committeeReviewNotificationToSupervisor(supervisorEmail, submissionId);
+    const leadMessage = committeeReviewNotificationToLead(leadValue.userPrincipalName);
     let currentProgress;
     
     if (approvalValue.id === 2) {
@@ -86,13 +83,13 @@ const CommitteeComment = (props) => {
             mutation={ADD_COMMITTEE_APPROVAL}
             onCompleted={
                 () => {
-                    window.location.reload()
-                    // emailNotifications(userMessage).then(() => (
-                    //     emailNotification(supervisorMessage)
-                    // )).then(() => (
-                        
-                    // ))
-                    // emailNotification(leadMessage)
+                    emailNotifications(userMessage).then(() => (
+                        emailNotifications(supervisorMessage).then(() => (
+                            emailNotifications(leadMessage).then(() => (
+                                window.location.reload()
+                            ))
+                        ))
+                    ))
                 }
             }
             

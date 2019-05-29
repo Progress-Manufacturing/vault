@@ -86,7 +86,7 @@ const GET_SUBMISSION_SUPERVISOR = gql`
 class UserSubmission extends Component {
 
     render() {
-        const { currentUserOid, isSupervisor, supervisorQuery, isLead, isAdmin, users, id } = this.props
+        const { currentUserOid, user, isSupervisor, supervisorQuery, isLead, isAdmin, users, id } = this.props
         const supervisorName = supervisorQuery.supervisor ? supervisorQuery.supervisor.name : '';
         const supervisorEmail = supervisorQuery.supervisor ? supervisorQuery.supervisor.email : '';
 

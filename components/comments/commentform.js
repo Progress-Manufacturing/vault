@@ -18,6 +18,7 @@ const CommentForm = (props) => {
         supervisorEmail,
         improvementAreas,
         users,
+        user,
         reward,
         rewarded
     } = props
@@ -39,6 +40,7 @@ const CommentForm = (props) => {
                 committeeApproval={committeeApproval}
                 supervisorEmail={supervisorEmail}
                 users={users}
+                user={user}
                 improvementAreas={improvementAreas}
             />
         )
@@ -47,6 +49,7 @@ const CommentForm = (props) => {
             <SupervisorComment
                 submissionId={submissionId}
                 title={title}
+                user={user}
                 commentType={commentType} 
                 supervisorApproval={supervisorApproval}
             />

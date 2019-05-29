@@ -49,7 +49,14 @@ class Submission extends Component {
         {client => (
           <Main isSupervisor={isSupervisor} isLead={isLead} isAdmin={isAdmin}>
             <SubmissionProgress id={submissionId} isAdmin={isAdmin} />
-            <UserSubmission id={submissionId} currentUserOid={user.oid} users={users} isAdmin={isAdmin} isLead={isLead} isSupervisor={isSupervisor}/>
+            <UserSubmission 
+              id={submissionId}
+              currentUserOid={user.oid}
+              users={users}
+              isAdmin={isAdmin}
+              isLead={isLead}
+              isSupervisor={isSupervisor}
+            />
           </Main>  
         )}
       </ApolloConsumer>

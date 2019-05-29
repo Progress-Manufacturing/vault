@@ -51,7 +51,6 @@ class AdminInfo extends Component {
                         improvementType = data.submission.improvementAreaType.name
                     }
 
-                    console.log(data.submission.improvementAreaType)
                     return (                    
                         <Box direction='row' wrap={true} margin={{ bottom: '15px' }}>
                             <Box width='33.33%'>
