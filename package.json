@@ -30,7 +30,7 @@
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.23",
     "msal": "^1.0.0",
-    "next": "^7.0.2",
+    "next": "^9.3.2",
     "next-apollo": "^2.0.7",
     "next-cookies": "^1.1.2",
     "react": "^16.8.4",
